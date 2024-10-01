@@ -1,11 +1,11 @@
 #include "GameObject.h"
-#include "../GameObjectManager/GOManager.h"
+#include "../GameObjectManager/GameObjectManager.h"
 #include "../Component/BaseComponent.h"
 
 
 GameObject::GameObject()
 {
-	GOManager::Instance()->AddObj(this);
+	GameObjectManager::Instance()->AddObj(this);
 }
 
 GameObject::GameObject(BaseComponent* component)

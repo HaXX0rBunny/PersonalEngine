@@ -145,7 +145,7 @@
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
-    <ClCompile Include="GameObjectManager\GOManager.cpp" />
+    <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GSM\BaseLevel.h" />
     <ClCompile Include="GSM\GameStateManager.cpp" />
@@ -165,7 +165,7 @@
     <ClInclude Include="Component\RigidbodyComponent.h" />
     <ClInclude Include="Component\SpriteComponent.h" />
     <ClInclude Include="Component\TransformComponent.h" />
-    <ClInclude Include="GameObjectManager\GOManager.h" />
+    <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GSM\GameStateManager.h" />
     <ClInclude Include="GSM\TempLevel.h" />

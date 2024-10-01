@@ -4,7 +4,7 @@ C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\CManager\LogicManager.cp
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\EngineComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\EngineComponent.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\GraphicsComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GraphicsComponent.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\LogicComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\LogicComponent.obj
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObjectManager\GOManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GOManager.obj
+C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObjectManager\GameObjectManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GameObjectManager.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObject\GameObject.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GameObject.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GSM\BaseLevel.h;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\BaseLevel.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GSM\GameStateManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GameStateManager.obj
