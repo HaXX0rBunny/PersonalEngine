@@ -1,0 +1,7 @@
+/.tmp
+/bin
+.vs/
+*.user
+/AlphaEngine/Assets/Prefab/LeftTri.prefab
+/AlphaEngine/Assets/Prefab/RightTri.prefab
+/AlphaEngine/Assets/Prefab/Square.prefab
