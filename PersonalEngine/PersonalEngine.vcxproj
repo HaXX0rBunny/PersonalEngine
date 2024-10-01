@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>$(SolutionDir)Extern\json;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExternalIncludePath>$(SolutionDir)Extern\json;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -133,8 +139,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CManager\EngineManager.cpp" />
+    <ClCompile Include="CManager\GraphicsManager.cpp" />
+    <ClCompile Include="CManager\LogicManager.cpp" />
+    <ClCompile Include="Component\EngineComponent.cpp" />
+    <ClCompile Include="Component\GraphicsComponent.cpp" />
+    <ClCompile Include="Component\LogicComponent.cpp" />
+    <ClCompile Include="GameObjectManager\GOManager.cpp" />
+    <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="GSM\BaseLevel.h" />
+    <ClCompile Include="GSM\GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="소스.cpp" />
+    <ClCompile Include="RTTI\Registry.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CManager\EngineManager.h" />
+    <ClInclude Include="CManager\GraphicsManager.h" />
+    <ClInclude Include="CManager\LogicManager.h" />
+    <ClInclude Include="Component\AudioComponent.h" />
+    <ClInclude Include="Component\BaseComponent.h" />
+    <ClInclude Include="Component\EngineComponent.h" />
+    <ClInclude Include="Component\GraphicComponent.h" />
+    <ClInclude Include="Component\GraphicsComponent.h" />
+    <ClInclude Include="Component\LogicComponent.h" />
+    <ClInclude Include="Component\RigidbodyComponent.h" />
+    <ClInclude Include="Component\SpriteComponent.h" />
+    <ClInclude Include="Component\TransformComponent.h" />
+    <ClInclude Include="GameObjectManager\GOManager.h" />
+    <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="GSM\GameStateManager.h" />
+    <ClInclude Include="GSM\TempLevel.h" />
+    <ClInclude Include="ResourceManager\Resource.h" />
+    <ClInclude Include="ResourceManager\ResourceManager.h" />
+    <ClInclude Include="ResourceManager\MusicResource.h" />
+    <ClInclude Include="ResourceManager\TextResource.h" />
+    <ClInclude Include="RTTI\BaseRTTI.h" />
+    <ClInclude Include="RTTI\Registry.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameObject\GameObject.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="RTTI\RTTI.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

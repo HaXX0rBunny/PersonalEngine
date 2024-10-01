@@ -4,6 +4,8 @@
 
 int main(void)
 {
+
+    //ToDo Capsuling just 1 function ======================== 
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -19,10 +21,12 @@ int main(void)
         glfwTerminate();
         return -1;
     }
-
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    // =============================================
 
+
+    //Todo Gamelooping in this lopp ==========================================================
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
