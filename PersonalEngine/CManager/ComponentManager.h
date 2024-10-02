@@ -21,11 +21,12 @@ public:
     void AddComponent(T* component);
     template <typename T>
     void RemoveComp(T* component);
-
+    template <typename T>
+    void Update();
     //BaseComponent* GetComponent(const std::string& str) const;
     //void AddComponent(BaseComponent* component);
     //void RemoveComp(BaseComponent* component);
-    void Update();
+ 
 };
 
 template<typename T>
@@ -44,5 +45,10 @@ inline void ComponentManager::AddComponent(T* component)
 
 template<typename T>
 inline void ComponentManager::RemoveComp(T* component)
+{
+}
+
+template<typename T>
+inline void ComponentManager::Update()
 {
 }

@@ -1,31 +1,18 @@
 #include "GameObject.h"
-#include "../GameObjectManager/GameObjectManager.h"
-#include "../Component/BaseComponent.h"
 
+#include "../Component/BaseComponent.h"
+#include "../GameObjectManager/GameObjectManager.h"
 
 GameObject::GameObject()
 {
 	GameObjectManager::Instance()->AddObj(this);
 }
 
-GameObject::GameObject(BaseComponent* component)
+GameObject::GameObject(std::string id)
 {
-	AddComponent(component);
+	GameObjectManager::Instance()->AddObj(this, id);
 }
 
-GameObject::GameObject(const GameObject& other)
-{
-	CopyComponents(other);
-}
-
-GameObject& GameObject::operator=(const GameObject& other)
-{
-	if (this != &other) {
-		Clear();
-		CopyComponents(other);
-	}
-	return *this;
-}
 
 GameObject::~GameObject()
 {
@@ -43,12 +30,5 @@ void GameObject::Clear()
 		delete comp.second;
 	}
 	Component.clear();
-}
-
-void GameObject::CopyComponents(const GameObject& other)
-{
-	for (auto& comp : other.Component) {
-		Component.insert({ comp.first, comp.second });
-	}
 }
 

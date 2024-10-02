@@ -35,6 +35,11 @@ void GameObjectManager::Clear()
 	}
 
 	allObj.clear();
+	if (Instance_)
+	{
+		delete Instance_;
+		Instance_ = nullptr;
+	}
 }
 
 GameObject* GameObjectManager::GetObj(std::string id)

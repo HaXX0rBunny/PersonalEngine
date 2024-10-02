@@ -22,7 +22,6 @@ int setWindow_()
         glfwTerminate();
         return -1;
     }
-    /* Make the window's context current */
     glfwMakeContextCurrent(window);
     if (!gladLoadGL(glfwGetProcAddress))
     {
