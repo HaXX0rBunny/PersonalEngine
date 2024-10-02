@@ -57,6 +57,9 @@
     <ClCompile Include="Setting_window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CManager\ComponentManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GSM\GameStateManager.h">
@@ -126,6 +129,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Setting_window.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CManager\ComponentManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
