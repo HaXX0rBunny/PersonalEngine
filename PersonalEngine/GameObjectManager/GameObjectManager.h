@@ -20,7 +20,8 @@ public:
 	}
 	std::map<std::string, GameObject*> AllObj();
 
-	void AddObj(GameObject* obj);
+	void AddObj(GameObject* obj, std::string id = "-1");
+
 	void RemoveObj(GameObject* obj);
 
 	void Clear();

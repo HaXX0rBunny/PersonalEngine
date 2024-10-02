@@ -11,11 +11,11 @@ std::map<std::string, GameObject*> GameObjectManager::AllObj()
 	return allObj;
 }
 
-void GameObjectManager::AddObj(GameObject* obj)
+void GameObjectManager::AddObj(GameObject* obj, std::string id)
 {
-	if(obj)
-		allObj.insert({ "", obj });
+	allObj.insert({ id, obj });
 }
+
 
 void GameObjectManager::RemoveObj(GameObject* obj)
 {
@@ -39,14 +39,20 @@ void GameObjectManager::Clear()
 
 GameObject* GameObjectManager::GetObj(std::string id)
 {
-	return nullptr;
+	if (allObj.empty())
+		return nullptr;
+	return allObj.find(id)->second;
+		
+	
 }
 
 GameObject* GameObjectManager::GetLastObj()
 {
-	/*if (allObj.empty())
+	if (allObj.empty())
 	{
 		return nullptr;
 	}
-	return allObj.back();*/
+	
+	const auto& it =allObj.end()--;
+	return it->second;
 }

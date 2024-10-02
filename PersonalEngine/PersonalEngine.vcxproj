@@ -145,6 +145,8 @@
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
+    <ClCompile Include="Setting_window.cpp" />
+    <ClCompile Include="todo.txt" />
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GSM\BaseLevel.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="ResourceManager\TextResource.h" />
     <ClInclude Include="RTTI\BaseRTTI.h" />
     <ClInclude Include="RTTI\Registry.h" />
+    <ClInclude Include="Setting_window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObject\GameObject.inl" />

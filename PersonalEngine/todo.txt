@@ -1,0 +1,22 @@
+/*
+0----
+main.cpp 
+use glew 1 fucntion make viewport
+
+
+
+
+1-------------------------------------------
+refactoring engine
+making spriteComponent
+
+
+
+
+
+
+
+etc
+layer system
+editor ex) UI Level ...etc~
+*/
