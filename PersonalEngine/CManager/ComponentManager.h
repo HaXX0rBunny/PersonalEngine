@@ -1,54 +1,47 @@
-
 #pragma once
 #include "../Component/BaseComponent.h"
 #include <vector>
+#include <memory>  // For smart pointers if needed
+#include <cassert>  // For static_assert
+
+template <typename T>
 class ComponentManager
 {
+    // Ensure T is derived from BaseComponent
+    static_assert(std::is_base_of<BaseComponent, T>::value, "T must inherit from BaseComponent");
+
     static ComponentManager* Instance_;
+
+
     ComponentManager() = default;
-    std::vector<ComponentManager*> Component;
+    std::vector<T* > Component;
     ~ComponentManager();
+
 public:
     static ComponentManager* Instance() {
         if (Instance_ == nullptr)
+        {
             Instance_ = new ComponentManager;
+    
+        }
         return Instance_;
     }
+
     static void Clear();
-    template <typename T>
+
+    void DestroyInstance();
+
     T* GetComponent(const std::string& str) const;
-    template <typename T>
+
     void AddComponent(T* component);
-    template <typename T>
+
     void RemoveComp(T* component);
-    template <typename T>
+
     void Update();
-    //BaseComponent* GetComponent(const std::string& str) const;
-    //void AddComponent(BaseComponent* component);
-    //void RemoveComp(BaseComponent* component);
- 
 };
 
-template<typename T>
-inline T* ComponentManager::GetComponent(const std::string& str) const
-{
-    for (auto a : Component)
-        if (a->GetType() == str)
-            return a;
-    return nullptr;
-}
 
-template<typename T>
-inline void ComponentManager::AddComponent(T* component)
-{
-}
 
-template<typename T>
-inline void ComponentManager::RemoveComp(T* component)
-{
-}
 
-template<typename T>
-inline void ComponentManager::Update()
-{
-}
+
+#include "ComponentManager.inl"

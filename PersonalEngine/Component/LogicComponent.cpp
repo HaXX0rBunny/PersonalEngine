@@ -1,11 +1,11 @@
 #include "LogicComponent.h"
-#include "../CManager/LogicManager.h"
+#include "../CManager/ComponentManager.h"
 LogicComponent::LogicComponent()
 {
-	LogicManager::Instance()->AddComponent(this);
+	ComponentManager<LogicComponent>::Instance()->AddComponent(this);
 }
 
 LogicComponent::~LogicComponent()
 {
-	LogicManager::Instance()->RemoveComp(this);
+	ComponentManager<LogicComponent>::Instance()->RemoveComp(this);
 }

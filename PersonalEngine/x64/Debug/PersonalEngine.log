@@ -1,7 +1,4 @@
 ﻿  main.cpp
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Dependencies\include\glad\gl.h(7873,5): warning C4551: 함수 호출에 인수 목록이 없습니다.
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Dependencies\include\GLFW\glfw3.h(3235,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\main.cpp(6,10): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\main.cpp(7,10): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObject\GameObject.inl(10,17): error C2259: 'BaseComponent': 추상 클래스를 인스턴스화할 수 없습니다.
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObject\GameObject.inl(10,18): error C2259: 'BaseComponent': 추상 클래스를 인스턴스화할 수 없습니다.
+  PersonalEngine.vcxproj -> C:\Users\BCA\source\repos\PersonalEngine\x64\Debug\PersonalEngine.exe

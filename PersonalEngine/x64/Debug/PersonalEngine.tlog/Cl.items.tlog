@@ -1,7 +1,3 @@
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\CManager\ComponentManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\ComponentManager.obj
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\CManager\EngineManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\EngineManager.obj
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\CManager\GraphicsManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GraphicsManager.obj
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\CManager\LogicManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\LogicManager.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\EngineComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\EngineComponent.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\GraphicsComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GraphicsComponent.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\LogicComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\LogicComponent.obj

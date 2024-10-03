@@ -27,15 +27,6 @@
     <ClCompile Include="GSM\GameStateManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CManager\EngineManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CManager\GraphicsManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CManager\LogicManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="RTTI\Registry.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -57,9 +48,6 @@
     <ClCompile Include="Setting_window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CManager\ComponentManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GSM\GameStateManager.h">
@@ -69,15 +57,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\GameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\EngineManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\GraphicsManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\LogicManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\MusicResource.h">
@@ -140,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObject\GameObject.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
+    <None Include="CManager\ComponentManager.inl">
       <Filter>헤더 파일</Filter>
     </None>
   </ItemGroup>

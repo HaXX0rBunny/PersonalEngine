@@ -1,18 +1,18 @@
 #include "GraphicsComponent.h"
-#include "../CManager/GraphicsManager.h"
+#include "../CManager/ComponentManager.h"
 
 GraphicsComponent::GraphicsComponent()
 {
-    GraphicsManager::Instance()->AddComponent(this);
+    ComponentManager< GraphicsComponent>::Instance()->AddComponent(this);
 }
 
 GraphicsComponent::GraphicsComponent(GameObject* owner)
     : BaseComponent(owner)
 {
-    GraphicsManager::Instance()->AddComponent(this);
+    ComponentManager<GraphicsComponent>::Instance()->AddComponent(this);
 }
 
 GraphicsComponent::~GraphicsComponent()
 {
-    GraphicsManager::Instance()->RemoveComp(this);
+    ComponentManager<GraphicsComponent>::Instance()->RemoveComp(this);
 }

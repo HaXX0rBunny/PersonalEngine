@@ -139,10 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CManager\ComponentManager.cpp" />
-    <ClCompile Include="CManager\EngineManager.cpp" />
-    <ClCompile Include="CManager\GraphicsManager.cpp" />
-    <ClCompile Include="CManager\LogicManager.cpp" />
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
@@ -157,9 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CManager\ComponentManager.h" />
-    <ClInclude Include="CManager\EngineManager.h" />
-    <ClInclude Include="CManager\GraphicsManager.h" />
-    <ClInclude Include="CManager\LogicManager.h" />
     <ClInclude Include="Component\AudioComponent.h" />
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\EngineComponent.h" />
@@ -183,6 +176,7 @@
     <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CManager\ComponentManager.inl" />
     <None Include="GameObject\GameObject.inl" />
   </ItemGroup>
   <ItemGroup>

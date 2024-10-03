@@ -24,7 +24,7 @@ public:
 	template <typename T>
 	bool HasComponent() const;
 	template <typename T>
-	void RemoveComponent();
+	void RemoveComponent(T* component);
 
 	void Clear();
 private:

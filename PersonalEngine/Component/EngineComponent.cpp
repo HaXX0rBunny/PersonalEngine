@@ -1,12 +1,12 @@
 #include "EngineComponent.h"
-#include "../CManager/EngineManager.h"
+#include "../CManager/ComponentManager.h"
 
 EngineComponent::EngineComponent()
 {
-	EngineManager::Instance()->AddComponent(this);
+	ComponentManager<EngineComponent>::Instance()->AddComponent(this);
 }
 
 EngineComponent::~EngineComponent()
 {
-	EngineManager::Instance()->RemoveComp(this);
+	ComponentManager<EngineComponent>::Instance()->RemoveComp(this);
 }
