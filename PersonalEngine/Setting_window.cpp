@@ -19,6 +19,7 @@ int setWindow_()
     GLFWwindow* window = glfwCreateWindow(Window_width, Window_height, " Biginner", NULL, NULL);//width height title fullscreen(GLFWmonitor*) subscreen
     if (!window)
     {
+        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
@@ -28,6 +29,8 @@ int setWindow_()
         glfwTerminate(); // 초기화 실패 시 GLFW 종료
         return -1;
     }
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    
     // =============================================
     CreateTriangle();
     CreateShaderProgramFromFiles("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
@@ -36,6 +39,19 @@ int setWindow_()
 
     return 0;
 }
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, Window_width, Window_height);
+}
+
+
 
 void GameLoop(GLFWwindow* window)
 {
@@ -47,22 +63,25 @@ void GameLoop(GLFWwindow* window)
 
     while (!glfwWindowShouldClose(window))
     {
+   
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
 
 
-        glUseProgram(shader);
+        glUseProgram(shader);// shader object will be use all shader & rendering order
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
 
         glUseProgram(0);
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
+        processInput(window);
         glfwPollEvents();
+        glfwSwapBuffers(window);
+    
+        /* Poll for and process events */
+     
     }
 
     glfwTerminate();
@@ -73,13 +92,15 @@ void GameLoop(GLFWwindow* window)
 
 GLuint AddShader(const char* shaderCode, GLenum shaderType)
 {
-    GLuint new_shader = glCreateShader(shaderType);
+    GLuint new_shader = glCreateShader(shaderType); // Referense ID generate Shader Object 
 
     const GLchar* code[1];
     code[0] = shaderCode;
 
-    glShaderSource(new_shader, 1, code, NULL);
+    glShaderSource(new_shader, 1, code, NULL); // shader Compile 1.shader objcet  2. how many strings 3. vertext shader real code 4. 
 
+    
+    //compile success check
     GLint result = 0;
     GLchar err_log[1024] = { 0 };
 
@@ -88,7 +109,7 @@ GLuint AddShader(const char* shaderCode, GLenum shaderType)
     if (!result)
     {
         glGetShaderInfoLog(new_shader, sizeof(err_log), NULL, err_log);
-        printf("Error compiling the %d shader: '%s'\n", shaderType, err_log);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << err_log << std::endl;
         return 0;
     }
     return new_shader;
@@ -97,8 +118,8 @@ GLuint AddShader(const char* shaderCode, GLenum shaderType)
 void CompileShader(const char* vsCode, const char* fsCode)
 {
     GLuint vs, fs;
-
-    shader = glCreateProgram();
+    //shader pragram object fusion in many shader 
+    shader = glCreateProgram(); //generate programg & return Id
 
     if (!shader)
     {
@@ -106,8 +127,8 @@ void CompileShader(const char* vsCode, const char* fsCode)
         return;
     }
 
-    vs = AddShader(vsCode, GL_VERTEX_SHADER);
-    fs = AddShader(fsCode, GL_FRAGMENT_SHADER);
+    vs = AddShader(vsCode, GL_VERTEX_SHADER);//vertex shader
+    fs = AddShader(fsCode, GL_FRAGMENT_SHADER);//fragment shader
     glAttachShader(shader, vs);  // Attach shaders to the program for linking process.
     glAttachShader(shader, fs);
 
@@ -115,13 +136,16 @@ void CompileShader(const char* vsCode, const char* fsCode)
     GLchar err_log[1024] = { 0 };
 
     glLinkProgram(shader);  // Create executables from shader codes to run on corresponding processors.
-    glGetProgramiv(shader, GL_LINK_STATUS, &result);
+    glDeleteShader(vs);// after link useless shader delete
+    glDeleteShader(fs);
+    glGetProgramiv(shader, GL_LINK_STATUS, &result); // check to success link to program and shader
     if (!result)
     {
         glGetProgramInfoLog(shader, sizeof(err_log), NULL, err_log);
         printf("Error linking program: '%s'\n", err_log);
         return;
     }
+
 }
 
 void CreateShaderProgramFromFiles(const char* vsPath, const char* fsPath)
@@ -163,11 +187,11 @@ void CreateTriangle()
          0.0f,  0.5f, 0.0f
     };
 
-    glGenVertexArrays(1, &VAO); // 전역 VAO 사용
+    glGenVertexArrays(1, &VAO); // 전역 VAO 사용 Create VertexBuffer ID
     glBindVertexArray(VAO);
 
-    glGenBuffers(1, &VBO); // 전역 VBO 사용
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glGenBuffers(1, &VBO); // 전역 VBO 사용//Create buffer ID
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); // Binding Buffer to GLARRAY_Buffer  
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
@@ -175,4 +199,17 @@ void CreateTriangle()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void ClearShader()// when use to more need shader or change shader
+{
+    // Stop using the current shader program
+    glUseProgram(0);
+
+    // Delete the shader program if it was created
+    if (shader != 0)
+    {
+        glDeleteProgram(shader);
+        shader = 0; // Reset the shader ID to avoid using an invalid program
+    }
 }

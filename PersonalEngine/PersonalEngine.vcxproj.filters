@@ -86,9 +86,6 @@
     <ClInclude Include="Component\EngineComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\GraphicComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Component\GraphicsComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

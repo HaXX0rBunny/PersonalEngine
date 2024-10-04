@@ -28,7 +28,7 @@ inline T* GameObject::GetComponent()
     auto it = Component.find(T::GetType());
     if (it != Component.end())
     {
-        return dynamic_cast<T*>(it->second);
+        return static_cast<T*>(it->second);
     }
     return nullptr;
 }

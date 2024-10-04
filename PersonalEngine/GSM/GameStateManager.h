@@ -27,7 +27,7 @@ namespace GSM
 		}
 
 		static void DeleteGSM();
-
+		
 
 		void Init();
 		void Update();

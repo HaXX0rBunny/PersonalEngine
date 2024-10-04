@@ -156,7 +156,6 @@
     <ClInclude Include="Component\AudioComponent.h" />
     <ClInclude Include="Component\BaseComponent.h" />
     <ClInclude Include="Component\EngineComponent.h" />
-    <ClInclude Include="Component\GraphicComponent.h" />
     <ClInclude Include="Component\GraphicsComponent.h" />
     <ClInclude Include="Component\LogicComponent.h" />
     <ClInclude Include="Component\RigidbodyComponent.h" />
