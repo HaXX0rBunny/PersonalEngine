@@ -25,4 +25,5 @@ GLuint AddShader(const char* shaderCode, GLenum shaderType);
 void CompileShader(const char* vsCode, const char* fsCode);
 void CreateShaderProgramFromFiles(const char* vsPath, const char* fsPath);
 void CreateTriangle();
+void CreateRectangle();
 void ClearShader();

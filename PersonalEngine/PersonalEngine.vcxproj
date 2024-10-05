@@ -143,6 +143,7 @@
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
     <ClCompile Include="Setting_window.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="todo.txt" />
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="RTTI\BaseRTTI.h" />
     <ClInclude Include="RTTI\Registry.h" />
     <ClInclude Include="Setting_window.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>

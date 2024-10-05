@@ -32,7 +32,8 @@ int setWindow_()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
     // =============================================
-    CreateTriangle();
+   // CreateTriangle();
+    CreateRectangle();
     CreateShaderProgramFromFiles("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
     GameLoop(window);
 
@@ -63,27 +64,42 @@ void GameLoop(GLFWwindow* window)
 
     while (!glfwWindowShouldClose(window))
     {
-   
+        processInput(window);
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
 
-
+        //4. when you want to draw use generated your shader program
         glUseProgram(shader);// shader object will be use all shader & rendering order
+        
+        
+        // set Uniform color
+        float timeValue = glfwGetTime();
+        float greenValue = sin(timeValue) / 2.0f / +0.5f;
+        int vertexColorLocation = glGetUniformLocation(shader, "ourColor");
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        
+        
+        
+        
+        
+        //5. now we draw object
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+    //    glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         glBindVertexArray(0);
 
-        glUseProgram(0);
-        processInput(window);
         glfwPollEvents();
         glfwSwapBuffers(window);
     
         /* Poll for and process events */
      
     }
-
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(shader);
     glfwTerminate();
 }
 
@@ -186,16 +202,74 @@ void CreateTriangle()
          0.5f, -0.5f, 0.0f,
          0.0f,  0.5f, 0.0f
     };
-
+    //1)Vertex Array Object Binding
     glGenVertexArrays(1, &VAO); // 전역 VAO 사용 Create VertexBuffer ID
     glBindVertexArray(VAO);
-
+    
     glGenBuffers(1, &VBO); // 전역 VBO 사용//Create buffer ID
+    //2). vertex array copy in buffer to use Opengl
     glBindBuffer(GL_ARRAY_BUFFER, VBO); // Binding Buffer to GLARRAY_Buffer  
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    //3). to Set vertex attribute pointer
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+    //vertext attribute design  layout 0 , number of vertex attribute vec3 = 3, data type, nomalize gl_true (-1, 1),stride vertex attribute , offset
     glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void CreateRectangle()
+{
+    //float vertices[] = {
+    //    // 첫 번째 삼각형
+    //     0.5f,  0.5f, 0.0f,  // 우측 상단
+    //     0.5f, -0.5f, 0.0f,  // 우측 하단
+    //    -0.5f,  0.5f, 0.0f,  // 좌측 상단 
+    //    // second triangle
+    //     0.5f, -0.5f, 0.0f,  // 우측 하단
+    //    -0.5f, -0.5f, 0.0f,  // 좌측 하단
+    //    -0.5f,  0.5f, 0.0f   // 좌측 상단
+    //};
+    //  float vertices[] = {
+    //     0.5f,  0.5f, 0.0f,  // top right
+    //     0.5f, -0.5f, 0.0f,  // bottom right
+    //    -0.5f, -0.5f, 0.0f,  // bottom left
+    //    -0.5f,  0.5f, 0.0f   // top left 
+    //};
+    float vertices[] = {
+        // 위치              // 컬러
+         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 우측 하단
+        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 좌측 하단
+         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 위 
+    };
+    unsigned int indices[] = { 
+    0, 1, 3,   // 첫 번째 삼각형
+    1, 2, 3    // 두 번째 삼각형
+    };
+    GLuint EBO;
+    //1)Vertex Array Object Binding
+    glGenVertexArrays(1, &VAO); // 전역 VAO 사용 Create VertexBuffer ID
+
+    glGenBuffers(1, &VBO); // 전역 VBO 사용//Create buffer ID
+    glGenBuffers(1,&EBO);
+    glBindVertexArray(VAO);
+    //2). vertex array copy in buffer to use Opengl
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); // Binding Buffer to GLARRAY_Buffer  
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //2). index array copy in element buffer to use Opengl
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    //3). to Set vertex attribute pointer
+    // 위치 attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // 컬러 attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    //vertext attribute design  layout 0 , number of vertex attribute vec3 = 3, data type, nomalize gl_true (-1, 1),stride vertex attribute , offset
+
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
