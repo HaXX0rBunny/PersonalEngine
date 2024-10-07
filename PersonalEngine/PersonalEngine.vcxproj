@@ -149,6 +149,7 @@
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceManager\TextResource.cpp" />
     <ClCompile Include="ResourceManager\TextResource.h" />
+    <ClCompile Include="Serializer\Serializer.cpp" />
     <ClCompile Include="Setting_window.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="todo.txt" />
@@ -174,10 +175,13 @@
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GSM\GameStateManager.h" />
     <ClInclude Include="GSM\TempLevel.h" />
+    <ClInclude Include="Level\Menu.h" />
+    <ClInclude Include="Level\NomalLevel.h" />
     <ClInclude Include="ResourceManager\Resource.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="RTTI\BaseRTTI.h" />
     <ClInclude Include="RTTI\Registry.h" />
+    <ClInclude Include="Serializer\Serializer.h" />
     <ClInclude Include="Setting_window.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="test.h" />
@@ -190,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="RTTI\RTTI.txt" />
+    <Text Include="Serializer\json.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

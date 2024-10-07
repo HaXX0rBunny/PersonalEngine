@@ -1,5 +1,8 @@
 #pragma once
 #include "../Component/BaseComponent.h"
+#include "../Component/GraphicsComponent.h"
+#include "../Component/LogicComponent.h"
+#include "../Component/EngineComponent.h"
 #include <vector>
 #include <memory>  // For smart pointers if needed
 #include <cassert>  // For static_assert
@@ -39,8 +42,6 @@ public:
 
     void Update();
 };
-
-
 
 
 

@@ -75,6 +75,9 @@
     <ClCompile Include="ResourceManager\Resource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Serializer\Serializer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GSM\GameStateManager.h">
@@ -140,6 +143,15 @@
     <ClInclude Include="Utility\MyTexture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Level\Menu.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\NomalLevel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer\Serializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObject\GameObject.inl">
@@ -154,5 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="RTTI\RTTI.txt" />
+    <Text Include="Serializer\json.txt" />
   </ItemGroup>
 </Project>

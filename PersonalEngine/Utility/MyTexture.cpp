@@ -30,17 +30,20 @@ void Texture::LoadTexture()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		GLenum format = (channels == 4) ? GL_RGBA : GL_RGB;
+
+		// 텍스처 데이터 업로드
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	// 이미지 데이터를 해제하지 않음 (언로드에서 처리)
 }
 
+
 void Texture::UseTexture()
 {
-	glActiveTexture(GL_TEXTURE0); //0번 텍스쳐 유닛 활성화
-	glBindTexture(GL_TEXTURE_2D, textureID); // VRAM 내에 있는 이 텍스쳐를 0번 텍스쳐 유닛에 bind
-
+	glActiveTexture(GL_TEXTURE0); // 0번 텍스처 유닛 활성화
+	glBindTexture(GL_TEXTURE_2D, textureID); // VRAM 내에 있는 이 텍스처를 0번 텍스처 유닛에 바인딩
 }
 
 void Texture::ClearTexture()
@@ -64,7 +67,10 @@ void Texture::SetData(unsigned char* data_)
 {
 	data = data_;
 }
-
+GLuint Texture::GetTextureID() const
+{
+	return textureID;
+}
 void TextureUnload(Texture* texture)
 {
 

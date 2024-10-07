@@ -101,6 +101,7 @@ void Shader::setFloat(const std::string& name, float value) const
 
 void Shader::deleteProgram()
 {
+	glUseProgram(0);
 	if (ID != 0)
 	{
 		glDeleteProgram(ID);

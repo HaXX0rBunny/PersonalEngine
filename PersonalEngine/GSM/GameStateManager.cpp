@@ -1,7 +1,9 @@
 #include "GameStateManager.h"
 #include "BaseLevel.h"
+#include "../CManager/ComponentManager.h"
+#include "../ResourceManager/ResourceManager.h"
+#include "../GameObjectManager/GameObjectManager.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
-
 GSM::GameStateManager::GameStateManager():previousLevel(nullptr), currentLevel(nullptr)
 {
 }
@@ -34,10 +36,13 @@ void GSM::GameStateManager::Init()
 
 void GSM::GameStateManager::Update()
 {
+    ComponentManager<LogicComponent>::Instance()->Update();
+    ComponentManager<EngineComponent>::Instance()->Update();
     if (currentLevel)
     {
         currentLevel->Update();
     }
+    ComponentManager<GraphicsComponent>::Instance()->Update();
 }
 
 void GSM::GameStateManager::Exit()
@@ -46,6 +51,8 @@ void GSM::GameStateManager::Exit()
     {
         currentLevel->Exit();
     }
+    GameObjectManager::Instance()->Clear();
+    ResourceManager::GetInstance()->Clear();
 }
 
 void GSM::GameStateManager::ChangeLevel(BaseLevel* newLvl)

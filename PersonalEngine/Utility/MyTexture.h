@@ -18,7 +18,7 @@ public:
     void SetData(unsigned char* data_);
     // »ý¼ºÀÚ
     Texture(const std::string& fileName);
-
+    GLuint GetTextureID() const;
     ~Texture();
   
 

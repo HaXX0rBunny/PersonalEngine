@@ -3,6 +3,7 @@
 #include "glfw3.h"
 #include "GraphicsComponent.h"
 #include "../Utility/MyTexture.h"
+#include <vector>
 
 #include <string>
 class SpriteComp : public GraphicsComponent
@@ -14,11 +15,17 @@ class SpriteComp : public GraphicsComponent
 	//text coords uv // Maybe later
 	//color
 public:
+	GLuint vao, vbo, ebo;
 	struct Color
 	{
 		unsigned char r = 0;
 		unsigned char g = 0;
 		unsigned char b = 0;
+	};
+	struct Vertex {
+		float position[3]; // 위치 (x, y, z)
+		float color[3];    // 컬러 (r, g, b)
+		float texCoords[2]; // 텍스처 좌표 (u, v)
 	};
 private:
 	Color mColor;
@@ -26,6 +33,8 @@ private:
 	//texture
 	//AEGfxTexture* mTex;
 	Texture* mtex;
+	bool isMeshSet;
+	bool isTextureSet;
 	//Render mode?
 	//Blend mode?
 	//Transparency
@@ -42,7 +51,8 @@ public:
 	void SetTexture(const std::string& filepath);
 	void SetAlpha(float a);
 	float GetAlpha();
-
+	void SetMesh();
+	void Render();
 	static std::string GetType()
 	{
 		return "SpriteComp";

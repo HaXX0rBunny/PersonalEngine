@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Resource.h"
 
 class MusicResource : public Resource
