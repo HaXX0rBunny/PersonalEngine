@@ -1,8 +1,11 @@
 #include "Setting_window.h"
 #include "Shader.h"
+#include "Level/TestLevel.h"
 #include "GSM/GameStateManager.h"
 GLuint shader;
 GSM::GameStateManager* gsm= nullptr;
+int gGameRunning = 1;
+
 int setWindow_()
 {
     /* Create a windowed mode window and its OpenGL context */
@@ -18,6 +21,7 @@ int setWindow_()
     //GLFWmonitor* primary = glfwGetPrimaryMonitor();
     GLFWwindow* window = glfwCreateWindow(Window_width, Window_height, " Biginner", NULL, NULL);//width height title fullscreen(GLFWmonitor*) subscreen
     gsm = GSM::GameStateManager::GetInstance();
+    gsm->ChangeLevel(new Level::TestLevel);
     if (!window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -63,9 +67,9 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
 
 
 
-    while (gsm->ShouldExit() == false)
+    while (true)
     {
-        processInput(window);
+       // processInput(window);
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -79,8 +83,6 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
         glfwPollEvents();
         glfwSwapBuffers(window);
     
-        /* Poll for and process events */
-     
     }
     gsm->DeleteGSM();
     glfwTerminate();

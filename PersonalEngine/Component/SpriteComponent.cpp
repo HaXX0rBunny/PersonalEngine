@@ -3,9 +3,11 @@
 #include "../Utility/MyTexture.h"
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
-	vao = 0, vbo = 0, ebo = 0;
+	vao = 0;
+	vbo = 0;
+	ebo = 0;
 	mColor = {0,0,0};
-	SetMesh();
+
 }
 
 SpriteComp::~SpriteComp()
@@ -38,9 +40,15 @@ void SpriteComp::SetTexture(const std::string& filepath)
 
 	// 올바른 타입으로 텍스처 가져오기
 	mtex = ResourceManager::GetInstance()->GetResource<Texture>(textureName);
+	if (!mtex || !mtex->GetData()) {
+		// 리소스가 올바르게 로드되지 않았을 경우 처리
+		std::cerr << "Failed to load texture: " << textureName << std::endl;
+		return;
+	}
 	if (mtex != nullptr) {
 		isTextureSet = true; // 텍스처가 성공적으로 로드되었음을 표시
 	}
+	SetMesh();
 }
 
 
@@ -110,7 +118,7 @@ void SpriteComp::SetMesh()
 
 void SpriteComp::Render()
 {
-	if (!mtex) return;
+	if (!mtex || !mtex->GetData()) return;
 
 	mtex->UseTexture();
 

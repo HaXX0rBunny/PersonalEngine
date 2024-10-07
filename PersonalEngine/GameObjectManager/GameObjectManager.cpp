@@ -2,8 +2,7 @@
 GameObjectManager* GameObjectManager::Instance_=nullptr;
 GameObjectManager::~GameObjectManager()
 {
-	Clear();
-	Instance_ = nullptr;
+	
 }
 
 std::map<std::string, GameObject*> GameObjectManager::AllObj()

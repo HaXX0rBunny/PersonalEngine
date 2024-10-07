@@ -18,7 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GSM\BaseLevel.h">
+    <ClCompile Include="Level\BaseLevel.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\GameObject.cpp">
@@ -76,6 +76,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Serializer\Serializer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Level\TestLevel.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,6 +153,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Serializer\Serializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\TestLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

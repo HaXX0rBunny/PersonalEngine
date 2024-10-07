@@ -2,6 +2,7 @@ C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\EngineComponen
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\GraphicsComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GraphicsComponent.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\LogicComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\LogicComponent.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Component\SpriteComponent.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\SpriteComponent.obj
+C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Level\TestLevel.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\TestLevel.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\ResourceManager\MusicResource.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\MusicResource.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\ResourceManager\MusicResource.h;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\MusicResource.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\ResourceManager\Resource.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\Resource.obj
@@ -14,7 +15,7 @@ C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Shader.cpp;C:\Users\BCA\
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\todo.txt;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\todo.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObjectManager\GameObjectManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GameObjectManager.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GameObject\GameObject.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GameObject.obj
-C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GSM\BaseLevel.h;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\BaseLevel.obj
+C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\Level\BaseLevel.h;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\BaseLevel.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\GSM\GameStateManager.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\GameStateManager.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\main.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\main.obj
 C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\RTTI\Registry.cpp;C:\Users\BCA\source\repos\PersonalEngine\PersonalEngine\x64\Debug\Registry.obj

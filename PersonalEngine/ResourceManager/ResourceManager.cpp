@@ -4,7 +4,7 @@ ResourceManager* ResourceManager::Instance_ = nullptr;
 
 ResourceManager::~ResourceManager()
 {
-    Clear();
+
 }
 
 ResourceManager::FileExt ResourceManager::GetFileExt(const std::string& filename)

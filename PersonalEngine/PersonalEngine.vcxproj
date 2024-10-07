@@ -143,6 +143,7 @@
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
     <ClCompile Include="Component\SpriteComponent.cpp" />
+    <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.h" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
@@ -155,7 +156,7 @@
     <ClCompile Include="todo.txt" />
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
-    <ClCompile Include="GSM\BaseLevel.h" />
+    <ClCompile Include="Level\BaseLevel.h" />
     <ClCompile Include="GSM\GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RTTI\Registry.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="GSM\TempLevel.h" />
     <ClInclude Include="Level\Menu.h" />
     <ClInclude Include="Level\NomalLevel.h" />
+    <ClInclude Include="Level\TestLevel.h" />
     <ClInclude Include="ResourceManager\Resource.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="RTTI\BaseRTTI.h" />
