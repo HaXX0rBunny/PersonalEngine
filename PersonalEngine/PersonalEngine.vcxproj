@@ -142,6 +142,13 @@
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
+    <ClCompile Include="Component\SpriteComponent.cpp" />
+    <ClCompile Include="ResourceManager\MusicResource.cpp" />
+    <ClCompile Include="ResourceManager\MusicResource.h" />
+    <ClCompile Include="ResourceManager\Resource.cpp" />
+    <ClCompile Include="ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="ResourceManager\TextResource.cpp" />
+    <ClCompile Include="ResourceManager\TextResource.h" />
     <ClCompile Include="Setting_window.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="todo.txt" />
@@ -151,6 +158,7 @@
     <ClCompile Include="GSM\GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RTTI\Registry.cpp" />
+    <ClCompile Include="Utility\MyTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CManager\ComponentManager.h" />
@@ -168,17 +176,17 @@
     <ClInclude Include="GSM\TempLevel.h" />
     <ClInclude Include="ResourceManager\Resource.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
-    <ClInclude Include="ResourceManager\MusicResource.h" />
-    <ClInclude Include="ResourceManager\TextResource.h" />
     <ClInclude Include="RTTI\BaseRTTI.h" />
     <ClInclude Include="RTTI\Registry.h" />
     <ClInclude Include="Setting_window.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="Utility\MyTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CManager\ComponentManager.inl" />
     <None Include="GameObject\GameObject.inl" />
+    <None Include="ResourceManager\ResourceManager.inl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="RTTI\RTTI.txt" />

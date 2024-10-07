@@ -1,7 +1,8 @@
 #include "Setting_window.h"
 #include "Shader.h"
-GLuint VAO, VBO,EBO, shader;
 
+GLuint shader;
+GLuint VAO, VBO, EBO, texture;
 
 int setWindow_()
 {
@@ -33,11 +34,12 @@ int setWindow_()
 
 
    
-    Shader  ourShader("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
+    Shader ourShader("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
    
     // =============================================
    // CreateTriangle();
-    CreateRectangle();
+    //CreateRectangle();
+    //CreateTexture();
     //CreateShaderProgramFromFiles("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
     GameLoop(window, ourShader);
     ourShader.deleteProgram();  // 프로그램 종료 시 셰이더 삭제
@@ -84,7 +86,6 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
         float greenValue = sin(timeValue) / 2.0f / +0.5f;
         int vertexColorLocation = glGetUniformLocation(shader, "ourColor");
         glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);*/
-        
         
         ourShader.use();
         
@@ -281,19 +282,53 @@ void CreateRectangle()
 
 void CreateTexture()
 {
-    GLuint texture;
-    glGenTextures(1, &texture);
+    float vertices[] = {
+        // 위치              // 컬러             // 텍스처 좌표
+        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 우측 상단
+        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // 우측 하단
+       -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // 좌측 하단
+       -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // 좌측 상단
+    };
+    unsigned int indices[] = {
+      0, 1, 3, // first triangle
+      1, 2, 3  // second triangle
+    };
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+    // 위치 attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8* sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // 컬러 attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    // texture coord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+
+
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
     // 텍스처 wrapping/filtering 옵션 설정(현재 바인딩된 텍스처 객체에 대해)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    // set texture wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // load image, create texture and generate mipmaps
     int width, height, nrChannels;
-    unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
-
+    unsigned char* data = stbi_load("Assets/container.jpg", &width, &height, &nrChannels, 0);
     //텍스쳐 갯수 uint 배열에 텍스쳐 저장
-    glBindTexture(GL_TEXTURE_2D, texture);
+ 
+
     //텍스처 바인딩
     if (data)
     {
@@ -318,6 +353,11 @@ void CreateTexture()
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
+
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6,GL_UNSIGNED_INT, 0);
 }  
 
 void ClearShader()// when use to more need shader or change shader

@@ -1,6 +1,7 @@
 #define GLAD_GL_IMPLEMENTATION
 #include <gl.h>
 #undef GLAD_GL_IMPLEMENTATION
+
 #include "Setting_window.h"
 #include <crtdbg.h> // To check for memory leaks
 #include "GameObject/GameObject.h"
