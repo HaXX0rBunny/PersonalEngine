@@ -1,3 +1,5 @@
+#include "ShaderResource.h"
+
 template<typename T>
 inline T* ResourceManager::GetResource(const std::string& filename)
 {
@@ -5,12 +7,14 @@ inline T* ResourceManager::GetResource(const std::string& filename)
     auto it = ResourceContainer.find(filename);
     if (it != ResourceContainer.end()) {
         // 이미 로드된 리소스가 있으면 카운터 증가 후 반환
+
         Resource* existingResource = it->second;
-        existingResource->SetCounter(existingResource->GetCounter() + 1);
+        //existingResource->SetCounter(existingResource->GetCounter() + 1);
         return static_cast<T*>(existingResource->GetData());
     }
 
     // 새로운 리소스 로드 및 캐싱
+ 
     Resource* Rsr = nullptr;
     FileExt ext = GetFileExt(filename);
     switch (ext) {
@@ -22,24 +26,32 @@ inline T* ResourceManager::GetResource(const std::string& filename)
     case FileExt::mp3:
         Rsr = new MusicResource();
         break;
+    case FileExt::vert:
+    case FileExt::frag:
+        if (ResourceContainer.find(filename) == ResourceContainer.end()) {
+            std::string baseFilename = filename.substr(0, filename.find_last_of('.'));
+            Rsr = new ShaderResource();
+            Rsr->Load(baseFilename);  // baseFilename만 전달하여 vert와 frag를 모두 로드
+        }
+        break;
     default:
         std::cout << "FILE LOAD FAILED" << "\n";
         return nullptr;
     }
 
-    // 리소스가 로드되면 컨테이너에 추가하고 반환
     if (Rsr) {
+        // 리소스 로드 후 캐싱
         Rsr->Load(filename);
         if (Rsr->GetData() != nullptr) {
             ResourceContainer[filename] = Rsr;
-            Rsr->SetCounter(1); // 새로 로드된 리소스의 카운터 초기화
+            Rsr->SetCounter(1);
             return static_cast<T*>(Rsr->GetData());
         }
         else {
-            delete Rsr; // 로드 실패 시 메모리 해제
+            delete Rsr;
             return nullptr;
         }
     }
 
-    return nullptr; // 로드 실패 시
+    return nullptr;
 }

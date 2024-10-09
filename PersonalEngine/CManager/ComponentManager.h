@@ -3,6 +3,7 @@
 #include "../Component/GraphicsComponent.h"
 #include "../Component/LogicComponent.h"
 #include "../Component/EngineComponent.h"
+
 #include <vector>
 #include <memory>  // For smart pointers if needed
 #include <cassert>  // For static_assert
@@ -11,13 +12,13 @@ template <typename T>
 class ComponentManager
 {
     // Ensure T is derived from BaseComponent
-    static_assert(std::is_base_of<BaseComponent, T>::value, "T must inherit from BaseComponent");
+    //static_assert(std::is_base_of<BaseComponent, T>::value, "T must inherit from BaseComponent");
 
     static ComponentManager* Instance_;
-
-
-    ComponentManager() = default;
     std::vector<T* > Component;
+
+    ComponentManager();
+
     ~ComponentManager();
 
 public:
@@ -30,7 +31,7 @@ public:
         return Instance_;
     }
 
-    static void Clear();
+    void Clear();
 
     void DestroyInstance();
 

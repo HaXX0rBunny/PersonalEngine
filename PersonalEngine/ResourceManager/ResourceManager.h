@@ -21,7 +21,9 @@ class ResourceManager
 		png,
 		jpg,
 		wav,
-		mp3
+		mp3,
+		vert,
+		frag
 	};
 public:
 

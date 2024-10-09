@@ -2,13 +2,8 @@
 #include "../Utility/MyTexture.h"
 void TextResource::Load(const std::string& filename)
 {
-	Texture* texture = new Texture(filename.c_str());
-	if (!texture->GetData())
-	{
-		delete texture; // 메모리 누수 방지
-		data = nullptr;
-		return;
-	}
+	Texture* texture = new Texture(filename);
+	texture->LoadTexture();
 	data = texture;
 
 }

@@ -143,11 +143,13 @@
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
     <ClCompile Include="Component\SpriteComponent.cpp" />
+    <ClCompile Include="Component\TransformComponent.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.h" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="ResourceManager\ShaderResource.cpp" />
     <ClCompile Include="ResourceManager\TextResource.cpp" />
     <ClCompile Include="ResourceManager\TextResource.h" />
     <ClCompile Include="Serializer\Serializer.cpp" />
@@ -160,6 +162,7 @@
     <ClCompile Include="GSM\GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RTTI\Registry.cpp" />
+    <ClCompile Include="Utility\Matrix.cpp" />
     <ClCompile Include="Utility\MyTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,12 +184,14 @@
     <ClInclude Include="Level\TestLevel.h" />
     <ClInclude Include="ResourceManager\Resource.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
+    <ClInclude Include="ResourceManager\ShaderResource.h" />
     <ClInclude Include="RTTI\BaseRTTI.h" />
     <ClInclude Include="RTTI\Registry.h" />
     <ClInclude Include="Serializer\Serializer.h" />
     <ClInclude Include="Setting_window.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="Utility\Matrix.h" />
     <ClInclude Include="Utility\MyTexture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +202,10 @@
   <ItemGroup>
     <Text Include="RTTI\RTTI.txt" />
     <Text Include="Serializer\json.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\awesomeface.png" />
+    <Image Include="Assets\container.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

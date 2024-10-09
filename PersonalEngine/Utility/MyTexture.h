@@ -8,9 +8,10 @@
 class Texture {
     GLuint textureID;
     int width, height, channels;
-    unsigned char* data;
+ 
     std::string filePath;
 public:
+    
     void LoadTexture();// 디스크 저장된 이미지 메모리에 텍스쳐로 로드
     void UseTexture(); // 렌더링할때 이 텍스쳐 쓰겠다고 설정
     void ClearTexture(); // 메모리에서 텍스쳐 내리기

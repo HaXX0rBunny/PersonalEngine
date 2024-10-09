@@ -2,16 +2,24 @@
 template<typename T>
 ComponentManager<T>* ComponentManager<T>::Instance_ = nullptr;
 
+template <typename T>
+ComponentManager<T>::ComponentManager()
+{
+ 
+    
+}
+
 template<typename T>
 inline ComponentManager<T>::~ComponentManager()
 {
-    Clear();
+    
+
 }
 template<typename T>
 inline void ComponentManager<T>::Clear()
 {
     // Clear all components and delete them
-    for (auto& comp : Component) {  // Correct usage without 'this'
+    for (auto comp : Component) {  // Correct usage without 'this'
         delete comp;  // Ensure 'comp' is a pointer
     }
     Component.clear();
@@ -20,8 +28,9 @@ inline void ComponentManager<T>::Clear()
 template<typename T>
 inline void ComponentManager<T>::DestroyInstance()
 {
+    Clear();
     if (Instance_) {
-        Instance_->Clear();  // First clear the components
+
         delete Instance_;
         Instance_ = nullptr;
     }
@@ -46,8 +55,7 @@ inline void ComponentManager<T>::RemoveComp(T* component)
 {
     auto it = std::find(Component.begin(), Component.end(), component);
     if (it != Component.end()) {
-        delete* it;  // Ensure '*it' is a pointer
-        Component.erase(it);
+        Component.erase(it);  
     }
 }
 
@@ -56,6 +64,18 @@ template<typename T>
 inline void ComponentManager<T>::Update()
 {
     for (auto& it : Component) {  // Correctly iterate through components
+        if (it != nullptr)
         it->Update();  // Ensure 'it' is a valid pointer
+    }
+    for (auto it = Component.begin(); it != Component.end(); )
+    {
+        if (*it == nullptr)
+        {
+            it = Component.erase(it);
+        }
+        else
+        {
+            it++;
+        }
     }
 }

@@ -19,6 +19,10 @@ ResourceManager::FileExt ResourceManager::GetFileExt(const std::string& filename
         return FileExt::mp3;
     if (ext == "wav")
         return FileExt::wav;
+    if (ext == "frag")
+        return FileExt::frag;
+    if (ext == "vert")
+        return  FileExt::vert;
     return FileExt::unvalid;
 }
 void ResourceManager::UnloadResource(const std::string& filename)
@@ -41,6 +45,7 @@ void ResourceManager::Clear()
     for (auto& it : ResourceContainer) {
         it.second->Unload();
         delete it.second;
+        
     }
     ResourceContainer.clear();
     delete Instance_;

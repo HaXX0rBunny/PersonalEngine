@@ -14,7 +14,8 @@ SpriteComp::~SpriteComp()
 {
 	if (mtex)
 	{
-		TextureUnload(mtex);
+		delete mtex;
+		mtex = nullptr;
 	}
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
@@ -32,15 +33,14 @@ void SpriteComp::Update()
 void SpriteComp::SetTexture(const std::string& filepath)
 {
 	if (textureName != filepath)
-	{
-		// 기존 텍스처 언로드
+	{	// 기존 텍스처 언로드
 		ResourceManager::GetInstance()->UnloadResource(textureName);
 	}
 	textureName = filepath;
 
 	// 올바른 타입으로 텍스처 가져오기
 	mtex = ResourceManager::GetInstance()->GetResource<Texture>(textureName);
-	if (!mtex || !mtex->GetData()) {
+	if (!mtex ) {
 		// 리소스가 올바르게 로드되지 않았을 경우 처리
 		std::cerr << "Failed to load texture: " << textureName << std::endl;
 		return;
@@ -118,7 +118,7 @@ void SpriteComp::SetMesh()
 
 void SpriteComp::Render()
 {
-	if (!mtex || !mtex->GetData()) return;
+	if (!mtex) return;
 
 	mtex->UseTexture();
 

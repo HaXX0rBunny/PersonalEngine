@@ -27,7 +27,8 @@ std::map<std::string, BaseComponent*>& GameObject::AllComp()
 void GameObject::Clear()
 {
 	for (auto& comp : Component) {
-		delete comp.second;
+		if (comp.second)
+			delete comp.second;
 	}
 	Component.clear();
 }

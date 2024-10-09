@@ -4,7 +4,7 @@
 #include "../../Extern/image/stb_image.h"
 #undef STB_IMAGE_IMPLEMENTATION
 Texture::Texture(const std::string& fileName)
-	: textureID(0), width(0), height(0), channels(0), data(nullptr) // 멤버 변수 초기화
+	: textureID(0), width(0), height(0), channels(0) // 멤버 변수 초기화
 {
 	filePath = fileName; // 파일 경로를 filePath에 저장
 }
@@ -15,7 +15,9 @@ Texture::~Texture()
 
 void Texture::LoadTexture()
 {
-	data = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char * data = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
+
 	if (!data)
 	{
 		std::cerr << "Failed to load texture file: " << filePath << std::endl;
@@ -30,13 +32,16 @@ void Texture::LoadTexture()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		GLenum format = (channels == 4) ? GL_RGBA : GL_RGB;
-
+	
 		// 텍스처 데이터 업로드
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(data); // 이미지 데이터 해제
+		data = nullptr;
+
 	}
-	// 이미지 데이터를 해제하지 않음 (언로드에서 처리)
+
 }
 
 
@@ -52,21 +57,12 @@ void Texture::ClearTexture()
 		glDeleteTextures(1, &textureID); // OpenGL 텍스처 해제
 		textureID = 0;
 	}
-	if (data) {
-		stbi_image_free(data); // 이미지 데이터 해제
-		data = nullptr;
-	}
+
 }
 
-unsigned char* Texture::GetData()
-{
-	return data;
-}
 
-void Texture::SetData(unsigned char* data_)
-{
-	data = data_;
-}
+
+
 GLuint Texture::GetTextureID() const
 {
 	return textureID;
@@ -76,7 +72,8 @@ void TextureUnload(Texture* texture)
 
 	if (texture) {
 		texture->ClearTexture();
-		delete texture; // 동적 할당된 객체 해제
+		//delete texture; // 동적 할당된 객체 해제
+
 		std::cout << "Texture memory has been freed." << std::endl;
 	}
 

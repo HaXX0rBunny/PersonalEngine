@@ -2,7 +2,9 @@
 #include "Shader.h"
 #include "Level/TestLevel.h"
 #include "GSM/GameStateManager.h"
-GLuint shader;
+#include "ResourceManager/ResourceManager.h"
+#include "ResourceManager/ShaderResource.h"
+
 GSM::GameStateManager* gsm= nullptr;
 int gGameRunning = 1;
 
@@ -14,14 +16,14 @@ int setWindow_()
         exit(EXIT_FAILURE);
     }
 
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);// (Option name ,option value)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 더 이상 쓰이지 않는 하위 호환 기능들 에러 처리
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // 상위 호환성 지원
     //GLFWmonitor* primary = glfwGetPrimaryMonitor();
     GLFWwindow* window = glfwCreateWindow(Window_width, Window_height, " Biginner", NULL, NULL);//width height title fullscreen(GLFWmonitor*) subscreen
-    gsm = GSM::GameStateManager::GetInstance();
-    gsm->ChangeLevel(new Level::TestLevel);
+ 
     if (!window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -35,13 +37,30 @@ int setWindow_()
         return -1;
     }
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    Shader ourShader("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
-    /*=============================================================================================*/
-    GameLoop(window, ourShader);// Main Game Loop
-    /*=============================================================================================*/
+    //Shader ourShader("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
+    ShaderResource* ourShader = new ShaderResource();
+    ourShader->Load("../Extern/Shader/shader");
 
-    ourShader.deleteProgram();  // 프로그램 종료 시 셰이더 삭제
 
+    Shader* shader = static_cast<Shader*>(ourShader->GetData());
+
+
+    if (shader == nullptr)
+    {
+        std::cerr << "Failed to load shader" << std::endl;
+        return -1;
+    }
+    /*===========================Game Init============================*/
+
+    gsm = GSM::GameStateManager::GetInstance();
+    gsm->ChangeLevel(new Level::TestLevel);
+
+    /*=============================================================================================*/
+    GameLoop(window, *shader);// Main Game Loop
+    /*=============================================================================================*/
+    ResourceManager::GetInstance()->Clear();
+    ourShader->Unload();  // 프로그램 종료 시 셰이더 삭제
+    delete ourShader;
     glfwTerminate();
     return 0;
 }
@@ -67,16 +86,16 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
 
 
 
-    while (true)
+    while (gsm->ShouldExit()==false&& !glfwWindowShouldClose(window))
     {
-       // processInput(window);
+       processInput(window);
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         
         ourShader.use();
-        
+
         gsm->Update();
 
 
@@ -84,6 +103,8 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
         glfwSwapBuffers(window);
     
     }
+
+    gsm->Exit();
     gsm->DeleteGSM();
     glfwTerminate();
 }
