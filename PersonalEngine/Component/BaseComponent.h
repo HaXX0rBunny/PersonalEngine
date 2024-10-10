@@ -16,4 +16,5 @@ public:
 	virtual void LoadFromJson(const json& data) = 0;
 
 	GameObject* own;
+	GameObject* GetOwner() { return own; }
 };

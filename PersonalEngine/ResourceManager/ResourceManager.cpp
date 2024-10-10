@@ -31,7 +31,11 @@ void ResourceManager::UnloadResource(const std::string& filename)
     if (it != ResourceContainer.end())
     {
         // 카운터를 감소시키고 0이 되면 리소스를 언로드
-        it->second->SetCounter(it->second->GetCounter() - 1);
+        if (it->second->GetCounter() > 0) {
+            it->second->SetCounter(it->second->GetCounter() - 1);
+        }
+
+        // 카운터가 0이 된 경우에만 리소스를 언로드
         if (it->second->GetCounter() <= 0) {
             it->second->Unload();
             delete it->second;

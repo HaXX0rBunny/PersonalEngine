@@ -3,6 +3,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../Extern/image/stb_image.h"
 #undef STB_IMAGE_IMPLEMENTATION
+Texture::Texture()
+{
+	textureID = 0;
+	filePath = "None";
+}
 Texture::Texture(const std::string& fileName)
 	: textureID(0), width(0), height(0), channels(0) // 멤버 변수 초기화
 {
@@ -47,17 +52,17 @@ void Texture::LoadTexture()
 
 void Texture::UseTexture()
 {
-	glActiveTexture(GL_TEXTURE0); // 0번 텍스처 유닛 활성화
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID); // VRAM 내에 있는 이 텍스처를 0번 텍스처 유닛에 바인딩
 }
 
 void Texture::ClearTexture()
 {
-	if (textureID) {
+	if (&filePath) {
 		glDeleteTextures(1, &textureID); // OpenGL 텍스처 해제
 		textureID = 0;
-	}
 
+	}
 }
 
 

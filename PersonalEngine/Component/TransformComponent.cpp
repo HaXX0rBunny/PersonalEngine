@@ -8,33 +8,19 @@
 
 void TransformComp::CalculateMatrix()
 {
-    // 기존 행렬 계산 코드
-    glm::mat4 translateMtx;
-    MyMatTranslate(translateMtx, pos);
-    glm::mat4 rotaiteMtx;
-    MyMatRotate(rotaiteMtx, rot);
-    glm::mat4 scaleMtx;
-    MyMatScale(scaleMtx, scale);
+	glm::mat4 translateMtx, rotateMtx, scaleMtx;
+	MyMatTranslate(translateMtx, pos);
+	MyMatRotate(rotateMtx, rot);
+	MyMatScale(scaleMtx, scale);
 
-    // 행렬 결합
-    MyMatConcat(trancsformMatrix, rotaiteMtx, scaleMtx);
-    MyMatConcat(trancsformMatrix, translateMtx, trancsformMatrix);
+	glm::mat4 uWorld_NDC = glm::ortho(-800.0f, 800.f,400.f,
+		 -400.0f,-1.0f, 1.0f);
 
-    // 셰이더 리소스 가져오기
-    // 파일명에 확장자 없이 전달
-    Shader* shader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
 
-    if (shader != nullptr)
-    {
-        // 셰이더 활성화 및 변환 행렬 전달
-        shader->use();
-        unsigned int transformLoc = glGetUniformLocation(shader->ID, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trancsformMatrix));
-    }
-    else
-    {
-        std::cerr << "셰이더를 불러오지 못했습니다." << std::endl;
-    }
+	MyMatConcat(trancsformMatrix, rotateMtx, scaleMtx);
+	MyMatConcat(trancsformMatrix, translateMtx, trancsformMatrix);
+	MyMatConcat(trancsformMatrix, uWorld_NDC, trancsformMatrix);
+
 }
 
 
@@ -55,7 +41,7 @@ TransformComp::~TransformComp()
 
 void TransformComp::Update()
 {
-	CalculateMatrix();
+	
 }
 
 const glm::mat4& TransformComp::GetMatrix() const
@@ -63,19 +49,38 @@ const glm::mat4& TransformComp::GetMatrix() const
 	return trancsformMatrix;
 }
 
+void TransformComp::SetPos(const float& x, const float& y, const float& z)
+{
+	pos.x = x;
+	pos.y = y;
+	pos.z = z;
+	CalculateMatrix();
+}
+
+void TransformComp::SetScale(const float& x, const float& y, const float& z)
+{
+	scale.x = x;
+	scale.y = y;
+	scale.z = z;
+	CalculateMatrix();
+}
+
 void TransformComp::SetPos(const glm::vec3& otherPos)
 {
 	pos = otherPos;
+	CalculateMatrix();
 }
 
 void TransformComp::SetScale(const glm::vec3& otherScale)
 {
 	scale = otherScale;
+	CalculateMatrix();
 }
 
 void TransformComp::SetRot(const float& otherRot)
 {
 	rot = otherRot;
+	CalculateMatrix();
 }
 
 void TransformComp::PrintMatrix()

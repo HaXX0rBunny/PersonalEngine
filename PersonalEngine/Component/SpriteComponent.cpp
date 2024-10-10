@@ -1,8 +1,12 @@
 #include "SpriteComponent.h"
 #include "../ResourceManager/ResourceManager.h"
 #include "../Utility/MyTexture.h"
+#include "TransformComponent.h"
+#include "../GameObject/GameObject.h"
+
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
+	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
 	vao = 0;
 	vbo = 0;
 	ebo = 0;
@@ -12,11 +16,7 @@ SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f)
 
 SpriteComp::~SpriteComp()
 {
-	if (mtex)
-	{
-		delete mtex;
-		mtex = nullptr;
-	}
+
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
@@ -25,6 +25,7 @@ SpriteComp::~SpriteComp()
 void SpriteComp::Update()
 {
 	
+	std::string name = textureName;
 	if (isMeshSet&& isTextureSet) 
 		Render();
 	
@@ -33,7 +34,7 @@ void SpriteComp::Update()
 void SpriteComp::SetTexture(const std::string& filepath)
 {
 	if (textureName != filepath)
-	{	// 기존 텍스처 언로드
+	{	
 		ResourceManager::GetInstance()->UnloadResource(textureName);
 	}
 	textureName = filepath;
@@ -114,13 +115,25 @@ void SpriteComp::SetMesh()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	isMeshSet = true;
+
 }
 
 void SpriteComp::Render()
 {
 	if (!mtex) return;
-
+	mShader->use();
 	mtex->UseTexture();
+
+
+	// 셰이더 리소스 가져오기
+	// 파일명에 확장자 없이 전달
+	/*여기서 해주는 이유는 각 객체의 쉐이더가 사용 됬을때 변형이 이루어 져야함 
+	이전 같이 트랜스폼 컴포에 했을때는 생성 됬을때만 좌표가 바뀌고 그릴때는 같은 쉐이더를 쓰기 때문에
+	한 쉐이더로 변형이 이뤄져서 맨 마지막만 그려지는 것
+	*/
+	unsigned int transformLoc = glGetUniformLocation(mShader->ID, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(own->GetComponent<TransformComp>()->GetMatrix()));
+
 
 	// VAO 바인딩 및 그리기
 	glBindVertexArray(vao);
@@ -128,6 +141,7 @@ void SpriteComp::Render()
 
 	// 바인딩 해제
 	glBindVertexArray(0);
+	glUseProgram(0);
 }
 
 void SpriteComp::LoadFromJson(const json& data)

@@ -3,17 +3,16 @@
 #include "glfw3.h"
 #include "GraphicsComponent.h"
 #include "../Utility/MyTexture.h"
+#include "../Shader.h"
 #include <vector>
 
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include <string>
 class SpriteComp : public GraphicsComponent
 {
 
-	//mesh of points (quad)
-	//All mye bjects have the same quad;
-	// so i will not make it a member variable
-	//text coords uv // Maybe later
-	//color
 public:
 	GLuint vao, vbo, ebo;
 	struct Color
@@ -32,6 +31,7 @@ private:
 	float Alpha;
 	//texture
 	//AEGfxTexture* mTex;
+	Shader* mShader;
 	Texture* mtex;
 	bool isMeshSet;
 	bool isTextureSet;

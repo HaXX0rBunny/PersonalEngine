@@ -8,7 +8,7 @@ class GameObjectManager
 	GameObjectManager()=default;
 	GameObjectManager(const GameObjectManager& other) = delete;
 	const GameObjectManager& operator=(const GameObjectManager& other) = delete;
-	std::map<std::string, GameObject*> allObj;
+	std::map<GameObject*, std::string> allObj;
 
 	static GameObjectManager* Instance_;
 public:
@@ -18,14 +18,14 @@ public:
 			Instance_ = new GameObjectManager;
 		return Instance_;
 	}
-	std::map<std::string, GameObject*> AllObj();
+	std::map<GameObject*, std::string>  AllObj();
 
 	void AddObj(GameObject* obj, std::string id = "-1");
 
 	void RemoveObj(GameObject* obj);
 
 	void Clear();
-	GameObject* GetObj(std::string id);
+	GameObject* GetObj(const std::string& id);
 	GameObject* GetLastObj();
 
 };
