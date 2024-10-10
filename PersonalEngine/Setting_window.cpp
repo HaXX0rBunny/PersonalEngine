@@ -4,7 +4,9 @@
 #include "GSM/GameStateManager.h"
 #include "ResourceManager/ResourceManager.h"
 #include "ResourceManager/ShaderResource.h"
-
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 GSM::GameStateManager* gsm= nullptr;
 int gGameRunning = 1;
 
@@ -15,7 +17,8 @@ int setWindow_()
     {
         exit(EXIT_FAILURE);
     }
-
+    
+ 
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);// (Option name ,option value)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -23,7 +26,7 @@ int setWindow_()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // 상위 호환성 지원
     //GLFWmonitor* primary = glfwGetPrimaryMonitor();
     GLFWwindow* window = glfwCreateWindow(Window_width, Window_height, " Biginner", NULL, NULL);//width height title fullscreen(GLFWmonitor*) subscreen
- 
+
     if (!window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -36,6 +39,18 @@ int setWindow_()
         glfwTerminate(); // 초기화 실패 시 GLFW 종료
         return -1;
     }
+    //==============================================================================
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init();
+    //==============================================================================
+
+
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     //Shader ourShader("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
     ShaderResource* ourShader = new ShaderResource();
@@ -80,32 +95,43 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void GameLoop(GLFWwindow* window, Shader& ourShader)
 {
-
+    
     //Todo Gamelooping in this lopp ==========================================================
 /* Loop until the user closes the window */
-
-
-
+    
     while (gsm->ShouldExit()==false&& !glfwWindowShouldClose(window))
     {
-       processInput(window);
+
+        processInput(window);
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        
-        ourShader.use();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        ImGui::ShowDemoWindow();
+
+       
 
         gsm->Update();
-
-
         glfwPollEvents();
+
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
         glfwSwapBuffers(window);
-    
     }
 
     gsm->Exit();
     gsm->DeleteGSM();
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
     glfwTerminate();
 }
 

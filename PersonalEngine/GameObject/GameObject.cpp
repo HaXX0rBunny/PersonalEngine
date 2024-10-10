@@ -5,11 +5,13 @@
 
 GameObject::GameObject()
 {
+	name = "";
 	GameObjectManager::Instance()->AddObj(this);
 }
 
 GameObject::GameObject(std::string id)
 {
+	name = id;
 	GameObjectManager::Instance()->AddObj(this, id);
 }
 

@@ -29,7 +29,7 @@ public:
 	void Clear();
 private:
 	std::map<std::string, BaseComponent*> Component;
-
+	std::string name;
 
 };
 

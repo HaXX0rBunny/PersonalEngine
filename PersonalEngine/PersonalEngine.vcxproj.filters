@@ -90,6 +90,33 @@
     <ClCompile Include="ResourceManager\ShaderResource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_demo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_draw.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_impl_glfw.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_impl_opengl3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_stdlib.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_tables.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\MainEditor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GSM\GameStateManager.h">
@@ -173,6 +200,39 @@
     <ClInclude Include="ResourceManager\ShaderResource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imconfig.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_impl_glfw.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_impl_opengl3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_internal.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_stdlib.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imstb_rectpack.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imstb_textedit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imstb_truetype.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\MainEditor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObject\GameObject.inl">
@@ -188,6 +248,8 @@
   <ItemGroup>
     <Text Include="RTTI\RTTI.txt" />
     <Text Include="Serializer\json.txt" />
+    <Text Include="Dependencies\include\imgui\LICENSE.txt" />
+    <Text Include="Dependencies\include\imgui\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\awesomeface.png">

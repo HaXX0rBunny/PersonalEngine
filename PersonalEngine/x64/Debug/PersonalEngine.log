@@ -1,5 +1,45 @@
-﻿  TestLevel.cpp
+﻿  EngineComponent.cpp
+  GraphicsComponent.cpp
+  LogicComponent.cpp
+  SpriteComponent.cpp
 C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Dependencies\include\GLFW\glfw3.h(3173,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
-  (소스 파일 'Level/TestLevel.cpp'을(를) 컴파일하는 중)
-  
-  PersonalEngine.vcxproj -> C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\x64\Debug\PersonalEngine.exe
+  TransformComponent.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw.cpp
+C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Dependencies\include\GLFW\glfw3.h(3173,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  imgui_impl_opengl3.cpp
+  imgui_stdlib.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  MainEditor.cpp
+C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Editor\MainEditor.cpp(11,40): warning C4390: ';': 제어된 빈 문이 있습니다. 이 문이 필요합니까?
+  TestLevel.cpp
+C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Dependencies\include\GLFW\glfw3.h(3173,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  MusicResource.cpp
+  MusicResource.h
+  Resource.cpp
+  ResourceManager.cpp
+  ShaderResource.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  TextResource.cpp
+  TextResource.h
+  Serializer.cpp
+  Setting_window.cpp
+C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Dependencies\include\GLFW\glfw3.h(3173,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  Shader.cpp
+  todo.txt
+  GameObjectManager.cpp
+  GameObject.cpp
+  BaseLevel.h
+  GameStateManager.cpp
+  main.cpp
+C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Dependencies\include\glad\gl.h(7873,5): warning C4551: 함수 호출에 인수 목록이 없습니다.
+C:\Users\BCA\source\repos\HaXX0rBunny\PersonalEngine\PersonalEngine\Dependencies\include\GLFW\glfw3.h(3173,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  Registry.cpp
+  Matrix.cpp
+  MyTexture.cpp
+  코드를 생성하고 있습니다...
+  PersonalEngine.vcxproj -> C:\Users\BCA\Source\Repos\HaXX0rBunny\PersonalEngine\x64\Debug\PersonalEngine.exe

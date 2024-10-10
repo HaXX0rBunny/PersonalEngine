@@ -8,7 +8,7 @@ namespace GSM {
 		virtual ~BaseLevel() = default;
 		//Init
 		virtual void Init() = 0;
-		//Updat
+		//Updat0
 		virtual void Update() = 0;
 		//Exit
 		virtual void Exit() = 0;

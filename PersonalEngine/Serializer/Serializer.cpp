@@ -76,7 +76,7 @@ void Serializer::SaveLevel(const std::string& filename)
 
 		json components;
 		//iterate on each component
-		for (auto& c : go.second->AllComp())
+		for (auto& c : go.first->AllComp())
 		{
 			BaseComponent* comp = c.second;
 			components.push_back(comp->SaveToJson());//Check in  a moment

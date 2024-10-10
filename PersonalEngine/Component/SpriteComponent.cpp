@@ -3,6 +3,7 @@
 #include "../Utility/MyTexture.h"
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
+	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
 	vao = 0;
 	vbo = 0;
 	ebo = 0;
@@ -25,6 +26,7 @@ SpriteComp::~SpriteComp()
 void SpriteComp::Update()
 {
 	
+	std::string name = textureName;
 	if (isMeshSet&& isTextureSet) 
 		Render();
 	
@@ -33,7 +35,7 @@ void SpriteComp::Update()
 void SpriteComp::SetTexture(const std::string& filepath)
 {
 	if (textureName != filepath)
-	{	// 기존 텍스처 언로드
+	{	
 		ResourceManager::GetInstance()->UnloadResource(textureName);
 	}
 	textureName = filepath;
@@ -118,6 +120,8 @@ void SpriteComp::SetMesh()
 
 void SpriteComp::Render()
 {
+
+	mShader->use();
 	if (!mtex) return;
 
 	mtex->UseTexture();
@@ -128,6 +132,7 @@ void SpriteComp::Render()
 
 	// 바인딩 해제
 	glBindVertexArray(0);
+	glUseProgram(0);
 }
 
 void SpriteComp::LoadFromJson(const json& data)
