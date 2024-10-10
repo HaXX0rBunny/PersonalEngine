@@ -11,7 +11,7 @@ void Level::TestLevel::Init()
 	testObj->AddComponent<TransformComp>();
 	TransformComp* testTrans = testObj->GetComponent<TransformComp>();
 	testTrans->SetPos({0, 0, 0});
-	testTrans->SetScale({100,100,100});
+	testTrans->SetScale({1,1,0});
 	SpriteComp* testComp = testObj->GetComponent<SpriteComp>();
 	testComp->SetTexture("Assets/awesomeface.png");
 }
