@@ -58,7 +58,7 @@ void Texture::UseTexture()
 
 void Texture::ClearTexture()
 {
-	if (&filePath) {
+	if (!filePath.empty()) {
 		glDeleteTextures(1, &textureID); // OpenGL 텍스처 해제
 		textureID = 0;
 
@@ -77,7 +77,7 @@ void TextureUnload(Texture* texture)
 
 	if (texture) {
 		texture->ClearTexture();
-		//delete texture; // 동적 할당된 객체 해제
+		delete texture; // 동적 할당된 객체 해제
 
 		std::cout << "Texture memory has been freed." << std::endl;
 	}

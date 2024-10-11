@@ -15,23 +15,19 @@ class SpriteComp : public GraphicsComponent
 
 public:
 	GLuint vao, vbo, ebo;
-	struct Color
-	{
-		unsigned char r = 0;
-		unsigned char g = 0;
-		unsigned char b = 0;
-	};
+
 	struct Vertex {
 		float position[3]; // 위치 (x, y, z)
 		float color[3];    // 컬러 (r, g, b)
 		float texCoords[2]; // 텍스처 좌표 (u, v)
 	};
 private:
-	Color mColor;
+	glm::vec3 mColor;
 	float Alpha;
 	//texture
 	//AEGfxTexture* mTex;
-	Shader* mShader;
+	Shader* vShader;
+	Shader* fShader;
 	Texture* mtex;
 	bool isMeshSet;
 	bool isTextureSet;
@@ -47,11 +43,13 @@ public:
 	//draw
 
 	//Gettors/Settors
-	Color& Getcolor() { return mColor; };
-	void SetTexture(const std::string& filepath);
-	void SetAlpha(float a);
-	float GetAlpha();
+	void SetColor(const float& r, const float& g , const float& b);
+	void SetColor(const glm::vec3& other);
 	void SetMesh();
+	void SetTexture(const std::string& filepath);
+	void SetAlpha(const float& a);
+	float GetAlpha();
+	const glm::vec3& Getcolor() { return mColor; };
 	void Render();
 	static std::string GetType()
 	{

@@ -23,6 +23,8 @@ void Level::TestLevel::Init()
 	testTrans->SetRot(45);
 	SpriteComp* testComp = testObj->GetComponent<SpriteComp>();
 	testComp->SetTexture("Assets/awesomeface.png");
+	testComp->SetColor(1, 1, 1);
+	testComp->SetAlpha(0.5f);
 }
 
 void Level::TestLevel::Update()

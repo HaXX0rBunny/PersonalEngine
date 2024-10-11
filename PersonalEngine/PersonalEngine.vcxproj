@@ -160,7 +160,9 @@
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Level\BaseLevel.h" />
     <ClCompile Include="GSM\GameStateManager.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cpp">
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp17</LanguageStandard>
+    </ClCompile>
     <ClCompile Include="RTTI\Registry.cpp" />
     <ClCompile Include="Utility\Matrix.cpp" />
     <ClCompile Include="Utility\MyTexture.cpp" />

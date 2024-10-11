@@ -2,18 +2,18 @@
 
 out vec4 FragColor;  
 
-in vec3 ourColor;
-in vec2 TexCoord;
+in vec3 ourColor;    // 버텍스 셰이더에서 전달된 보간된 색상
+in vec2 TexCoord;    // 버텍스 셰이더에서 전달된 텍스처 좌표
 
-uniform sampler2D ourTexture; //GLSL 그래픽 쉐이딩 랭귀지 
-
-//uniform vec4 ourColor;
+uniform sampler2D ourTexture; // 텍스처 샘플러
+uniform vec4 spriteColor;     // 스프라이트의 색상 (RGBA)
 
 void main()
 {
-    FragColor = texture(ourTexture, TexCoord);
+    // 텍스처에서 색상을 샘플링
+    vec4 texColor = texture(ourTexture, TexCoord);
+    
+    // 텍스처 컬러와 스프라이트 컬러를 곱함
+    // spriteColor는 RGB와 알파 값을 모두 포함
+    FragColor = texColor * spriteColor;
 }
-/*텍스처 컬러를 샘플링하기 위해 GLSL의 texture 함수를 사용합니다. 
-이 함수는 첫 번째 파라미터로 텍스처 sampler를 받고 두 번째 파라미터로 해당 텍스처 좌표를 받습니다. 
-그런 다음 texture 함수는 앞서 설정했던 텍스처 파라미터를 사용하여 해당 컬러 값을 샘플링합니다. 
-이 fragment shader의 출력은 (보간된) 텍스처 좌표에서 (필터링된) 텍스처의 컬러입니다.*/

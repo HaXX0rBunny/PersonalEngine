@@ -6,11 +6,12 @@
 
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
-	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
+	vShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
+	fShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.frag");
 	vao = 0;
 	vbo = 0;
 	ebo = 0;
-	mColor = {0,0,0};
+	mColor = {1,1,1};
 
 }
 
@@ -53,7 +54,7 @@ void SpriteComp::SetTexture(const std::string& filepath)
 }
 
 
-void SpriteComp::SetAlpha(float a)
+void SpriteComp::SetAlpha(const float& a)
 {
 	Alpha = a;
 }
@@ -61,6 +62,18 @@ void SpriteComp::SetAlpha(float a)
 float SpriteComp::GetAlpha()
 {
 	return Alpha;
+}
+
+void SpriteComp::SetColor(const float& r, const float& g, const float& b)
+{
+	mColor.r= r;
+	mColor.g = g;
+	mColor.b = b;
+}
+
+void SpriteComp::SetColor(const glm::vec3& other)
+{
+	mColor = other;
 }
 
 void SpriteComp::SetMesh()
@@ -121,9 +134,12 @@ void SpriteComp::SetMesh()
 void SpriteComp::Render()
 {
 	if (!mtex) return;
-	mShader->use();
-	mtex->UseTexture();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	vShader->use();
+	fShader->use();
+	mtex->UseTexture();
 
 	// 셰이더 리소스 가져오기
 	// 파일명에 확장자 없이 전달
@@ -131,17 +147,21 @@ void SpriteComp::Render()
 	이전 같이 트랜스폼 컴포에 했을때는 생성 됬을때만 좌표가 바뀌고 그릴때는 같은 쉐이더를 쓰기 때문에
 	한 쉐이더로 변형이 이뤄져서 맨 마지막만 그려지는 것
 	*/
-	unsigned int transformLoc = glGetUniformLocation(mShader->ID, "transform");
+
+	unsigned int colorLoc = glGetUniformLocation(fShader->ID, "spriteColor");
+	glUniform4f(colorLoc, mColor.r, mColor.g, mColor.b, Alpha);
+	unsigned int transformLoc = glGetUniformLocation(vShader->ID, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(own->GetComponent<TransformComp>()->GetMatrix()));
 
 
 	// VAO 바인딩 및 그리기
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+	glDisable(GL_BLEND);
 	// 바인딩 해제
 	glBindVertexArray(0);
 	glUseProgram(0);
+
 }
 
 void SpriteComp::LoadFromJson(const json& data)
