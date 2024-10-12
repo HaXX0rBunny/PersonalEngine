@@ -140,7 +140,6 @@ void SpriteComp::Render()
 	vShader->use();
 	fShader->use();
 	mtex->UseTexture();
-
 	// 셰이더 리소스 가져오기
 	// 파일명에 확장자 없이 전달
 	/*여기서 해주는 이유는 각 객체의 쉐이더가 사용 됬을때 변형이 이루어 져야함 
@@ -151,9 +150,15 @@ void SpriteComp::Render()
 	unsigned int colorLoc = glGetUniformLocation(fShader->ID, "spriteColor");
 	glUniform4f(colorLoc, mColor.r, mColor.g, mColor.b, Alpha);
 	unsigned int transformLoc = glGetUniformLocation(vShader->ID, "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(own->GetComponent<TransformComp>()->GetMatrix()));
-
-
+	if (own->GetComponent<TransformComp>() == nullptr)
+	{
+		glm::vec4 defaultMat{ 1.0f };
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(defaultMat));
+	}
+	else
+	{
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(own->GetComponent<TransformComp>()->GetMatrix()));
+	}
 	// VAO 바인딩 및 그리기
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

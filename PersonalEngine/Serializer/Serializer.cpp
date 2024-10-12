@@ -49,7 +49,7 @@ void Serializer::LoadLevel(const std::string& filename)
 				if (it == c.end())// Not found
 					continue;
 
-				std::string typeName =it.value().dump(); // convert to string
+				std::string typeName = it.value();// convert to string
 
 				//Look in the registry for this type and create it
 				BaseRTTI* p=Registry::Instance()->FindAndCreate(typeName);
