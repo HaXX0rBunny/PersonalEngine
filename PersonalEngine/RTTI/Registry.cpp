@@ -1,5 +1,6 @@
 #include "Registry.h"
-
+#include "../Component/TransformComponent.h"
+#include "../Component/SpriteComponent.h"
 Registry* Registry::Instance_ = nullptr;  
 
 Registry::Registry()
@@ -8,8 +9,8 @@ Registry::Registry()
 
 
     
-
-//    rttiMap.insert(std::pair<std::string, BaseRTTI * (*)()>("TransformComp", TransformComp::CreateTransformComp));
+    rttiMap.insert(std::pair<std::string, BaseRTTI * (*)()>("SpriteComp", SpriteComp::CreateSpriteComp));
+    rttiMap.insert(std::pair<std::string, BaseRTTI * (*)()>("TransformComp", TransformComp::CreateTransformComp));
 }
 Registry::~Registry()
 {

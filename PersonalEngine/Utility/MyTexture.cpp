@@ -6,7 +6,7 @@
 Texture::Texture()
 {
 	textureID = 0;
-	filePath = "None";
+	filePath = "./Assets/Default.png";
 }
 Texture::Texture(const std::string& fileName)
 	: textureID(0), width(0), height(0), channels(0) // 멤버 변수 초기화
@@ -20,7 +20,7 @@ Texture::~Texture()
 
 void Texture::LoadTexture()
 {
-	stbi_set_flip_vertically_on_load(true);
+
 	unsigned char * data = stbi_load(filePath.c_str(), &width, &height, &channels, 0);
 
 	if (!data)

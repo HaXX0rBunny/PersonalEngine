@@ -11,8 +11,7 @@ using json = nlohmann::ordered_json;
 Serializer* Serializer::Instance_ = nullptr; 
 Serializer::~Serializer()
 {
-	delete Instance_;
-	Instance_ = nullptr;
+
 }
 //Map. Keeps the order the variables were declared in
 void Serializer::LoadLevel(const std::string& filename)
@@ -32,11 +31,11 @@ void Serializer::LoadLevel(const std::string& filename)
 	for (auto item : Alldata)//Depending on how you saved, you look for some values or others;
 	{
 		//Create an object IF this is an obj;
-		auto obj = item.find("Object");//Iterator
+		auto obj = item.find("object");//Iterator
 		if (obj != item.end())//It was found
 		{
 			//Create the go 
-			GameObject* go = new GameObject;//= GOManager::getPtr()->AddObj();
+			GameObject* go = new GameObject();//= GOManager::getPtr()->AddObj();
 			//Find the component section
 			auto cmp = item.find("Components");
 			if (cmp == item.end())//NOT FOUND
@@ -52,11 +51,12 @@ void Serializer::LoadLevel(const std::string& filename)
 				std::string typeName = it.value();// convert to string
 
 				//Look in the registry for this type and create it
-				BaseRTTI* p=Registry::Instance()->FindAndCreate(typeName);
-				if (p != nullptr)
-					p->LoadFromJson(c);
-				//Add the comp to the Go
-				go->AddComponent<BaseComponent>(static_cast<BaseComponent*>(p));
+				BaseComponent* component = go->LoadComponent(typeName);
+				if (component != nullptr)
+				{
+					component->LoadFromJson(c);
+				}
+
 			}
 			GameObjectManager::Instance()->AddObj(go);
 		}
@@ -99,4 +99,10 @@ void Serializer::SaveLevel(const std::string& filename)
 	file << std::setw(2) << ALLdata;
 	file.close();
 
+}
+
+void Serializer::DestroyThis()
+{
+	delete Instance_;
+	Instance_ = nullptr;
 }

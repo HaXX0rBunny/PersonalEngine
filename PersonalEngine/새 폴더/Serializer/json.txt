@@ -1,0 +1,85 @@
+Serializer
+- saves Objects/Levels
+- Load those Object/Levels
+- Singleton
+
+
+object:test
+compo:Load
+{
+{object : main Lvel
+component :[
+~~~
+~~
+~~
+
+]
+
+
+
+}
+
+}
+
+
+
+
+save(string name)
+{json data;
+
+	for all obj
+	{json data;
+	obj["Object"]=o.name;
+	json c;
+		for each comp
+		{
+			c.push_back(comp->savejson_submission());
+		}
+		obj["components"]=c;
+	}data.push_back(obj);<-->(F.Open afile)F<<std::setw(n)<<data;
+}
+
+Load(string name)
+{f.open file
+	json data;
+	f>>data;
+	for each 1item in Json
+	{	Create a Go
+		set Go name to Item.find("Object");
+		jsoncomp = Item.find("components");
+		for each cItem in comp
+		{	save the type of cItem;
+			p=Use RTTI to create the correct*
+			p->load from Json(cItem);
+		
+		}
+	}
+
+
+}
+
+
+
+
+RTTI:
+-save to json
+-load from json;
+
+
+
+
+
+
+Obs -> string/ Json-> File
+
+File ->String/Json -> Obj
+
+On Level Init
+2-Call Load("names");
+
+On "SaVe event"
+1-Call Save("name");
+
+Play Mode
+Editor Mod - > Save LEvel
+

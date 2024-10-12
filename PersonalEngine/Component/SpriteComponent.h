@@ -46,7 +46,7 @@ public:
 	void SetColor(const float& r, const float& g , const float& b);
 	void SetColor(const glm::vec3& other);
 	void SetMesh();
-	void SetTexture(const std::string& filepath);
+	void SetTexture(const std::string& filepath= "./Assets/Default.png");
 	void SetAlpha(const float& a);
 	float GetAlpha();
 	const glm::vec3& Getcolor() { return mColor; };

@@ -25,7 +25,7 @@ public:
 	bool HasComponent() const;
 	template <typename T>
 	void RemoveComponent(T* component);
-
+	BaseComponent* LoadComponent(const std::string& type);
 	void Clear();
 private:
 	std::map<std::string, BaseComponent*> Component;

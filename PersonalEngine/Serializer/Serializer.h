@@ -18,4 +18,5 @@ public:
 	}
 	void LoadLevel(const std::string& s);
 	void SaveLevel(const std::string& s);
+	void DestroyThis();
 };

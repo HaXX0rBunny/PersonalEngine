@@ -2,7 +2,7 @@
 
 #include "../Component/BaseComponent.h"
 #include "../GameObjectManager/GameObjectManager.h"
-
+#include "../RTTI/Registry.h"
 GameObject::GameObject()
 {
 	name = "";
@@ -24,6 +24,27 @@ GameObject::~GameObject()
 std::map<std::string, BaseComponent*>& GameObject::AllComp()
 {
 	return Component;
+}
+
+
+
+
+BaseComponent* GameObject::LoadComponent(const std::string& type)
+{
+	auto it = Component.find(type);
+	if (it != Component.end())
+	{
+		return it->second;
+	}
+	BaseRTTI* newComponent = Registry::Instance()->FindAndCreate(type);
+	if (newComponent != nullptr)
+	{
+		// 생성된 컴포넌트를 GameObject에 추가하고 반환
+		AddComponent<BaseComponent>(static_cast<BaseComponent*>(newComponent));
+		return static_cast<BaseComponent*>(newComponent);
+	}
+
+	return nullptr;
 }
 
 void GameObject::Clear()

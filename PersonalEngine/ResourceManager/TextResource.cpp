@@ -1,6 +1,6 @@
 #include "TextResource.h"
 #include "../Utility/MyTexture.h"
-void TextResource::Load(const std::string& filename)  
+void TextResource::Load(const std::string& filename)   
 {
 	Texture* texture = new Texture(filename);
 	texture->LoadTexture();
@@ -8,7 +8,7 @@ void TextResource::Load(const std::string& filename)
 
 }
 
-void TextResource::Unload()  
+void TextResource::Unload()   
 {
 	if (data != nullptr)
 	{
@@ -17,8 +17,8 @@ void TextResource::Unload()
 		counter--;
 	}
 }
-
-void* TextResource::GetData() const  
+ 
+void* TextResource::GetData() const   
 {
 	return data;
 }

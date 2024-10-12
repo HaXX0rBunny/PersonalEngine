@@ -2,9 +2,9 @@
 
 #include <gl.h>
 #include <iostream>
-
+#include "../GameObjectManager/GameObjectManager.h"
 #include "../ResourceManager/ResourceManager.h"
-
+#include "../GameObjectManager/GameObjectManager.h"
 
 void TransformComp::CalculateMatrix()
 {
@@ -104,14 +104,55 @@ void TransformComp::PrintMatrix()
 
 void TransformComp::LoadFromJson(const json& data)
 {
+	//Check how you saved, load form there
+	auto compData = data.find("compData");
+
+	if (compData != data.end())
+	{
+		auto p = compData->find("Pos");
+		pos.x = p->begin().value();
+		pos.y = (p->begin() + 1).value();
+		//scale
+		auto s = compData->find("Sca");
+		scale.x = p->begin().value();
+		scale.y = (p->begin() + 1).value();
+
+		//Rot
+		auto r = compData->find("Rot");
+		rot = r.value();
+	}
+	//Data is loaded
+	//Utilize the data;
+	CalculateMatrix();
 }
 
 json TransformComp::SaveToJson()
 {
-	return json();
+	json data;
+	//save the type
+	data["Type"] = GetType();
+	//Save my data
+	json compData;
+	//pos
+	compData["Pos"] = { pos.x, pos.y };
+	//sacle
+	compData["Sca"] = { scale.x, scale.y };
+	//rot
+	compData["Rot"] = rot;
+	data["CompData"] = compData;
+	return data;
 }
 
 BaseRTTI* TransformComp::CreateTransformComp()
 {
-	return nullptr;
+	GameObject* lastObj = GameObjectManager::Instance()->GetLastObj();
+
+	// lastObj가 nullptr일 경우 처리
+	if (lastObj == nullptr) {
+		std::cerr << "Error: No valid GameObject found in GameObjectManager." << std::endl;
+		return nullptr;  // 혹은 적절한 예외 처리
+	}
+
+	BaseRTTI* out = new TransformComp(lastObj);
+	return out;
 }

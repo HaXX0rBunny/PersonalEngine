@@ -62,11 +62,11 @@ GameObject* GameObjectManager::GetObj(const std::string& id)
 
 GameObject* GameObjectManager::GetLastObj()
 {
-	if (allObj.empty())
-	{
-		return nullptr;
-	}
-	
-	const auto& it =allObj.end()--;
-	return it->first;
+    if (allObj.empty()) {
+        return nullptr;
+    }
+
+    // allObj 맵의 마지막 요소를 가져옴
+    const auto& it = std::prev(allObj.end());
+    return it->first;  // 첫 번째 요소인 GameObject를 반환
 }

@@ -3,7 +3,7 @@
 #include "../Utility/MyTexture.h"
 #include "TransformComponent.h"
 #include "../GameObject/GameObject.h"
-
+#include "../GameObjectManager/GameObjectManager.h"
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
 	vShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
@@ -171,14 +171,42 @@ void SpriteComp::Render()
 
 void SpriteComp::LoadFromJson(const json& data)
 {
+	auto compData = data.find("compData");
+
+	if (compData != data.end())
+	{
+		auto c = compData->find("Color");
+		mColor.r = c->begin().value();
+		mColor.g = (c->begin() + 1).value();
+		mColor.b = (c->begin() + 2).value();
+
+		auto a = compData->find("Alpha");
+		Alpha = a->begin().value();
+
+		auto f = compData->find("TextureName");
+		textureName = f->begin().value();
+		SetTexture(textureName);
+	}
 }
 
 json SpriteComp::SaveToJson()
 {
-	return json();
+
+	json data;
+	data["Type"] = GetType();
+	json compData;
+	
+	compData["Color"] = {mColor.r, mColor.g, mColor.b};
+
+	compData["Alpha"] = Alpha;
+
+	compData["TextureName"] = textureName;
+	data["CompData"] = compData;
+	return data;
 }
 
 BaseRTTI* SpriteComp::CreateSpriteComp()
 {
-	return nullptr;
+	BaseRTTI* out = new SpriteComp(GameObjectManager::Instance()->GetLastObj());
+	return out;
 }

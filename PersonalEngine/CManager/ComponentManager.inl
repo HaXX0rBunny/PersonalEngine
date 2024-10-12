@@ -28,7 +28,6 @@ inline void ComponentManager<T>::Clear()
 template<typename T>
 inline void ComponentManager<T>::DestroyInstance()
 {
-    Clear();
     if (Instance_) {
 
         delete Instance_;

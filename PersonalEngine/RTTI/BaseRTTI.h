@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <json.hpp>
+
 using json = nlohmann::ordered_json;
 class BaseRTTI
 {
