@@ -114,7 +114,7 @@
     <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\MainEditor.cpp">
+    <ClCompile Include="Editor\MainMenuEditor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -230,7 +230,10 @@
     <ClInclude Include="Dependencies\include\imgui\imstb_truetype.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Editor\MainEditor.h">
+    <ClInclude Include="Editor\MainMenuEditor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\GuiManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

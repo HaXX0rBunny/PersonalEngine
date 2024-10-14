@@ -64,7 +64,6 @@ void GSM::GameStateManager::Exit()
 	ComponentManager<LogicComponent>::Instance()->DestroyInstance();
 	ComponentManager<GraphicsComponent>::Instance()->DestroyInstance();  // Add this
 	ComponentManager<EngineComponent>::Instance()->DestroyInstance();
-	
 	Registry::Instance()->Delete();
 	ResourceManager::GetInstance()->Clear();
 	

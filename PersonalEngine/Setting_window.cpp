@@ -1,13 +1,4 @@
 #include "Setting_window.h"
-#include "Shader.h"
-#include "Level/TestLevel.h"
-#include "GSM/GameStateManager.h"
-#include "ResourceManager/ResourceManager.h"
-#include "ResourceManager/ShaderResource.h"
-#include "Serializer/Serializer.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
 
 GSM::GameStateManager* gsm= nullptr;
 int gGameRunning = 1;
@@ -124,7 +115,7 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         ImGui::ShowDemoWindow();
-
+        MainMenuEditor::TopBar();
        
 
         gsm->Update();

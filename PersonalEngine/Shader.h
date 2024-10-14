@@ -13,6 +13,7 @@ class Shader
 	void checkCompileErrors(unsigned int shader, std::string type);
 public:
 	//program ID
+	
 	GLuint ID;
 	Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
 	void use();
