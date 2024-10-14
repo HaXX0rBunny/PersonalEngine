@@ -104,28 +104,40 @@ void TransformComp::PrintMatrix()
 
 void TransformComp::LoadFromJson(const json& data)
 {
-	//Check how you saved, load form there
-	auto compData = data.find("compData");
+	auto compData = data.find("CompData");
 
 	if (compData != data.end())
 	{
+		// Pos 값 로딩
 		auto p = compData->find("Pos");
-		pos.x = p->begin().value();
-		pos.y = (p->begin() + 1).value();
-		//scale
+		if (p != compData->end() && p->is_array())
+		{
+			//std::cout << "Loading Pos: " << (*p)[0] << ", " << (*p)[1] << std::endl;
+			pos.x = (*p)[0];
+			pos.y = (*p)[1];
+		}
+
+		// Scale 값 로딩
 		auto s = compData->find("Sca");
-		scale.x = p->begin().value();
-		scale.y = (p->begin() + 1).value();
+		if (s != compData->end() && s->is_array())
+		{
+			//std::cout << "Loading Scale: " << (*s)[0] << ", " << (*s)[1] << std::endl;
+			scale.x = (*s)[0];
+			scale.y = (*s)[1];
+		}
 
-		//Rot
+		// Rot 값 로딩
 		auto r = compData->find("Rot");
-		rot = r.value();
+		if (r != compData->end())
+		{
+			//std::cout << "Loading Rotation: " << r.value() << std::endl;
+			rot = r.value();
+		}
 	}
-	//Data is loaded
-	//Utilize the data;
+	// Data 로드 후 매트릭스 계산
 	CalculateMatrix();
-}
 
+}
 json TransformComp::SaveToJson()
 {
 	json data;

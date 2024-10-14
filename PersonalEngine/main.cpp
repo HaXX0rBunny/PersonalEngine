@@ -9,12 +9,9 @@
 int main(int argc, char* argv[])
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-  //  _CrtSetBreakAlloc(934);
+ //   _CrtSetBreakAlloc(1303);
     setWindow_();
-   // GameObject* test = new GameObject("test");
-   //// test->AddComponent<BaseComponent>();
-   // auto it =GameObjectManager::Instance()->GetObj("test");
-   // it->Clear();
+
     return 0;
 
 }

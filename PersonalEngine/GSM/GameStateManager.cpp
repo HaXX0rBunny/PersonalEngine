@@ -3,6 +3,7 @@
 #include "../CManager/ComponentManager.h"
 #include "../ResourceManager/ResourceManager.h"
 #include "../GameObjectManager/GameObjectManager.h"
+#include "../RTTI/Registry.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
 GSM::GameStateManager::GameStateManager() :previousLevel(nullptr), currentLevel(nullptr)
 {
@@ -51,11 +52,13 @@ void GSM::GameStateManager::Exit()
 	{
 		currentLevel->Exit();
 	}
-	GameObjectManager::Instance()->Clear();
+
 	ResourceManager::GetInstance()->Clear();
 	ComponentManager<LogicComponent>::Instance()->DestroyInstance();
 	ComponentManager<GraphicsComponent>::Instance()->DestroyInstance();  // Add this
 	ComponentManager<EngineComponent>::Instance()->DestroyInstance();
+	Registry::Instance()->Delete();
+	GameObjectManager::Instance()->DestroyThis();
 }
 
 void GSM::GameStateManager::ChangeLevel(BaseLevel* newLvl)
@@ -67,6 +70,7 @@ void GSM::GameStateManager::ChangeLevel(BaseLevel* newLvl)
 	currentLevel = newLvl;
 	Init();
 }
+
 
 bool GSM::GameStateManager::ShouldExit()
 {

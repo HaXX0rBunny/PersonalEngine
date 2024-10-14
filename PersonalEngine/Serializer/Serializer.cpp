@@ -17,17 +17,14 @@ Serializer::~Serializer()
 void Serializer::LoadLevel(const std::string& filename)
 {
 	//open file
-	std::fstream file;
-	file.open(filename, std::fstream::in);
-	//Check the file is valid
-
-	if (!file.is_open())
-	{
+	std::fstream file(filename, std::fstream::in);
+	if (!file.is_open()) {
 		std::cerr << "Failed to open file: " << filename << std::endl;
 		return;
 	}
 	json Alldata;
 	file >> Alldata;// the json has all the file data
+	file.close();
 	for (auto item : Alldata)//Depending on how you saved, you look for some values or others;
 	{
 		//Create an object IF this is an obj;
@@ -35,7 +32,7 @@ void Serializer::LoadLevel(const std::string& filename)
 		if (obj != item.end())//It was found
 		{
 			//Create the go 
-			GameObject* go = new GameObject();//= GOManager::getPtr()->AddObj();
+			GameObject* go = new GameObject(obj.value());//= GOManager::getPtr()->AddObj();
 			//Find the component section
 			auto cmp = item.find("Components");
 			if (cmp == item.end())//NOT FOUND
@@ -45,19 +42,22 @@ void Serializer::LoadLevel(const std::string& filename)
 			for (auto& c : *cmp)
 			{
 				auto it = c.find("Type");
-				if (it == c.end())// Not found
-					continue;
-
-				std::string typeName = it.value();// convert to string
-
-				//Look in the registry for this type and create it
-				BaseComponent* component = go->LoadComponent(typeName);
-				if (component != nullptr)
+				if (it != c.end() && it.value() == "TransformComp")
 				{
-					component->LoadFromJson(c);
+					go->LoadComponent("TransformComp")->LoadFromJson(c);
 				}
-
 			}
+
+			// 나머지 컴포넌트를 그 후 로드
+			for (auto& c : *cmp)
+			{
+				auto it = c.find("Type");
+				if (it != c.end() && it.value() != "TransformComp")
+				{
+					go->LoadComponent(it.value())->LoadFromJson(c);
+				}
+			}
+
 			GameObjectManager::Instance()->AddObj(go);
 		}
 	}
@@ -72,7 +72,7 @@ void Serializer::SaveLevel(const std::string& filename)
 	for (auto go : GameObjectManager::Instance()->AllObj())
 	{
 		json object;
-		object["object"] = i++;
+		object["object"] = go.second;
 
 		json components;
 		//iterate on each component

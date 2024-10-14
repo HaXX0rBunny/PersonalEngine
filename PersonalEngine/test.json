@@ -1,6 +1,6 @@
 [
   {
-    "object": 0,
+    "object": "test2",
     "Components": [
       {
         "Type": "SpriteComp",
@@ -31,7 +31,7 @@
     ]
   },
   {
-    "object": 1,
+    "object": "test1",
     "Components": [
       {
         "Type": "SpriteComp",

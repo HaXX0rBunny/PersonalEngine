@@ -154,12 +154,16 @@ void SpriteComp::Render()
 	{
 		glm::vec4 defaultMat{ 1.0f };
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(defaultMat));
+		
 	}
 	else
 	{
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(own->GetComponent<TransformComp>()->GetMatrix()));
+		//std::cout << own->GetComponent<TransformComp>() << std::endl;
+		//own->GetComponent<TransformComp>()->PrintMatrix();
 	}
 	// VAO 바인딩 및 그리기
+	
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glDisable(GL_BLEND);
@@ -171,7 +175,7 @@ void SpriteComp::Render()
 
 void SpriteComp::LoadFromJson(const json& data)
 {
-	auto compData = data.find("compData");
+	auto compData = data.find("CompData");
 
 	if (compData != data.end())
 	{
@@ -207,6 +211,12 @@ json SpriteComp::SaveToJson()
 
 BaseRTTI* SpriteComp::CreateSpriteComp()
 {
-	BaseRTTI* out = new SpriteComp(GameObjectManager::Instance()->GetLastObj());
+	GameObject* lastObj = GameObjectManager::Instance()->GetLastObj();
+	if (lastObj == nullptr) {
+		std::cerr << "Error: No valid GameObject found in GameObjectManager." << std::endl;
+		return nullptr;  // 혹은 적절한 예외 처리
+	}
+
+	BaseRTTI* out = new SpriteComp(lastObj);
 	return out;
 }

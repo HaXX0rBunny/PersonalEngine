@@ -23,7 +23,7 @@ public:
 	void AddObj(GameObject* obj, std::string id = "-1");
 
 	void RemoveObj(GameObject* obj);
-
+	void DestroyThis();
 	void Clear();
 	GameObject* GetObj(const std::string& id);
 	GameObject* GetLastObj();

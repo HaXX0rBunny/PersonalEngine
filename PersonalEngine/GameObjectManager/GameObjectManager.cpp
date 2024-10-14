@@ -2,11 +2,7 @@
 GameObjectManager* GameObjectManager::Instance_=nullptr;
 GameObjectManager::~GameObjectManager()
 {
-	for (auto it : allObj)
-	{
-		if (it.first)
-			delete it.first;
-	}
+	Clear();
 }
 
 std::map<GameObject* , std::string> GameObjectManager::AllObj()
@@ -24,27 +20,28 @@ void GameObjectManager::AddObj(GameObject* obj, std::string id)
 
 void GameObjectManager::RemoveObj(GameObject* obj)
 {
-	for (auto& it : allObj)
-	{
-		if (it.first == obj)
-			delete it.first;
+	auto it = allObj.find(obj);
+	if (it != allObj.end()) {
+		delete it->first;  // 메모리 해제
+		allObj.erase(it);  // 맵에서 제거
 	}
-
-	delete obj;
 }
-void GameObjectManager::Clear()
+void GameObjectManager::DestroyThis()
 {
-	for (auto it = allObj.begin(); it != allObj.end(); it++)
-	{
-		delete it->first;
-	}
-
-	allObj.clear();
 	if (Instance_)
 	{
 		delete Instance_;
 		Instance_ = nullptr;
 	}
+}
+void GameObjectManager::Clear()
+{
+	for (auto it = allObj.begin(); it != allObj.end(); it++)
+	{
+		delete it->first;  // 모든 객체 삭제
+	}
+	allObj.clear();
+	
 }
 
 GameObject* GameObjectManager::GetObj(const std::string& id)

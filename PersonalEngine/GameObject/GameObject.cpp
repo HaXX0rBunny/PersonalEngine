@@ -40,13 +40,25 @@ BaseComponent* GameObject::LoadComponent(const std::string& type)
 	if (newComponent != nullptr)
 	{
 		// 생성된 컴포넌트를 GameObject에 추가하고 반환
-		AddComponent<BaseComponent>(static_cast<BaseComponent*>(newComponent));
-		return static_cast<BaseComponent*>(newComponent);
+		BaseComponent* baseComp = dynamic_cast<BaseComponent*>(newComponent);
+		if (baseComp != nullptr)
+		{
+			baseComp->own = this;
+			Component[type]=baseComp;  // 새 컴포넌트를 추가 (맵에 저장하는 역할 포함)
+			return baseComp;  // 새 컴포넌트를 반환
+		}
+		else
+		{
+			// 타입 변환 실패 시 nullptr 반환
+			std::cerr << "Error: Failed to cast newComponent to BaseComponent." << std::endl;
+			delete newComponent;
+			return nullptr;
+		}
 	}
 
+	// 컴포넌트를 생성하지 못하면 nullptr 반환
 	return nullptr;
 }
-
 void GameObject::Clear()
 {
 	for (auto& comp : Component) {

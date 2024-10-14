@@ -34,7 +34,7 @@ namespace GSM
 		void Exit();
 		//Function to change level
 		void ChangeLevel(BaseLevel* newLvl);
-
+		
 		bool ShouldExit();
 	};
 

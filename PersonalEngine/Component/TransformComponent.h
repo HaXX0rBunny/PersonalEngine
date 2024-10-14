@@ -23,7 +23,7 @@ public:
 	const glm::mat4& GetMatrix()const;
 	//Mutators
 	void SetPos(const float& x, const float& y, const float& z = 0);
-	void SetScale(const float& x, const float& y, const float& z = 0);
+	void SetScale(const float& x, const float& y, const float& z = 1);
 	void SetPos(const glm::vec3& otherPos);
 	void SetScale(const glm::vec3& otherScale);
 	void SetRot(const float& otherRot);
