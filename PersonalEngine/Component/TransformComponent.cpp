@@ -166,5 +166,7 @@ BaseRTTI* TransformComp::CreateTransformComp()
 	}
 
 	BaseRTTI* out = new TransformComp(lastObj);
+
+	std::cout << "TransformComponent 170: Created TransformComp" << out << std::endl;
 	return out;
 }

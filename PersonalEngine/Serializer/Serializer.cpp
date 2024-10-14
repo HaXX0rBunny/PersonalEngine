@@ -33,26 +33,27 @@ void Serializer::LoadLevel(const std::string& filename)
 		{
 			//Create the go 
 			GameObject* go = new GameObject(obj.value());//= GOManager::getPtr()->AddObj();
+			std::cout << "Serializer 36: Created GO at " << go;
 			//Find the component section
 			auto cmp = item.find("Components");
 			if (cmp == item.end())//NOT FOUND
 				continue;
 
-			//Iterate on the Json on cmp for each component, add it
-			for (auto& c : *cmp)
-			{
-				auto it = c.find("Type");
-				if (it != c.end() && it.value() == "TransformComp")
-				{
-					go->LoadComponent("TransformComp")->LoadFromJson(c);
-				}
-			}
+			////Iterate on the Json on cmp for each component, add it
+			//for (auto& c : *cmp)
+			//{
+			//	auto it = c.find("Type");
+			//	if (it != c.end() && it.value() == "TransformComp")
+			//	{
+			//		go->LoadComponent("TransformComp")->LoadFromJson(c);
+			//	}
+			//}
 
 			// 나머지 컴포넌트를 그 후 로드
 			for (auto& c : *cmp)
 			{
 				auto it = c.find("Type");
-				if (it != c.end() && it.value() != "TransformComp")
+				if (it != c.end() )
 				{
 					go->LoadComponent(it.value())->LoadFromJson(c);
 				}

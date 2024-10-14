@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 
+#include <iostream>
 class Registry
 {
 	//Singleton
@@ -19,7 +20,12 @@ public:
 	//Singleton interface;
 	static Registry* Instance() {
 		if (Instance_ == nullptr)
+		{
 			Instance_ = new Registry;
+
+
+			std::cout << "Registry 26: Created Registry at " << Instance_ << std::endl;
+		}
 		return Instance_;
 	};
 	static void Delete();

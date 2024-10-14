@@ -30,7 +30,10 @@ public:
 	static ResourceManager* GetInstance()
 	{
 		if (Instance_ == nullptr)
+		{
 			Instance_ = new ResourceManager;
+			std::cout << "ResourceManager 35: Created ResourceManager at " << Instance_ << std::endl;
+		}
 		return Instance_;
 	}
 	template <typename T>

@@ -4,6 +4,7 @@
 #include "../Component/LogicComponent.h"
 #include "../Component/EngineComponent.h"
 
+#include <iostream>
 #include <vector>
 #include <memory>  // For smart pointers if needed
 #include <cassert>  // For static_assert
@@ -26,6 +27,8 @@ public:
         if (Instance_ == nullptr)
         {
             Instance_ = new ComponentManager;
+
+            std::cout << "Component Manager<" << typeid(T).name() <<"> 30: Created  at " << Instance_ << std::endl;
     
         }
         return Instance_;

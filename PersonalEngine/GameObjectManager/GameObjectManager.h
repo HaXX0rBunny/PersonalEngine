@@ -15,7 +15,10 @@ public:
 	static GameObjectManager* Instance()
 	{
 		if (Instance_ == nullptr)
+		{
 			Instance_ = new GameObjectManager;
+			std::cout << "GameObjMgr 20: Created GameObjectManager" << Instance_ << std::endl;
+		}
 		return Instance_;
 	}
 	std::map<GameObject*, std::string>  AllObj();

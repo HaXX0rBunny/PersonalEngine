@@ -52,23 +52,42 @@ void GSM::GameStateManager::Exit()
 	{
 		currentLevel->Exit();
 	}
+	GameObjectManager::Instance()->DestroyThis();
+	/*delete first Because When the game object manager is destroyed,
+	all game objects are deleted through the Clear() method (GameObjectManager).
+	During this process, the components owned by each object are also deleted.
+	If I delete the component manager first, 
+	the component manager will be deleted even though the components may still exist, 
+	so the game object will not be able to access the component when it is deleted.
+	This may result in memory leaks or abnormal behavior.*/
 
-	ResourceManager::GetInstance()->Clear();
 	ComponentManager<LogicComponent>::Instance()->DestroyInstance();
 	ComponentManager<GraphicsComponent>::Instance()->DestroyInstance();  // Add this
 	ComponentManager<EngineComponent>::Instance()->DestroyInstance();
+	
 	Registry::Instance()->Delete();
-	GameObjectManager::Instance()->DestroyThis();
+	ResourceManager::GetInstance()->Clear();
+	
 }
 
 void GSM::GameStateManager::ChangeLevel(BaseLevel* newLvl)
 {
-	if (previousLevel)
-		delete previousLevel;
-	previousLevel = currentLevel;
-	Exit();
-	currentLevel = newLvl;
-	Init();
+	if (isfirst)
+	{
+		currentLevel = newLvl;
+		Init();
+		isfirst = false;
+	
+	}
+	else
+	{
+		if (previousLevel)
+			delete previousLevel;
+		previousLevel = currentLevel;
+		Exit();
+		currentLevel = newLvl;
+		Init();
+	}
 }
 
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 class Serializer
 {
@@ -13,7 +14,11 @@ public:
 	static Serializer* Instance()
 	{
 		if (Instance_ == nullptr)
+		{
 			Instance_ = new Serializer;
+
+			std::cout << "Serializer 19: Created Serializer at " << Instance_ << std::endl;
+		}
 		return Instance_;
 	}
 	void LoadLevel(const std::string& s);

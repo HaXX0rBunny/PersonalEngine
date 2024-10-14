@@ -56,8 +56,11 @@ int setWindow_()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     //Shader ourShader("../Extern/Shader/shader.vert", "../Extern/Shader/shader.frag");
 
-
+    //SUS
     ShaderResource* ourShader = new ShaderResource();
+
+    std::cout << "SettingWindow 62: Created Shader at " << ourShader << std::endl;
+
     ourShader->Load("../Extern/Shader/shader");
 
 
@@ -74,10 +77,15 @@ int setWindow_()
   
     gsm = GSM::GameStateManager::GetInstance();
     gsm->ChangeLevel(new Level::TestLevel);
+
+
+  //  std::cout << "SettingWindow 82: Created Shader at " << shader << std::endl;
   
     /*=============================================================================================*/
     GameLoop(window, *shader);// Main Game Loop
     /*=============================================================================================*/
+  
+    
     ResourceManager::GetInstance()->Clear();
     ourShader->Unload();  // 프로그램 종료 시 셰이더 삭제
     delete ourShader;

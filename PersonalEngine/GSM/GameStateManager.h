@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <iostream>
 namespace GSM
 {
 	class BaseLevel;
@@ -10,7 +10,7 @@ namespace GSM
 		BaseLevel* previousLevel;
 		BaseLevel* currentLevel;
 
-
+		bool isfirst= true;
 		GameStateManager();
 		GameStateManager(const GameStateManager& other) = delete;
 		const GameStateManager& operator=(const GameStateManager& other) = delete;
@@ -22,6 +22,8 @@ namespace GSM
 			if (Instance == nullptr)
 			{
 				Instance = new GameStateManager;
+
+				std::cout << "GameStateManager 26: Created GameStateManager at " << Instance << std::endl;
 			}
 			return Instance;
 		}

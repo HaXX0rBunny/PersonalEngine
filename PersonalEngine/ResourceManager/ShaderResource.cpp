@@ -13,6 +13,8 @@ void ShaderResource::Load(const std::string& filename)
 
         shader = new Shader(vertPath.c_str(), fragPath.c_str());
 
+        std::cout << "ShderResource 16: Created Shader at " << shader << std::endl;
+
         if (shader->ID == 0)
         {
             std::cerr << "Failed to load shader: " << filename << std::endl;
@@ -35,6 +37,8 @@ void ShaderResource::Loadshader(const std::string& vertexFilename, const std::st
 
         // 셰이더 생성 및 로드
         shader = new Shader(vertPath.c_str(), fragPath.c_str());
+
+        std::cout << "ShderResource 41: Created Shader at " << shader << std::endl;
 
         if (shader->ID == 0)
         {

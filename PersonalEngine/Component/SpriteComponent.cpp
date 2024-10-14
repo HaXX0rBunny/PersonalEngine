@@ -218,5 +218,7 @@ BaseRTTI* SpriteComp::CreateSpriteComp()
 	}
 
 	BaseRTTI* out = new SpriteComp(lastObj);
+
+	std::cout << "SpriteComponent 222: Created SpriteComp" << out << std::endl;
 	return out;
 }

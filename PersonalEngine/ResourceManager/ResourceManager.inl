@@ -21,9 +21,11 @@ inline T* ResourceManager::GetResource(const std::string& filename)
     case FileExt::png:
     case FileExt::jpg:
         Rsr = new TextResource();
+        std::cout << "ResourceManager.inl 24: Created TextResource at " << Rsr << std::endl;
         break;
     case FileExt::wav:
     case FileExt::mp3:
+        std::cout << "ResourceManager.inl 24: Created MusicResource at " << Rsr << std::endl;
         Rsr = new MusicResource();
         break;
     case FileExt::vert:
@@ -31,6 +33,8 @@ inline T* ResourceManager::GetResource(const std::string& filename)
         if (ResourceContainer.find(filename) == ResourceContainer.end()) {
             std::string baseFilename = filename.substr(0, filename.find_last_of('.'));
             Rsr = new ShaderResource();
+
+            std::cout << "ResourceManager.inl 24: Created ShaderResource at " << Rsr << std::endl;
             Rsr->Load(baseFilename);  // baseFilename만 전달하여 vert와 frag를 모두 로드
         }
         break;

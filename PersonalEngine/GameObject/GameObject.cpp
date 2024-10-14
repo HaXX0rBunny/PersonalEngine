@@ -41,10 +41,11 @@ BaseComponent* GameObject::LoadComponent(const std::string& type)
 	{
 		// 생성된 컴포넌트를 GameObject에 추가하고 반환
 		BaseComponent* baseComp = dynamic_cast<BaseComponent*>(newComponent);
-		if (baseComp != nullptr)
+		if (dynamic_cast<BaseComponent*>(newComponent) != nullptr)
 		{
 			baseComp->own = this;
 			Component[type]=baseComp;  // 새 컴포넌트를 추가 (맵에 저장하는 역할 포함)
+
 			return baseComp;  // 새 컴포넌트를 반환
 		}
 		else
