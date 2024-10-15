@@ -1,45 +1,18 @@
-#include <glew.h>
-#include <glfw3.h>
-#include <glm.hpp>
+#define GLAD_GL_IMPLEMENTATION
+#include <gl.h>
+#undef GLAD_GL_IMPLEMENTATION
 
-int main(void)
+#include "Setting_window.h"
+#include <crtdbg.h> // To check for memory leaks
+#include "GameObject/GameObject.h"
+#include "GameObjectManager/GameObjectManager.h"
+int main(int argc, char* argv[])
 {
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//    _CrtSetBreakAlloc(1461);
+    setWindow_();
 
-    //ToDo Capsuling just 1 function ======================== 
-    GLFWwindow* window;
-
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
-
-    GLenum err = glewInit();
-
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-    // =============================================
-
-
-    //Todo Gamelooping in this lopp ==========================================================
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
     return 0;
+
 }
+

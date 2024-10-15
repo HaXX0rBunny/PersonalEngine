@@ -18,22 +18,13 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GSM\BaseLevel.h">
+    <ClCompile Include="Level\BaseLevel.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\GameObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GSM\GameStateManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CManager\EngineManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CManager\GraphicsManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CManager\LogicManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="RTTI\Registry.cpp">
@@ -48,7 +39,76 @@
     <ClCompile Include="Component\LogicComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectManager\GOManager.cpp">
+    <ClCompile Include="GameObjectManager\GameObjectManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="todo.txt">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting_window.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\SpriteComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\ResourceManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\TextResource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\MyTexture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\MusicResource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Resource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer\Serializer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Level\TestLevel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\TransformComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Matrix.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\ShaderResource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_demo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_draw.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_impl_glfw.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_impl_opengl3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_stdlib.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_tables.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\MainMenuEditor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,31 +116,16 @@
     <ClInclude Include="GSM\GameStateManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GSM\TempLevel.h">
+    <ClInclude Include="Level\TempLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\GameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\EngineManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\GraphicsManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\LogicManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager\MusicResource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\ResourceManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\Resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager\TextResource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="RTTI\BaseRTTI.h">
@@ -98,9 +143,6 @@
     <ClInclude Include="Component\EngineComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Component\GraphicComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Component\GraphicsComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -116,7 +158,85 @@
     <ClInclude Include="Component\TransformComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectManager\GOManager.h">
+    <ClInclude Include="GameObjectManager\GameObjectManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Setting_window.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CManager\ComponentManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\MyTexture.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\Menu.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\NomalLevel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer\Serializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\TestLevel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Matrix.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\ShaderResource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imconfig.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_impl_glfw.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_impl_opengl3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_internal.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imgui_stdlib.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imstb_rectpack.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imstb_textedit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\include\imgui\imstb_truetype.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\MainMenuEditor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\GuiManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\MusicResource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\TextResource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Filedialog.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -124,8 +244,25 @@
     <None Include="GameObject\GameObject.inl">
       <Filter>헤더 파일</Filter>
     </None>
+    <None Include="CManager\ComponentManager.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
+    <None Include="ResourceManager\ResourceManager.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="RTTI\RTTI.txt" />
+    <Text Include="Serializer\json.txt" />
+    <Text Include="Dependencies\include\imgui\LICENSE.txt" />
+    <Text Include="Dependencies\include\imgui\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\awesomeface.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Assets\container.jpg">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

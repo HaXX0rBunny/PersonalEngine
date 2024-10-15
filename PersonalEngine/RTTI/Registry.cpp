@@ -1,5 +1,6 @@
 #include "Registry.h"
-
+#include "../Component/TransformComponent.h"
+#include "../Component/SpriteComponent.h"
 Registry* Registry::Instance_ = nullptr;  
 
 Registry::Registry()
@@ -8,12 +9,13 @@ Registry::Registry()
 
 
     
-
-//    rttiMap.insert(std::pair<std::string, BaseRTTI * (*)()>("TransformComp", TransformComp::CreateTransformComp));
+    rttiMap.insert({ "SpriteComp", &SpriteComp::CreateSpriteComp });
+    rttiMap.insert({ "TransformComp", &TransformComp::CreateTransformComp });
 }
 Registry::~Registry()
 {
-    Delete();
+
+    rttiMap.clear();
 }
 
 
@@ -21,19 +23,26 @@ Registry::~Registry()
 
 void Registry::Delete()
 {
+
+    //Instance()->rttiMap.clear();
     if (Instance_ != nullptr)
+    {
         delete Instance_;
-    Instance_ = nullptr;
+        Instance_ = nullptr;
+    }
 }
 
 BaseRTTI* Registry::FindAndCreate(const std::string& type)///<<< 
 {
-    if (rttiMap.find(type) == rttiMap.end())
+    auto it = rttiMap.find(type);
+    if (it == rttiMap.end())
     {
         return nullptr;// if not found   
     }
-    if (rttiMap.find(type)->second() == nullptr)// if have not function;
-        return nullptr;
-    return rttiMap.find(type)->second();
+    if (it->second == nullptr)
+    {
+        return nullptr;  // No function registered for this type
+    }
+    return it->second();
  //final find create somethiong
 }
