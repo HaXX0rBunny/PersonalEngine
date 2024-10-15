@@ -22,10 +22,12 @@ public:
 	template <typename T>
 	T* GetComponent() const;
 	template <typename T>
-	bool HasComponent() const;
-	template <typename T>
 	void RemoveComponent(T* component);
+	void RemoveComponent(const std::string& id);
+	bool HasComponent(const std::string&) const;
+	std::map<std::string, BaseComponent*> AllComponent();
 	BaseComponent* LoadComponent(const std::string& type);
+	void Renamed(const std::string&);
 	void Clear();
 private:
 	std::map<std::string, BaseComponent*> Component;

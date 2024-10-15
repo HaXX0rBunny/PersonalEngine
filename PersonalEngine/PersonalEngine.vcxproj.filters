@@ -57,12 +57,6 @@
     <ClCompile Include="ResourceManager\ResourceManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager\TextResource.h">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager\MusicResource.h">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager\TextResource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -122,7 +116,7 @@
     <ClInclude Include="GSM\GameStateManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GSM\TempLevel.h">
+    <ClInclude Include="Level\TempLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\GameObject.h">
@@ -234,6 +228,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Editor\GuiManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\MusicResource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\TextResource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Filedialog.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

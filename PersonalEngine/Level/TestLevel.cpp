@@ -7,7 +7,9 @@
 void Level::TestLevel::Init()
 {
 	//Serializer::Instance()->LoadLevel("test.json");
-	//testObj2 = new GameObject("test1");
+	//Serializer::Instance()->LoadLevel("test.json");
+	//Serializer::Instance()->LoadLevel("test.json");
+	////testObj2 = new GameObject("test1");
 	//testObj2->AddComponent<SpriteComp>();
 	//testObj2->AddComponent<TransformComp>();
 	//TransformComp* test2Trans = testObj2->GetComponent<TransformComp>();

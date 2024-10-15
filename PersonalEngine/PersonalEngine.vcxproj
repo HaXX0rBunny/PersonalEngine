@@ -111,6 +111,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\include\GLFW\;$(ProjectDir)Dependencies\include\glm\;$(ProjectDir)Dependencies\include\glad\;$(ProjectDir)Dependencies\include\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +129,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\include\GLFW\;$(ProjectDir)Dependencies\include\glm\;$(ProjectDir)Dependencies\include\glad\;$(ProjectDir)Dependencies\include\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -201,7 +203,7 @@
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GSM\GameStateManager.h" />
-    <ClInclude Include="GSM\TempLevel.h" />
+    <ClInclude Include="Level\TempLevel.h" />
     <ClInclude Include="Level\Menu.h" />
     <ClInclude Include="Level\NomalLevel.h" />
     <ClInclude Include="Level\TestLevel.h" />
@@ -214,6 +216,7 @@
     <ClInclude Include="Setting_window.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="Utility\Filedialog.h" />
     <ClInclude Include="Utility\Matrix.h" />
     <ClInclude Include="Utility\MyTexture.h" />
   </ItemGroup>

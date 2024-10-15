@@ -8,7 +8,7 @@
 #include "../RTTI/Registry.h"
 //using json = nlohmann::json; //Map. order alphebetically on pushback and insert
 using json = nlohmann::ordered_json;
-Serializer* Serializer::Instance_ = nullptr; 
+Serializer* Serializer::Instance_ = nullptr;
 Serializer::~Serializer()
 {
 
@@ -32,8 +32,12 @@ void Serializer::LoadLevel(const std::string& filename)
 		if (obj != item.end())//It was found
 		{
 			//Create the go 
-			GameObject* go = new GameObject(obj.value());//= GOManager::getPtr()->AddObj();
+			GameObject* go = GameObjectManager::Instance()->GetObj(obj.value());
 			std::cout << "Serializer 36: Created GO at " << go;
+			if (go == nullptr)
+			{
+				go = new GameObject(obj.value());//= GOManager::getPtr()->AddObj();
+			}
 			//Find the component section
 			auto cmp = item.find("Components");
 			if (cmp == item.end())//NOT FOUND
@@ -49,17 +53,20 @@ void Serializer::LoadLevel(const std::string& filename)
 			//	}
 			//}
 
-			// 나머지 컴포넌트를 그 후 로드
+				// 나머지 컴포넌트를 그 후 로드
 			for (auto& c : *cmp)
 			{
-				auto it = c.find("Type");
-				if (it != c.end() )
+				std::string compType = c["Type"];
+				if (!go->HasComponent(compType))
 				{
-					go->LoadComponent(it.value())->LoadFromJson(c);
+					auto it = c.find("Type");
+					if (it != c.end())
+					{
+						go->LoadComponent(it.value())->LoadFromJson(c);
+					}
 				}
 			}
-
-			GameObjectManager::Instance()->AddObj(go);
+			GameObjectManager::Instance()->AddObj(obj.value(), go);
 		}
 	}
 }
@@ -67,17 +74,17 @@ void Serializer::LoadLevel(const std::string& filename)
 void Serializer::SaveLevel(const std::string& filename)
 {
 	json ALLdata;
-    
+
 	int i = 0;
 	//iteratre on each go
 	for (auto go : GameObjectManager::Instance()->AllObj())
 	{
 		json object;
-		object["object"] = go.second;
+		object["object"] = go.first;
 
 		json components;
 		//iterate on each component
-		for (auto& c : go.first->AllComp())
+		for (auto& c : go.second->AllComp())
 		{
 			BaseComponent* comp = c.second;
 			components.push_back(comp->SaveToJson());//Check in  a moment

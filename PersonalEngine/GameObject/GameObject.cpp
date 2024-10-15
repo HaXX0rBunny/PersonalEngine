@@ -6,13 +6,13 @@
 GameObject::GameObject()
 {
 	name = "";
-	GameObjectManager::Instance()->AddObj(this);
+	GameObjectManager::Instance()->AddObj(name,this);
 }
 
 GameObject::GameObject(std::string id)
 {
 	name = id;
-	GameObjectManager::Instance()->AddObj(this, id);
+	GameObjectManager::Instance()->AddObj(id,this);
 }
 
 
@@ -27,7 +27,27 @@ std::map<std::string, BaseComponent*>& GameObject::AllComp()
 }
 
 
+void GameObject::RemoveComponent(const std::string& id)
+{
+	auto it = Component.find(id);
+	if (it != Component.end())
+	{
+		delete it->second; 
+		Component.erase(it);
+	}
+}
 
+bool GameObject::HasComponent(const std::string& id) const
+{
+
+	auto it = Component.find(id);
+	return it != Component.end();
+}
+
+std::map<std::string, BaseComponent*> GameObject::AllComponent()
+{
+	return Component;
+}
 
 BaseComponent* GameObject::LoadComponent(const std::string& type)
 {
@@ -59,6 +79,10 @@ BaseComponent* GameObject::LoadComponent(const std::string& type)
 
 	// 컴포넌트를 생성하지 못하면 nullptr 반환
 	return nullptr;
+}
+void GameObject::Renamed(const std::string& re)
+{
+	name = re;
 }
 void GameObject::Clear()
 {

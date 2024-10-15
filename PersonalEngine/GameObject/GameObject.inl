@@ -49,13 +49,6 @@ inline T* GameObject::GetComponent() const
     return nullptr;
 }
 
-// Check if a component of type T exists
-template <typename T>
-inline bool GameObject::HasComponent() const
-{
-    auto it = Component.find(T::GetType());
-    return it != Component.end();
-}
 
 // Remove a component of type T
 template<typename T>
