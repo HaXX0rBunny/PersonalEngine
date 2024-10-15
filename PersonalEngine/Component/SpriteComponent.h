@@ -17,9 +17,9 @@ public:
 	GLuint vao, vbo, ebo;
 
 	struct Vertex {
-		float position[3]; // 위치 (x, y, z)
-		float color[3];    // 컬러 (r, g, b)
-		float texCoords[2]; // 텍스처 좌표 (u, v)
+		float position[3]; 
+		float color[3];    
+		float texCoords[2]; 
 	};
 private:
 	glm::vec3 mColor;

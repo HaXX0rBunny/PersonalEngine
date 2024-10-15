@@ -1,13 +1,13 @@
-SettingWindow 62: Created Shader at 0000020E5C014680
+SettingWindow 62: Created Shader at 0000021832B1BC80
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 0000020E59D3F080
-GameStateManager 26: Created GameStateManager at 0000020E5C02BF80
-Component Manager<class LogicComponent> 30: Created  at 0000020E5C02AD80
-Component Manager<class EngineComponent> 30: Created  at 0000020E5C02B0E0
-Component Manager<class GraphicsComponent> 30: Created  at 0000020E5C02BB60
-GameObjMgr 20: Created GameObjectManager0000020E5C02B680
-Registry 26: Created Registry at 0000020E5C02B7A0
-ResourceManager 35: Created ResourceManager at 0000020E5C02AD80
-Serializer 19: Created Serializer at 0000020E5C036950
-ResourceManager 35: Created ResourceManager at 0000020E5C02AB40
+ShderResource 16: Created Shader at 00000218307AE920
+GameStateManager 26: Created GameStateManager at 0000021832B3DE30
+Component Manager<class LogicComponent> 30: Created  at 0000021832B3E190
+Component Manager<class EngineComponent> 30: Created  at 0000021832B3D590
+Component Manager<class GraphicsComponent> 30: Created  at 0000021832B3D050
+GameObjMgr 20: Created GameObjectManager0000021832B3D410
+Registry 26: Created Registry at 0000021832B3D410
+ResourceManager 35: Created ResourceManager at 0000021832B3DB30
+Serializer 19: Created Serializer at 0000021832B47A90
+ResourceManager 35: Created ResourceManager at 0000021832B3D950

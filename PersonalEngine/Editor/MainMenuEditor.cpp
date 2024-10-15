@@ -9,7 +9,7 @@ bool showComponentDialog = false;
 bool showNewObjectPopup = false;
 bool showRenamePopup = false;
 std::string selectedObjectName= "";
-char renameBuffer[128] = "";  // 리네임할 때 사용할 버퍼
+char renameBuffer[128] = ""; 
 static char newObjectName[128] = "";
 
 void MainMenuEditor::TopBar()
@@ -111,7 +111,7 @@ void MainMenuEditor::TopBar()
 
         ImGui::SameLine();
 
-        // 취소 버튼
+
         if (ImGui::Button("Cancel"))
         {
             ImGui::CloseCurrentPopup();
@@ -121,11 +121,11 @@ void MainMenuEditor::TopBar()
     }
     if (showRenamePopup)
     {
-        ImGui::OpenPopup("Rename Object");  // 팝업 열기
-        showRenamePopup = false;  // 플래그 리셋
+        ImGui::OpenPopup("Rename Object");  
+        showRenamePopup = false;  
     }
 
-    // 리네임 팝업 처리
+
     if (ImGui::BeginPopupModal("Rename Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
      
@@ -134,7 +134,7 @@ void MainMenuEditor::TopBar()
 
         if (ImGui::Button("OK"))
         {
-            // 이름이 유효한지 확인하고 리네임 적용
+
             if (strlen(renameBuffer) > 0)
             {
                 auto obj=GameObjectManager::Instance();
@@ -165,9 +165,9 @@ void MainMenuEditor::TopBar()
 
         for (const auto& obj : GameObjectManager::Instance()->AllObj())
         {
-            if (ImGui::Selectable(obj.first.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 20)))  // 크기를 약간 크게 설정하여 버튼 느낌 추가
+            if (ImGui::Selectable(obj.first.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 20)))  
             {
-                selectedObjectName = obj.first;  // 선택된 오브젝트 이름 저장
+                selectedObjectName = obj.first;  
                 showObjectEditDialog = true;     // 오브젝트 편집 창을 열도록 설정
             }
 
@@ -177,15 +177,15 @@ void MainMenuEditor::TopBar()
                 ImGui::OpenPopup(("##RightClickPopup_" + obj.first).c_str());
             }
 
-            // 우클릭 팝업 메뉴
+
             if (ImGui::BeginPopup(("##RightClickPopup_" + obj.first).c_str()))
             {
                 if (ImGui::MenuItem("Rename"))
                 {
-                    // 리네임을 위한 버퍼에 현재 이름 복사
+
                     strcpy_s(renameBuffer, sizeof(renameBuffer), obj.first.c_str());
-                    selectedObjectName = obj.first;  // 현재 선택된 오브젝트 이름 저장
-                    showRenamePopup = true;   // 리네임 팝업 열기
+                    selectedObjectName = obj.first;  
+                    showRenamePopup = true;   
                 }
 
                 if (ImGui::MenuItem("Delete"))
@@ -199,21 +199,20 @@ void MainMenuEditor::TopBar()
         }
         ImGui::Separator();
 
-        // 컴포넌트 추가 버튼 및 UI
+
         if (ImGui::Button("New Object"))
         {
             showNewObjectPopup = true;
         }
-        ImGui::End();  // 오브젝트 리스트 창 끝내기
+        ImGui::End();  
     }
 
-    // 선택된 오브젝트의 컴포넌트와 추가 기능을 같은 창에 표시
     if (showObjectEditDialog)
     {
         ImGui::Begin("Object Components", &showObjectEditDialog, ImGuiWindowFlags_AlwaysAutoResize);
         ImGui::Text("Editing Object: %s", selectedObjectName.c_str());
 
-        // 선택된 오브젝트의 컴포넌트를 표시
+
         if (GameObjectManager::Instance()->GetObj(selectedObjectName) != nullptr)
         {
             auto object = GameObjectManager::Instance()->GetObj(selectedObjectName);
@@ -221,25 +220,25 @@ void MainMenuEditor::TopBar()
 
             for (const auto& component : object->AllComponent())
             {
-                if (ImGui::Selectable(component.first.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 20)))  // 크기를 약간 크게 설정하여 버튼 느낌 추가
+                if (ImGui::Selectable(component.first.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 20))) 
                 {
-                    selectedObjectName = component.first;  // 선택된 오브젝트 이름 저장
+                    selectedObjectName = component.first; 
                     showComponentDialog = true;    
                 }
 
-                // 우클릭 시 팝업 메뉴 열기
+
                 if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
                 {
                     ImGui::OpenPopup(("##RightClickPopup_" + component.first).c_str());
                 }
 
-                // 우클릭 팝업 메뉴
+
                 if (ImGui::BeginPopup(("##RightClickPopup_" + component.first).c_str()))
                 {
                     if (ImGui::MenuItem("Select"))
                     {
-                        // 리네임을 위한 버퍼에 현재 이름 복사
-                        selectedObjectName = component.first;  // 선택된 오브젝트 이름 저장
+
+                        selectedObjectName = component.first; 
                         showComponentDialog = true;
                     }
 

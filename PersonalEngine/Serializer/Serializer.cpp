@@ -53,7 +53,7 @@ void Serializer::LoadLevel(const std::string& filename)
 			//	}
 			//}
 
-				// 나머지 컴포넌트를 그 후 로드
+			
 			for (auto& c : *cmp)
 			{
 				std::string compType = c["Type"];
