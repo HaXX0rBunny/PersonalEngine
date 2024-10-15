@@ -49,7 +49,8 @@ public:
 	void SetTexture(const std::string& filepath= "./Assets/Default.png");
 	void SetAlpha(const float& a);
 	float GetAlpha();
-	const glm::vec3& Getcolor() { return mColor; };
+	glm::vec3& Getcolor() { return mColor; };
+	const std::string& GetPath() { return textureName; };
 	void Render();
 	static std::string GetType()
 	{

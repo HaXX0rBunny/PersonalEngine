@@ -69,12 +69,12 @@ void MainMenuEditor::TopBar()
 
         if (ImGui::MenuItem("New Object"))
         {
-            showNewObjectPopup = true;  // 팝업을 띄우기 위한 플래그 설정
+            showNewObjectPopup = true;  // Popup display 플래그 설정
         }
 
         if (ImGui::MenuItem("All Object", "Ctrl+I"))
         {
-            showObjectDialog = true;  // 오브젝트 리스트 창을 표시하기 위한 플래그 설정
+            showObjectDialog = true;  // Object List 표시하기 위한 플래그 설정
         }
 
         ImGui::EndMenu();
@@ -82,11 +82,11 @@ void MainMenuEditor::TopBar()
 
     ImGui::EndMainMenuBar();
 
-    // 새 오브젝트 생성 팝업 처리
+    // New Object Popup 
     if (showNewObjectPopup)
     {
-        ImGui::OpenPopup("Create New Object");  // 팝업 열기
-        showNewObjectPopup = false;  // 플래그 리셋
+        ImGui::OpenPopup("Create New Object");  // Open Popup
+        showNewObjectPopup = false;  
     }
 
     if (ImGui::BeginPopupModal("Create New Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
@@ -97,11 +97,11 @@ void MainMenuEditor::TopBar()
 
         if (ImGui::Button("Create"))
         {
-            if (strlen(newObjectName) > 0)  // 이름이 비어있지 않으면 오브젝트 생성
+            if (strlen(newObjectName) > 0)  
             {
                 GameObject* newObj = new GameObject(newObjectName);
-                strcpy_s(newObjectName, "");  // 입력 버퍼 초기화
-                ImGui::CloseCurrentPopup();   // 팝업 닫기
+                strcpy_s(newObjectName, "");  
+                ImGui::CloseCurrentPopup();   
             }
             else
             {
@@ -143,7 +143,7 @@ void MainMenuEditor::TopBar()
                     obj->RenameKey(selectedObjectName, renameBuffer);
                     selectedObjectName = renameBuffer;
                 }
-                strcpy_s(renameBuffer, "");  // 리네임 버퍼 초기화
+                strcpy_s(renameBuffer, "");  
                 ImGui::CloseCurrentPopup();
             }
         }
@@ -157,7 +157,7 @@ void MainMenuEditor::TopBar()
 
         ImGui::EndPopup();
     }
-    // 오브젝트 리스트 창
+    // Object list Window
     if (showObjectDialog)
     {
         ImGui::Begin("All Objects", &showObjectDialog, ImGuiWindowFlags_AlwaysAutoResize);
@@ -168,7 +168,7 @@ void MainMenuEditor::TopBar()
             if (ImGui::Selectable(obj.first.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 20)))  
             {
                 selectedObjectName = obj.first;  
-                showObjectEditDialog = true;     // 오브젝트 편집 창을 열도록 설정
+                showObjectEditDialog = true;     // Obeject Edit window state 설정
             }
 
             // 우클릭 시 팝업 메뉴 열기
@@ -220,13 +220,66 @@ void MainMenuEditor::TopBar()
 
             for (const auto& component : object->AllComponent())
             {
-                if (ImGui::Selectable(component.first.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 20))) 
+                if (ImGui::TreeNode(component.first.c_str()))
                 {
-                    selectedObjectName = component.first; 
-                    showComponentDialog = true;    
+                    // SpriteComponent 조절
+                    if (component.first == "SpriteComp") {
+                        if (const auto& spriteComp = object->GetComponent<SpriteComp>())
+                        {
+                            ImGui::Text("Sprite Component");
+
+                            // Color, Alpha, Texture Path UI
+                            glm::vec3& color = spriteComp->Getcolor();
+                            float* fcolor[3]{ &color.r, &color.g, &color.b };
+                            if (ImGui::ColorEdit3("Color", *fcolor))
+                            {
+                                spriteComp->SetColor(color[0], color[1], color[2]);
+                            }
+
+                            float alpha = spriteComp->GetAlpha();
+                            if (ImGui::SliderFloat("Alpha", &alpha, 0.0f, 1.0f))
+                            {
+                                spriteComp->SetAlpha(alpha);
+                            }
+
+                            char texturePath[256] = "";
+                            strcpy_s(texturePath, sizeof(texturePath), spriteComp->GetPath().c_str());
+                            if (ImGui::InputText("Texture Path", texturePath, IM_ARRAYSIZE(texturePath)))
+                            {
+                                spriteComp->SetTexture(std::string(texturePath));
+                            }
+                        }
+                    } 
+                    if (component.first == "TransformComp") {
+                        // TransformComponent 조절
+                        if (const auto& transformComp = object->GetComponent<TransformComp>())
+                        {
+                            ImGui::Text("Transform Component");
+
+                            // Position, Scale, Rotation UI
+                            glm::vec3 Vpos = transformComp->GetPos();
+                            float pos[3] = { Vpos.x,Vpos.y,Vpos.z };
+                            if (ImGui::DragFloat3("Position", pos, 0.1f))
+                            {
+                                transformComp->SetPos(pos[0], pos[1], pos[2]);
+                            }
+                            glm::vec3 VScale = transformComp->GetScale();
+                            float scale[2] = { VScale.x, VScale.y };
+                            if (ImGui::DragFloat2("Scale", scale, 1.f))
+                            {
+                                transformComp->SetScale(scale[0], scale[1]);
+                            }
+
+                            float rot[1] = { transformComp->GetRot() };
+                            if (ImGui::DragFloat("Rotation", rot, 0.1f))
+                            {
+                                transformComp->SetRot(rot[0]);
+                            }
+                        }
+                    }
+                    ImGui::TreePop();
                 }
-
-
+                // 우클릭 시 팝업 메뉴 열기
                 if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
                 {
                     ImGui::OpenPopup(("##RightClickPopup_" + component.first).c_str());
@@ -235,16 +288,11 @@ void MainMenuEditor::TopBar()
 
                 if (ImGui::BeginPopup(("##RightClickPopup_" + component.first).c_str()))
                 {
-                    if (ImGui::MenuItem("Select"))
-                    {
-
-                        selectedObjectName = component.first; 
-                        showComponentDialog = true;
-                    }
+                  
 
                     if (ImGui::MenuItem("Delete"))
                     {
-                        object->RemoveComponent(component.first);
+                        object->RemoveComponent(component.second);
                     }
 
                     ImGui::EndPopup();
@@ -253,16 +301,47 @@ void MainMenuEditor::TopBar()
 
             ImGui::Separator();
 
-            // 컴포넌트 추가 버튼 및 UI
+    
             if (ImGui::Button("Add Component"))
             {
-                // 컴포넌트 추가 기능 (예시로 구현 가능)
+                ImGui::OpenPopup("Add Component Popup");
+            }
+            if (ImGui::BeginPopup("Add Component Popup"))
+            {
+                // 현재 오브젝트에 SpriteComponent가 있는지 확인
+                if (object->GetComponent<SpriteComp>() == nullptr)
+                {
+                    if (ImGui::MenuItem("Add Sprite Component"))
+                    {
+                        object->AddComponent<SpriteComp>();
+                    }
+                }
+                else
+                {
+                    ImGui::MenuItem("Sprite Component (Already Added)", NULL, false, false);
+                }
+
+                // 현재 오브젝트에 TransformComponent가 있는지 확인
+                if (object->GetComponent<TransformComp>() == nullptr)
+                {
+                    if (ImGui::MenuItem("Add Transform Component"))
+                    {
+                        object->AddComponent<TransformComp>();
+                    }
+                }
+                else
+                {
+                    ImGui::MenuItem("Component (Already Added)", NULL, false, false);
+                }
+
+                ImGui::EndPopup();
             }
         }
     
         ImGui::End();
     }
 }
+
 
 
 void MainMenuEditor::FileMenu()

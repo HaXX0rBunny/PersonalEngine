@@ -19,7 +19,7 @@ public:
 	//Gettors
 	const glm::vec3& GetPos() const { return pos; };
 	const glm::vec3& GetScale() const { return scale; };
-	const float GetRot() const { return rot; };
+	const float& GetRot() const { return rot; };
 	const glm::mat4& GetMatrix()const;
 	//Mutators
 	void SetPos(const float& x, const float& y, const float& z = 0);

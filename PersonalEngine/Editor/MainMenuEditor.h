@@ -9,6 +9,8 @@
 #include "../Component/SpriteComponent.h"
 #include "../Component/TransformComponent.h"
 #include "../GSM/GameStateManager.h"
+#include "../Component/SpriteComponent.h"
+#include "../Component/TransformComponent.h"
 class MainMenuEditor {
 public:
 	static void TopBar();

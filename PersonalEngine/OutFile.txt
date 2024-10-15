@@ -1,13 +1,39 @@
-SettingWindow 62: Created Shader at 0000021832B1BC80
+SettingWindow 62: Created Shader at 000002C3BC83F2A0
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 00000218307AE920
-GameStateManager 26: Created GameStateManager at 0000021832B3DE30
-Component Manager<class LogicComponent> 30: Created  at 0000021832B3E190
-Component Manager<class EngineComponent> 30: Created  at 0000021832B3D590
-Component Manager<class GraphicsComponent> 30: Created  at 0000021832B3D050
-GameObjMgr 20: Created GameObjectManager0000021832B3D410
-Registry 26: Created Registry at 0000021832B3D410
-ResourceManager 35: Created ResourceManager at 0000021832B3DB30
-Serializer 19: Created Serializer at 0000021832B47A90
-ResourceManager 35: Created ResourceManager at 0000021832B3D950
+ShderResource 16: Created Shader at 000002C3BA49FD00
+GameStateManager 26: Created GameStateManager at 000002C3BC853700
+Component Manager<class LogicComponent> 30: Created  at 000002C3BC853520
+Component Manager<class EngineComponent> 30: Created  at 000002C3BC8533A0
+Component Manager<class GraphicsComponent> 30: Created  at 000002C3BC854B40
+GameObjMgr 20: Created GameObjectManager000002C3BC854540
+Registry 26: Created Registry at 000002C3BC854540
+ResourceManager 35: Created ResourceManager at 000002C3BC853A00
+Serializer 19: Created Serializer at 000002C3C2902ED0
+GameObjMgr 20: Created GameObjectManager000002C3C272B920
+Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 000002C3C272BDA0
+Component Manager<class GraphicsComponent> 30: Created  at 000002C3C272BC80
+ResourceManager 35: Created ResourceManager at 000002C3C272B980
+ResourceManager.inl 24: Created ShaderResource at 000002C3C272BAA0
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ShderResource 16: Created Shader at 000002C3C2903310
+ResourceManager.inl 24: Created ShaderResource at 000002C3C272BE60
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ShderResource 16: Created Shader at 000002C3C2903390
+SpriteComponent 222: Created SpriteComp000002C3C27153E0
+ResourceManager.inl 24: Created TextResource at 000002C3C26E5300
+TextResource 7: Created Texture at 000002C3C26B3720
+Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
+Component Manager<class EngineComponent> 30: Created  at 000002C3C26E51E0
+TransformComponent 170: Created TransformComp000002C3C26B6890
+Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp000002C3C2715C20
+ResourceManager.inl 24: Created TextResource at 000002C3C28360A0
+TextResource 7: Created Texture at 000002C3C26B39A0
+Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
+TransformComponent 170: Created TransformComp000002C3C26B6520
+Component Manager<class LogicComponent> 30: Created  at 000002C3C272BD40
+Texture memory has been freed.
+Texture memory has been freed.
+ResourceManager 35: Created ResourceManager at 000002C3C26DF260
