@@ -82,6 +82,7 @@ BaseComponent* GameObject::LoadComponent(const std::string& type)
 }
 void GameObject::Renamed(const std::string& re)
 {
+	
 	name = re;
 }
 void GameObject::Clear()

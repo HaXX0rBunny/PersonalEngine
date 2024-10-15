@@ -22,7 +22,7 @@ public:
 		return Instance_;
 	}
 	std::map<std::string, GameObject*>  AllObj();
-
+	void RenameKey(const std::string& , const std::string& );
 	void AddObj(const std::string& id,GameObject* obj);
 	void RemoveObj(const std::string& id);
 	void DestroyThis();

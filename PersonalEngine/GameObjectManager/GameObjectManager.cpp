@@ -10,6 +10,17 @@ std::map<std::string, GameObject*> GameObjectManager::AllObj()
 	return allObj;
 }
 
+void GameObjectManager::RenameKey(const std::string& oldKey, const std::string& newKey)
+{
+	auto it = allObj.find(oldKey);
+	if (it != allObj.end())
+	{
+		it->second->Renamed(newKey);
+		allObj[newKey] = it->second;  
+		allObj.erase(oldKey);         
+	}
+}
+
 void GameObjectManager::AddObj(const std::string& id,GameObject* obj)
 {
 	const auto& it = allObj.find(id);

@@ -1,33 +1,13 @@
-SettingWindow 62: Created Shader at 000002812CC0F5C0
+SettingWindow 62: Created Shader at 0000020E5C014680
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000002812CC00C70
-GameStateManager 26: Created GameStateManager at 000002812CC254C0
-Component Manager<class LogicComponent> 30: Created  at 000002812CC25460
-Component Manager<class EngineComponent> 30: Created  at 000002812CC24200
-Component Manager<class GraphicsComponent> 30: Created  at 000002812CC23C60
-Serializer 19: Created Serializer at 0000028132982640
-GameObjMgr 20: Created GameObjectManager00000281327FADC0
-Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 00000281327FAE20
-ResourceManager 35: Created ResourceManager at 000002813285A700
-ResourceManager.inl 24: Created ShaderResource at 0000028132871DA0
-Loading vertex shader: ../Extern/Shader/shader.vert
-Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 0000028132982400
-ResourceManager.inl 24: Created ShaderResource at 0000028132872100
-Loading vertex shader: ../Extern/Shader/shader.vert
-Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 00000281329826C0
-SpriteComponent 222: Created SpriteComp0000028132829FD0
-ResourceManager.inl 24: Created TextResource at 0000028132871EC0
-TextResource 7: Created Texture at 0000028132798FC0
-Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
-TransformComponent 170: Created TransformComp0000028132805560
-Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp000002813282B890
-ResourceManager.inl 24: Created TextResource at 00000281328722E0
-TextResource 7: Created Texture at 0000028132799AC0
-Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
-TransformComponent 170: Created TransformComp0000028132804FE0
-Texture memory has been freed.
-Texture memory has been freed.
-ResourceManager 35: Created ResourceManager at 00000281329291B0
+ShderResource 16: Created Shader at 0000020E59D3F080
+GameStateManager 26: Created GameStateManager at 0000020E5C02BF80
+Component Manager<class LogicComponent> 30: Created  at 0000020E5C02AD80
+Component Manager<class EngineComponent> 30: Created  at 0000020E5C02B0E0
+Component Manager<class GraphicsComponent> 30: Created  at 0000020E5C02BB60
+GameObjMgr 20: Created GameObjectManager0000020E5C02B680
+Registry 26: Created Registry at 0000020E5C02B7A0
+ResourceManager 35: Created ResourceManager at 0000020E5C02AD80
+Serializer 19: Created Serializer at 0000020E5C036950
+ResourceManager 35: Created ResourceManager at 0000020E5C02AB40

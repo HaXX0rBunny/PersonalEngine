@@ -8,7 +8,7 @@ bool showObjectDialog = false;
 bool showComponentDialog = false;
 bool showNewObjectPopup = false;
 bool showRenamePopup = false;
-std::string selectedObjectName;
+std::string selectedObjectName= "";
 char renameBuffer[128] = "";  // 리네임할 때 사용할 버퍼
 static char newObjectName[128] = "";
 
@@ -29,6 +29,8 @@ void MainMenuEditor::TopBar()
 
         if (ImGui::MenuItem("Open", "Ctrl+O"))
         {
+            GSM::GameStateManager::GetInstance()->Exit();
+            GSM::GameStateManager::GetInstance()->Init();
             std::string openPath = WstrTostr(OpenFileDialog());
             if (!openPath.empty())
             {
@@ -126,6 +128,7 @@ void MainMenuEditor::TopBar()
     // 리네임 팝업 처리
     if (ImGui::BeginPopupModal("Rename Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
+     
         ImGui::Text("Rename Object: %s", selectedObjectName.c_str());
         ImGui::InputText("New Name", renameBuffer, IM_ARRAYSIZE(renameBuffer));
 
@@ -134,11 +137,11 @@ void MainMenuEditor::TopBar()
             // 이름이 유효한지 확인하고 리네임 적용
             if (strlen(renameBuffer) > 0)
             {
-                auto obj = GameObjectManager::Instance()->GetObj(selectedObjectName);
+                auto obj=GameObjectManager::Instance();
                 if (obj != nullptr)
                 {
-                    obj->Renamed(renameBuffer);  // 리네임 적용
-                    selectedObjectName = renameBuffer;  // 선택된 이름 갱신
+                    obj->RenameKey(selectedObjectName, renameBuffer);
+                    selectedObjectName = renameBuffer;
                 }
                 strcpy_s(renameBuffer, "");  // 리네임 버퍼 초기화
                 ImGui::CloseCurrentPopup();
@@ -181,7 +184,8 @@ void MainMenuEditor::TopBar()
                 {
                     // 리네임을 위한 버퍼에 현재 이름 복사
                     strcpy_s(renameBuffer, sizeof(renameBuffer), obj.first.c_str());
-                    showNewObjectPopup = true;  // 리네임 팝업 열기
+                    selectedObjectName = obj.first;  // 현재 선택된 오브젝트 이름 저장
+                    showRenamePopup = true;   // 리네임 팝업 열기
                 }
 
                 if (ImGui::MenuItem("Delete"))
