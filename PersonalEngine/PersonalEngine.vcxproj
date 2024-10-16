@@ -144,15 +144,6 @@
     <ClCompile Include="Component\LogicComponent.cpp" />
     <ClCompile Include="Component\SpriteComponent.cpp" />
     <ClCompile Include="Component\TransformComponent.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_demo.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_stdlib.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_tables.cpp" />
-    <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Editor\MainEditor.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.h" />
@@ -186,17 +177,6 @@
     <ClInclude Include="Component\RigidbodyComponent.h" />
     <ClInclude Include="Component\SpriteComponent.h" />
     <ClInclude Include="Component\TransformComponent.h" />
-    <ClInclude Include="Dependencies\include\imgui\imconfig.h" />
-    <ClInclude Include="Dependencies\include\imgui\imgui.h" />
-    <ClInclude Include="Dependencies\include\imgui\imgui_impl_glfw.h" />
-    <ClInclude Include="Dependencies\include\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="Dependencies\include\imgui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="Dependencies\include\imgui\imgui_internal.h" />
-    <ClInclude Include="Dependencies\include\imgui\imgui_stdlib.h" />
-    <ClInclude Include="Dependencies\include\imgui\imstb_rectpack.h" />
-    <ClInclude Include="Dependencies\include\imgui\imstb_textedit.h" />
-    <ClInclude Include="Dependencies\include\imgui\imstb_truetype.h" />
-    <ClInclude Include="Editor\MainEditor.h" />
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GSM\GameStateManager.h" />
@@ -220,10 +200,9 @@
     <None Include="CManager\ComponentManager.inl" />
     <None Include="GameObject\GameObject.inl" />
     <None Include="ResourceManager\ResourceManager.inl" />
+    <None Include="test.json" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Dependencies\include\imgui\LICENSE.txt" />
-    <Text Include="Dependencies\include\imgui\README.txt" />
     <Text Include="RTTI\RTTI.txt" />
     <Text Include="Serializer\json.txt" />
   </ItemGroup>

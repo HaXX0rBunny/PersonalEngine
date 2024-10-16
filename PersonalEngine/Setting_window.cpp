@@ -5,9 +5,7 @@
 #include "ResourceManager/ResourceManager.h"
 #include "ResourceManager/ShaderResource.h"
 #include "Serializer/Serializer.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+
 
 GSM::GameStateManager* gsm= nullptr;
 int gGameRunning = 1;
@@ -41,16 +39,7 @@ int setWindow_()
         glfwTerminate(); // 초기화 실패 시 GLFW 종료
         return -1;
     }
-    //==============================================================================
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init();
-    //==============================================================================
 
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -119,31 +108,17 @@ void GameLoop(GLFWwindow* window, Shader& ourShader)
         /* Render here */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        ImGui::ShowDemoWindow();
-
-       
-
         gsm->Update();
         glfwPollEvents();
-
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-
+      
+        glfwPollEvents();
         glfwSwapBuffers(window);
     }
 
     gsm->Exit();
     gsm->DeleteGSM();
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+   
     Serializer::Instance()->DestroyThis();
     glfwTerminate();
 }
