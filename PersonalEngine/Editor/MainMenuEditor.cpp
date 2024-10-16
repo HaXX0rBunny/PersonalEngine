@@ -10,7 +10,7 @@ bool showNewObjectPopup = false;
 bool showRenamePopup = false;
 bool showInvalidImageFileDialog = false;
 bool unsavedChanges = true;
-bool showUnsavedChangesPopup = false;
+
 std::string selectedObjectName = "";
 std::string openImagePath = "";
 char texturePath[1000] = "";
@@ -27,6 +27,7 @@ void MainMenuEditor::TopBar()
 
 		if (ImGui::MenuItem("New"))
 		{
+			//unsavedChanges = IsDataModified(currentfile);
 			if (unsavedChanges)
 			{
 				ShowSavePopup();  // 저장할지 묻는 팝업
@@ -42,15 +43,17 @@ void MainMenuEditor::TopBar()
 
 		if (ImGui::MenuItem("Open", "Ctrl+O"))
 		{
-			GSM::GameStateManager::GetInstance()->Exit();
-			GSM::GameStateManager::GetInstance()->Init();
-			std::string openPath = WstrTostr(OpenFileDialog());
+			//unsavedChanges = IsDataModified(currentfile);
+			
 			if (unsavedChanges)
 			{
+				
 				ShowSavePopup();
 			}
 			else
 			{
+				GSM::GameStateManager::GetInstance()->Exit();
+				GSM::GameStateManager::GetInstance()->Init();
 				std::string openPath = WstrTostr(OpenFileDialog());
 				if (!openPath.empty())
 				{
@@ -472,10 +475,9 @@ void MainMenuEditor::FileMenu()
 
 void MainMenuEditor::ShowSavePopup()
 {
-	if (unsavedChanges && !showUnsavedChangesPopup)  // 변경사항이 있고, 팝업이 열리지 않았을 때만
+	if (unsavedChanges)  // 변경사항이 있을 때만 팝업을 띄우는 조건
 	{
 		ImGui::OpenPopup("Unsaved Changes");  // 팝업 열기 준비
-		showUnsavedChangesPopup = true;       // 팝업이 열렸음을 표시
 	}
 
 	// 팝업이 열렸을 때만 이 부분이 실행됨
@@ -491,23 +493,21 @@ void MainMenuEditor::ShowSavePopup()
 				currentfile = savePath;
 				unsavedChanges = false;  // 저장 후 변경사항 없음으로 리셋
 			}
-			showUnsavedChangesPopup = false;  // 팝업이 닫히면 리셋
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Don't Save"))
 		{
 			unsavedChanges = false;  // 저장하지 않고 변경사항 없음으로 리셋
-			showUnsavedChangesPopup = false;  // 팝업이 닫히면 리셋
+			// 이후 작업 처리 가능
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
-			showUnsavedChangesPopup = false;  // 팝업이 닫히면 리셋
-			ImGui::CloseCurrentPopup();
+			ImGui::CloseCurrentPopup();  // 작업을 중단하고 팝업을 닫음
 		}
-		ImGui::EndPopup();
+		ImGui::EndPopup();  // 팝업을 닫는 함수
 	}
 }
 
