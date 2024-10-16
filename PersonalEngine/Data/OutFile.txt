@@ -1,0 +1,44 @@
+SettingWindow 62: Created Shader at 0000026E8280CF50
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: ios_base::failbit set: iostream stream error
+ERROR::PROGRAM_LINKING_ERROR of type: PROGRAM
+Vertex info
+-----------
+(0) : error C5145: must write to gl_Position
+
+ -- --------------------------------------------------- -- 
+ShderResource 16: Created Shader at 0000026EFC6FF890
+GameStateManager 26: Created GameStateManager at 0000026E828206F0
+GameObjMgr 20: Created GameObjectManager0000026E82820E70
+Component Manager<class GraphicsComponent> 30: Created  at 0000026E82820030
+ResourceManager 35: Created ResourceManager at 0000026E82820B10
+ResourceManager.inl 24: Created ShaderResource at 0000026E82821590
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: ios_base::failbit set: iostream stream error
+ERROR::PROGRAM_LINKING_ERROR of type: PROGRAM
+Vertex info
+-----------
+(0) : error C5145: must write to gl_Position
+
+ -- --------------------------------------------------- -- 
+ShderResource 16: Created Shader at 0000026E82827D40
+ResourceManager.inl 24: Created ShaderResource at 0000026E82820DB0
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: ios_base::failbit set: iostream stream error
+ERROR::PROGRAM_LINKING_ERROR of type: PROGRAM
+Vertex info
+-----------
+(0) : error C5145: must write to gl_Position
+
+ -- --------------------------------------------------- -- 
+ShderResource 16: Created Shader at 0000026E828280C0
+Component Manager<class EngineComponent> 30: Created  at 0000026E82820F30
+ResourceManager.inl 24: Created TextResource at 0000026E828212F0
+TextResource 7: Created Texture at 0000026EFC6F8B20
+ResourceManager.inl 24: Created TextResource at 0000026E82821710
+TextResource 7: Created Texture at 0000026EFC6F8C20
+Serializer 19: Created Serializer at 0000026E82827D00
+Component Manager<class LogicComponent> 30: Created  at 0000026E82821410

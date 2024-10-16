@@ -65,3 +65,4 @@ void* ShaderResource::GetData() const
 {
     return shader;
 }
+

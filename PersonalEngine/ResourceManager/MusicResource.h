@@ -7,7 +7,7 @@ class MusicResource : public Resource
 	char mGroup; // not now
 public:
 
-
+	MusicResource();
 	void Load(const std::string& filename) override;
 	void Unload() override;
 	void* GetData() const override;

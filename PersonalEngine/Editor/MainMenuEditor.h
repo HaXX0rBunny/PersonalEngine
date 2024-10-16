@@ -11,10 +11,14 @@
 #include "../GSM/GameStateManager.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/TransformComponent.h"
+#include "../Utility/Filedialog.h"
+#include "../Utility/CompareFile.h"
+
 class MainMenuEditor {
 public:
 	static void TopBar();
 	static void FileMenu();
 	static std::string currentfile;
+	static void ShowSavePopup();
 	char buffer[100] = { 0 };
 };

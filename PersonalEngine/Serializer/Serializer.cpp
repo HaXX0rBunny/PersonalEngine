@@ -6,6 +6,7 @@
 #include "../GameObject/GameObject.h"
 #include "../Component/BaseComponent.h"
 #include "../RTTI/Registry.h"
+#include <filesystem>
 //using json = nlohmann::json; //Map. order alphebetically on pushback and insert
 using json = nlohmann::ordered_json;
 Serializer* Serializer::Instance_ = nullptr;
@@ -16,6 +17,7 @@ Serializer::~Serializer()
 //Map. Keeps the order the variables were declared in
 void Serializer::LoadLevel(const std::string& filename)
 {
+
 	//open file
 	std::fstream file(filename, std::fstream::in);
 	if (!file.is_open()) {
@@ -75,7 +77,7 @@ void Serializer::SaveLevel(const std::string& filename)
 {
 	json ALLdata;
 
-	int i = 0;
+
 	//iteratre on each go
 	for (auto go : GameObjectManager::Instance()->AllObj())
 	{
@@ -92,15 +94,26 @@ void Serializer::SaveLevel(const std::string& filename)
 		object["Components"] = components;
 		ALLdata.push_back(object);
 	}
-	//iterate on each go
+	
+
+	//Setting Save Directory
+	std::string directory = "Data";
+
+
+	if (!std::filesystem::exists(directory)&& !std::filesystem::exists("../Data"))
+	{
+		std::filesystem::create_directory(directory);
+	}
+
+	std::string filePath = directory + "/" + filename;
 
 	//file open
 	std::fstream file;
-	file.open(filename, std::fstream::out); //Open as write mode. Create it if it does not exits!
+	file.open(filePath, std::fstream::out); //Open as write mode. Create it if it does not exits!
 
 	if (!file.is_open())
 	{
-		std::cout << "null" << "\n";
+		std::cout << "Failed to open file for writing: " << filePath << "\n";
 		return;
 	}
 	//file <<ALLdata;				//ALL is 1 line

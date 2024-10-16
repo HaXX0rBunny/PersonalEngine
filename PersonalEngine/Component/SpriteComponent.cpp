@@ -38,8 +38,12 @@ void SpriteComp::SetTexture(const std::string& filepath)
 	{	
 		ResourceManager::GetInstance()->UnloadResource(textureName);
 	}
-	textureName = filepath;
 
+	textureName = filepath;
+	if (filepath == "")
+	{
+		textureName = "./Assets/Default.png";
+	}
 	// 올바른 타입으로 텍스처 가져오기
 	mtex = ResourceManager::GetInstance()->GetResource<Texture>(textureName);
 	if (!mtex ) {

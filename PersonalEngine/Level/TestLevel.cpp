@@ -9,7 +9,7 @@ void Level::TestLevel::Init()
 	//Serializer::Instance()->LoadLevel("test.json");
 	//Serializer::Instance()->LoadLevel("test.json");
 	//Serializer::Instance()->LoadLevel("test.json");
-	////testObj2 = new GameObject("test1");
+	//testObj2 = new GameObject("test1");
 	//testObj2->AddComponent<SpriteComp>();
 	//testObj2->AddComponent<TransformComp>();
 	//TransformComp* test2Trans = testObj2->GetComponent<TransformComp>();
@@ -28,7 +28,7 @@ void Level::TestLevel::Init()
 	//testComp->SetTexture();
 	//testComp->SetColor(1, 1, 1);
 	//testComp->SetAlpha(0.5f);
-	//Serializer::Instance()->SaveLevel("test.json");
+	//Serializer::Instance()->SaveLevel("Data.json");
 }
 
 void Level::TestLevel::Update()

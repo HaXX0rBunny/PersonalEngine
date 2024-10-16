@@ -175,6 +175,8 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp17</LanguageStandard>
     </ClCompile>
     <ClCompile Include="RTTI\Registry.cpp" />
+    <ClCompile Include="Utility\CompareFile.cpp" />
+    <ClCompile Include="Utility\Filedialog.cpp" />
     <ClCompile Include="Utility\Matrix.cpp" />
     <ClCompile Include="Utility\MyTexture.cpp" />
   </ItemGroup>
@@ -216,6 +218,7 @@
     <ClInclude Include="Setting_window.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="Utility\CompareFile.h" />
     <ClInclude Include="Utility\Filedialog.h" />
     <ClInclude Include="Utility\Matrix.h" />
     <ClInclude Include="Utility\MyTexture.h" />
