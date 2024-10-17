@@ -96,24 +96,24 @@ void Serializer::SaveLevel(const std::string& filename)
 	}
 	
 
-	//Setting Save Directory
-	std::string directory = "Data";
+	////Setting Save Directory
+	//std::string directory = "Data";
 
 
-	if (!std::filesystem::exists(directory)&& !std::filesystem::exists("../Data"))
-	{
-		std::filesystem::create_directory(directory);
-	}
+	//if (!std::filesystem::exists(directory)&& !std::filesystem::exists("../Data"))
+	//{
+	//	std::filesystem::create_directory(directory);
+	//}
 
-	std::string filePath = directory + "/" + filename;
+	//std::string filePath = directory + "/" + filename;
 
 	//file open
 	std::fstream file;
-	file.open(filePath, std::fstream::out); //Open as write mode. Create it if it does not exits!
+	file.open(filename, std::fstream::out); //Open as write mode. Create it if it does not exits!
 
 	if (!file.is_open())
 	{
-		std::cout << "Failed to open file for writing: " << filePath << "\n";
+		std::cout << "Failed to open file for writing: " << filename << "\n";
 		return;
 	}
 	//file <<ALLdata;				//ALL is 1 line

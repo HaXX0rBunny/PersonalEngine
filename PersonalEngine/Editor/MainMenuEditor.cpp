@@ -8,14 +8,15 @@ bool showObjectDialog = false;
 bool showComponentDialog = false;
 bool showNewObjectPopup = false;
 bool showRenamePopup = false;
+bool unsaved = false;
 bool showInvalidImageFileDialog = false;
-bool unsavedChanges = true;
-
+SaveState savedChangesState = None; // 초기 상태는 None으로 설정
 std::string selectedObjectName = "";
 std::string openImagePath = "";
+std::string pendingOpenPath = "";  // 열릴 파일 경로 저장
 char texturePath[1000] = "";
 char renameBuffer[1000] = "";
-static char newObjectName[1000] = "";
+char newObjectName[1000] = "";
 
 void MainMenuEditor::TopBar()
 {
@@ -27,79 +28,65 @@ void MainMenuEditor::TopBar()
 
 		if (ImGui::MenuItem("New"))
 		{
-			//unsavedChanges = IsDataModified(currentfile);
-			if (unsavedChanges)
+			if (unsaved)
 			{
+				savedChangesState = None;
 				ShowSavePopup();  // 저장할지 묻는 팝업
 			}
-			else
+			unsaved = IsDataModified(currentfile);
+			
+			if (savedChangesState != Cancel)
 			{
-				// 새 파일 작업 시작 (저장된 내용 없을 때)
-				currentfile = "None.json";
-				GSM::GameStateManager::GetInstance()->Exit();
-				GSM::GameStateManager::GetInstance()->Init();
+				StartNewFile();
 			}
+			
 		}
 
 		if (ImGui::MenuItem("Open", "Ctrl+O"))
 		{
-			//unsavedChanges = IsDataModified(currentfile);
+			unsaved = IsDataModified(currentfile);
 			
-			if (unsavedChanges)
+			if (unsaved)
 			{
-				
+				// 저장할지 물어보는 팝업을 띄우고, 열려는 파일 경로를 미리 저장
+
+				pendingOpenPath = WstrTostr(OpenFileDialog());
+				savedChangesState = None;
 				ShowSavePopup();
 			}
 			else
 			{
-				GSM::GameStateManager::GetInstance()->Exit();
-				GSM::GameStateManager::GetInstance()->Init();
-				std::string openPath = WstrTostr(OpenFileDialog());
-				if (!openPath.empty())
-				{
-					if (openPath.substr(openPath.find_last_of(".") + 1) == "json")
-					{
-						Serializer::Instance()->LoadLevel(openPath);
-						currentfile = openPath;
-						unsavedChanges = false;  // 파일을 열면 변경사항이 없는 상태로 리셋
-					}
-					else
-					{
-						showInvalidFileDialog = true;
-					}
-				}
+				// 변경사항이 없다면 바로 파일 열기
+				OpenNewFile(WstrTostr(OpenFileDialog()));
 			}
-
-
 		}
 
 		if (ImGui::MenuItem("Save", "Ctrl+S"))
 		{
-			if (currentfile == "None.json")  
+			if (currentfile == "None.json")
 			{
-				std::string savePath = WstrTostr(SaveFileDialog());
+				std::string savePath = WstrTostr(SaveFileDialog(currentfile));
 				if (!savePath.empty())
 				{
 					Serializer::Instance()->SaveLevel(savePath);
 					currentfile = savePath;
-					unsavedChanges = false;  
 				}
 			}
 			else
 			{
 				Serializer::Instance()->SaveLevel(currentfile);
-				unsavedChanges = false;  
+
 			}
 		}
 
 		if (ImGui::MenuItem("Save As.."))
 		{
-			std::string savePath = WstrTostr(SaveFileDialog());
+			std::string savePath = WstrTostr(SaveFileDialog(currentfile));
 			if (!savePath.empty())
 			{
 				Serializer::Instance()->SaveLevel(savePath);
 				currentfile = savePath;
-				unsavedChanges = false;
+
 			}
 		}
 		ImGui::EndMenu();
@@ -121,100 +108,10 @@ void MainMenuEditor::TopBar()
 
 		ImGui::EndMenu();
 	}
+	PopupMenu();
 
 	ImGui::EndMainMenuBar();
-	if (showInvalidFileDialog)// Invalid File Dialog 처리
-	{
-		ImGui::OpenPopup("Invalid File Selected");
-	}
-
-	// 팝업 창의 내용과 확인 버튼
-	if (ImGui::BeginPopupModal("Invalid File Selected", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-	{
-		ImGui::Text("Unknown file type. Please select a .jsob file.");
-		if (ImGui::Button("OK"))
-		{
-			ImGui::CloseCurrentPopup();
-			showInvalidFileDialog = false;  // 창을 닫은 후 플래그 리셋
-		}
-		ImGui::EndPopup();
-	}
-
-	// New Object Popup 
-	if (showNewObjectPopup)
-	{
-		ImGui::OpenPopup("Create New Object");  // Open Popup
-		showNewObjectPopup = false;
-	}
-
-	if (ImGui::BeginPopupModal("Create New Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-	{
-		ImGui::Text("Enter Object Name:");
-
-		ImGui::InputText("##ObjectName", newObjectName, IM_ARRAYSIZE(newObjectName));
-
-		if (ImGui::Button("Create"))
-		{
-			if (strlen(newObjectName) > 0)
-			{
-				GameObject* newObj = new GameObject(newObjectName);
-				strcpy_s(newObjectName, "");
-				ImGui::CloseCurrentPopup();
-			}
-			else
-			{
-				ImGui::Text("Please enter a valid name.");
-			}
-		}
-
-		ImGui::SameLine();
-
-
-		if (ImGui::Button("Cancel"))
-		{
-			ImGui::CloseCurrentPopup();
-		}
-
-		ImGui::EndPopup();
-	}
-	if (showRenamePopup)
-	{
-		ImGui::OpenPopup("Rename Object");
-		showRenamePopup = false;
-	}
-
-
-	if (ImGui::BeginPopupModal("Rename Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-	{
-
-		ImGui::Text("Rename Object: %s", selectedObjectName.c_str());
-		ImGui::InputText("New Name", renameBuffer, IM_ARRAYSIZE(renameBuffer));
-
-		if (ImGui::Button("OK"))
-		{
-
-			if (strlen(renameBuffer) > 0)
-			{
-				auto obj = GameObjectManager::Instance();
-				if (obj != nullptr)
-				{
-					obj->RenameKey(selectedObjectName, renameBuffer);
-					selectedObjectName = renameBuffer;
-				}
-				strcpy_s(renameBuffer, "");
-				ImGui::CloseCurrentPopup();
-			}
-		}
-
-		ImGui::SameLine();
-
-		if (ImGui::Button("Cancel"))
-		{
-			ImGui::CloseCurrentPopup();
-		}
-
-		ImGui::EndPopup();
-	}
+	
 
 	// Object list Window
 	if (showObjectDialog)
@@ -345,22 +242,7 @@ void MainMenuEditor::TopBar()
 								}
 							}
 
-							// 이미지 파일 경고 팝업
-							if (showInvalidImageFileDialog)
-							{
-								ImGui::OpenPopup("Invalid Image File");
-								showInvalidImageFileDialog = false;
-							}
-
-							if (ImGui::BeginPopupModal("Invalid Image File", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-							{
-								ImGui::Text("Please select a valid image file (.png or .jpg).");
-								if (ImGui::Button("OK"))
-								{
-									ImGui::CloseCurrentPopup();
-								}
-								ImGui::EndPopup();
-							}
+							
 
 							ImGui::SameLine();
 							ImGui::Text("%s", texturePath);
@@ -462,52 +344,226 @@ void MainMenuEditor::TopBar()
 				ImGui::EndPopup();
 			}
 		}
-
+		
 		ImGui::End();
 	}
 }
 
 
 
-void MainMenuEditor::FileMenu()
+void MainMenuEditor::PopupMenu()
 {
+	ShowSavePopup();
+	InvalidFileDialog();
+	NewObjectPopup();
+	RenamePopup();
 }
 
 void MainMenuEditor::ShowSavePopup()
 {
-	if (unsavedChanges)  // 변경사항이 있을 때만 팝업을 띄우는 조건
+
+	if (unsaved)  // 변경사항이 있을 때만 팝업을 띄우는 조건
 	{
 		ImGui::OpenPopup("Unsaved Changes");  // 팝업 열기 준비
-	}
 
+	}
 	// 팝업이 열렸을 때만 이 부분이 실행됨
 	if (ImGui::BeginPopupModal("Unsaved Changes", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("You have unsaved changes. Do you want to save?");
 		if (ImGui::Button("Save"))
 		{
-			std::string savePath = WstrTostr(SaveFileDialog());
+			std::string savePath = "";
+			if (currentfile == "None.json")
+				std::string savePath = WstrTostr(SaveFileDialog(currentfile));
+			else
+				savePath = currentfile;
 			if (!savePath.empty())
 			{
 				Serializer::Instance()->SaveLevel(savePath);
 				currentfile = savePath;
-				unsavedChanges = false;  // 저장 후 변경사항 없음으로 리셋
+				savedChangesState = Save;
+				unsaved = false;
 			}
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Don't Save"))
 		{
-			unsavedChanges = false;  // 저장하지 않고 변경사항 없음으로 리셋
-			// 이후 작업 처리 가능
+			savedChangesState = nSave;
 			ImGui::CloseCurrentPopup();
+			unsaved = false;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
+			savedChangesState = Cancel;
 			ImGui::CloseCurrentPopup();  // 작업을 중단하고 팝업을 닫음
+			unsaved = false;
+
 		}
 		ImGui::EndPopup();  // 팝업을 닫는 함수
+
+		if (savedChangesState == Save || savedChangesState == nSave)
+		{
+			if (!pendingOpenPath.empty())
+			{
+				OpenNewFile(pendingOpenPath);  // 파일 열기
+				pendingOpenPath.clear();  // 경로 리셋
+			}
+		}
+	}
+}
+
+void MainMenuEditor::InvalidFileDialog()
+{
+	
+	if (showInvalidFileDialog)// Invalid File Dialog 처리
+	{
+		ImGui::OpenPopup("Invalid File Selected");
+	}
+
+	// 팝업 창의 내용과 확인 버튼
+	if (ImGui::BeginPopupModal("Invalid File Selected", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("Unknown file type. Please select a .jsob file.");
+		if (ImGui::Button("OK"))
+		{
+			ImGui::CloseCurrentPopup();
+			showInvalidFileDialog = false;  // 창을 닫은 후 플래그 리셋
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void MainMenuEditor::NewObjectPopup()
+{
+	// New Object Popup 
+	if (showNewObjectPopup)
+	{
+		ImGui::OpenPopup("Create New Object");  // Open Popup
+		showNewObjectPopup = false;
+	}
+
+	if (ImGui::BeginPopupModal("Create New Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("Enter Object Name:");
+
+		ImGui::InputText("##ObjectName", newObjectName, IM_ARRAYSIZE(newObjectName));
+
+		if (ImGui::Button("Create"))
+		{
+			if (strlen(newObjectName) > 0)
+			{
+				GameObject* newObj = new GameObject(newObjectName);
+				strcpy_s(newObjectName, "");
+				ImGui::CloseCurrentPopup();
+			}
+			else
+			{
+				ImGui::Text("Please enter a valid name.");
+			}
+		}
+
+		ImGui::SameLine();
+
+
+		if (ImGui::Button("Cancel"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+
+	}
+}
+
+void MainMenuEditor::RenamePopup()
+{
+
+	if (showRenamePopup)
+	{
+		ImGui::OpenPopup("Rename Object");
+		showRenamePopup = false;
+	}
+
+
+	if (ImGui::BeginPopupModal("Rename Object", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+
+		ImGui::Text("Rename Object: %s", selectedObjectName.c_str());
+		ImGui::InputText("New Name", renameBuffer, IM_ARRAYSIZE(renameBuffer));
+
+		if (ImGui::Button("OK"))
+		{
+
+			if (strlen(renameBuffer) > 0)
+			{
+				auto obj = GameObjectManager::Instance();
+				if (obj != nullptr)
+				{
+					obj->RenameKey(selectedObjectName, renameBuffer);
+					selectedObjectName = renameBuffer;
+				}
+				strcpy_s(renameBuffer, "");
+				ImGui::CloseCurrentPopup();
+			}
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Cancel"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
+void MainMenuEditor::InvalidImageFileDialog()
+{
+	// 이미지 파일 경고 팝업
+	if (showInvalidImageFileDialog)
+	{
+		ImGui::OpenPopup("Invalid Image File");
+		showInvalidImageFileDialog = false;
+	}
+
+	if (ImGui::BeginPopupModal("Invalid Image File", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("Please select a valid image file (.png or .jpg).");
+		if (ImGui::Button("OK"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void MainMenuEditor::StartNewFile()
+{
+	// 새 파일 작업 시작 (저장된 내용 없을 때)
+
+	currentfile = "None.json";
+	GSM::GameStateManager::GetInstance()->Exit();
+	GSM::GameStateManager::GetInstance()->Init();
+}
+
+void MainMenuEditor::OpenNewFile(const std::string& openPath)
+{
+	if (!openPath.empty() && openPath.substr(openPath.find_last_of(".") + 1) == "json")
+	{
+		GSM::GameStateManager::GetInstance()->Exit();
+		GSM::GameStateManager::GetInstance()->Init();
+		Serializer::Instance()->LoadLevel(openPath);
+		currentfile = openPath;
+		unsaved = false;  // 파일을 열면 변경사항이 없는 상태로 리셋
+	}
+	else if(openPath == ""){}
+	else
+	{
+		showInvalidFileDialog = true;
 	}
 }
 

@@ -1,8 +1,77 @@
-SettingWindow 62: Created Shader at 000001B3B3956010
+SettingWindow 62: Created Shader at 0000027E07AF7BF0
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001B3B15EFC00
-GameStateManager 26: Created GameStateManager at 000001B3B396BA10
-Component Manager<class LogicComponent> 30: Created  at 000001B3B396B350
-Component Manager<class EngineComponent> 30: Created  at 000001B3B396AF30
-Component Manager<class GraphicsComponent> 30: Created  at 000001B3B396B110
+ShderResource 16: Created Shader at 0000027E07B0FB80
+GameStateManager 26: Created GameStateManager at 0000027E07B124C0
+Component Manager<class LogicComponent> 30: Created  at 0000027E07B119E0
+Component Manager<class EngineComponent> 30: Created  at 0000027E07B11140
+Component Manager<class GraphicsComponent> 30: Created  at 0000027E07B12220
+GameObjMgr 20: Created GameObjectManager0000027E07B11680
+Registry 26: Created Registry at 0000027E0DAA7730
+ResourceManager 35: Created ResourceManager at 0000027E0DAA7430
+Serializer 19: Created Serializer at 0000027E0DB09980
+GameObjMgr 20: Created GameObjectManager0000027E0DB085B0
+Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 0000027E0DB083D0
+Component Manager<class GraphicsComponent> 30: Created  at 0000027E0DB08970
+ResourceManager 35: Created ResourceManager at 0000027E0DB088B0
+ResourceManager.inl 24: Created ShaderResource at 0000027E0DB082B0
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ShderResource 16: Created Shader at 0000027E0DB092C0
+ResourceManager.inl 24: Created ShaderResource at 0000027E0DAA7490
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ShderResource 16: Created Shader at 0000027E0DB09300
+SpriteComponent 222: Created SpriteComp0000027E0DA99670
+ResourceManager.inl 24: Created TextResource at 0000027E0DB08490
+TextResource 7: Created Texture at 0000027E0DA97C30
+Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
+Component Manager<class EngineComponent> 30: Created  at 0000027E0DAA76D0
+TransformComponent 170: Created TransformComp0000027E0D8B4B70
+Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp0000027E0DA997F0
+ResourceManager.inl 24: Created TextResource at 0000027E07B38540
+TextResource 7: Created Texture at 0000027E0DA97AB0
+Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
+TransformComponent 170: Created TransformComp0000027E0D8B4F90
+Component Manager<class LogicComponent> 30: Created  at 0000027E07B38180
+Texture memory has been freed.
+Texture memory has been freed.
+GameObjMgr 20: Created GameObjectManager0000027E0D8932B0
+Component Manager<class LogicComponent> 30: Created  at 0000027E0D892CB0
+Component Manager<class EngineComponent> 30: Created  at 0000027E0D893070
+Component Manager<class GraphicsComponent> 30: Created  at 0000027E0D892DD0
+Registry 26: Created Registry at 0000027E07C70F40
+ResourceManager 35: Created ResourceManager at 0000027E07C710C0
+GameObjMgr 20: Created GameObjectManager0000027E07C70AC0
+Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 0000027E07C70EE0
+Component Manager<class GraphicsComponent> 30: Created  at 0000027E07C70760
+ResourceManager 35: Created ResourceManager at 0000027E07C70BE0
+ResourceManager.inl 24: Created ShaderResource at 0000027E07C70520
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ShderResource 16: Created Shader at 0000027E07CEB0C0
+ResourceManager.inl 24: Created ShaderResource at 0000027E07C712A0
+Loading vertex shader: ../Extern/Shader/shader.vert
+Loading fragment shader: ../Extern/Shader/shader.frag
+ShderResource 16: Created Shader at 0000027E07CEADC0
+SpriteComponent 222: Created SpriteComp0000027E0DA99370
+ResourceManager.inl 24: Created TextResource at 0000027E07C71120
+TextResource 7: Created Texture at 0000027E07B1A800
+Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
+Component Manager<class EngineComponent> 30: Created  at 0000027E07C70580
+TransformComponent 170: Created TransformComp0000027E0D945F20
+Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp0000027E0DA99670
+ResourceManager.inl 24: Created TextResource at 0000027E07C6D7C0
+TextResource 7: Created Texture at 0000027E07B1A880
+Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
+TransformComponent 170: Created TransformComp0000027E0D9464A0
+Component Manager<class LogicComponent> 30: Created  at 0000027E07C70D60
+Texture memory has been freed.
+Texture memory has been freed.
+GameObjMgr 20: Created GameObjectManager0000027E07C71300
+Component Manager<class LogicComponent> 30: Created  at 0000027E07C70BE0
+Component Manager<class EngineComponent> 30: Created  at 0000027E07C712A0
+Component Manager<class GraphicsComponent> 30: Created  at 0000027E07C71240
+Registry 26: Created Registry at 0000027E0DC220A0
+ResourceManager 35: Created ResourceManager at 0000027E0DC22280
+ResourceManager 35: Created ResourceManager at 0000027E0DC21EC0

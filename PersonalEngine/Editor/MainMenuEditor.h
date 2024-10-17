@@ -14,11 +14,23 @@
 #include "../Utility/Filedialog.h"
 #include "../Utility/CompareFile.h"
 
+enum SaveState {
+	Save,
+	Cancel,
+	nSave,
+	None
+};
 class MainMenuEditor {
 public:
 	static void TopBar();
-	static void FileMenu();
+	static void PopupMenu();
 	static std::string currentfile;
 	static void ShowSavePopup();
+	static void InvalidFileDialog();
+	static void NewObjectPopup();
+	static void RenamePopup();
+	static void InvalidImageFileDialog();
+	static void StartNewFile();
+	static void OpenNewFile(const std::string& openPath);
 	char buffer[100] = { 0 };
 };

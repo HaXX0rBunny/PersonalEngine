@@ -10,7 +10,7 @@
             1.0,
             1.0
           ],
-          "Alpha": 1.0,
+          "Alpha": 0.0,
           "TextureName": "Assets/awesomeface.png"
         }
       },
