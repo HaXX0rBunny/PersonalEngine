@@ -6,6 +6,7 @@
 class BaseComponent;
 
 class GameObject {
+	
 public:
 	GameObject();
 	GameObject(std::string id);
@@ -29,6 +30,16 @@ public:
 	BaseComponent* LoadComponent(const std::string& type);
 	void Renamed(const std::string&);
 	void Clear();
+
+	enum Tag {
+		Default,
+		Player,
+		Enemy,
+		Ground,
+		Tile,
+		None
+	};
+	Tag ObjectTag;
 private:
 	std::map<std::string, BaseComponent*> Component;
 	std::string name;

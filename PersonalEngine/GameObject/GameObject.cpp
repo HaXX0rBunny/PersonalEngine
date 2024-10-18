@@ -7,12 +7,14 @@ GameObject::GameObject()
 {
 	name = "";
 	GameObjectManager::Instance()->AddObj(name,this);
+	ObjectTag = Tag::Default;
 }
 
 GameObject::GameObject(std::string id)
 {
 	name = id;
 	GameObjectManager::Instance()->AddObj(id,this);
+	ObjectTag = Tag::Default;
 }
 
 

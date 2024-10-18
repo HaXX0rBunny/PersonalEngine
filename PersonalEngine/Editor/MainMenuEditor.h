@@ -32,5 +32,6 @@ public:
 	static void InvalidImageFileDialog();
 	static void StartNewFile();
 	static void OpenNewFile(const std::string& openPath);
+	static void DragSetObject();
 	char buffer[100] = { 0 };
 };

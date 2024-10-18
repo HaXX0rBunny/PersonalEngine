@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\CollisionComponent.cpp" />
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
@@ -154,9 +155,20 @@
     <ClCompile Include="Dependencies\include\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="EditorManager\EditorInteractManager.cpp" />
+    <ClCompile Include="EditorManager\EditorManager.cpp" />
     <ClCompile Include="Editor\MainMenuEditor.cpp" />
+    <ClCompile Include="Event\Event.cpp" />
+    <ClCompile Include="Event\EventManager.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.cpp" />
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Component\CollisionComponent.h" />
+    <ClInclude Include="EditorManager\EditorManager.h" />
+    <ClInclude Include="EditorManager\EditorInteractManager.h" />
+    <ClInclude Include="Event\Entity.h" />
+    <ClInclude Include="Event\Event.h" />
+    <ClInclude Include="Event\EventManager.h" />
     <ClInclude Include="ResourceManager\MusicResource.h" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />

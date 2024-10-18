@@ -25,12 +25,12 @@ void TransformComp::CalculateMatrix()
 
 
 
-TransformComp::TransformComp() :pos({ 0,0,0 }), scale({ 1,1,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
+TransformComp::TransformComp() :pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
 {
 	CalculateMatrix();
 }
 
-TransformComp::TransformComp(GameObject* owner) :pos({ 0,0,0 }), scale({ 1,1,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
+TransformComp::TransformComp(GameObject* owner) :pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
 {
 	CalculateMatrix();
 }
