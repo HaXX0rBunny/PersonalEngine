@@ -11,7 +11,7 @@ class TransformComp : public EngineComponent
 	glm::mat4 trancsformMatrix;
 	void CalculateMatrix();
 public:
-	TransformComp();
+
 	TransformComp(GameObject* owner);
 
 	~TransformComp();

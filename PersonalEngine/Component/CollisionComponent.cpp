@@ -1,6 +1,6 @@
 #include "CollisionComponent.h"
 
-CollisionComp::CollisionComp(GameObject* owner) : vPos({ 0,0 }), vScale({ 0,0 }),fRot(0),isCollider(false), isVisible(false)
+CollisionComp::CollisionComp(GameObject* owner) :EngineComponent(owner), vPos({ 0,0 }), vScale({ 0,0 }),fRot(0),isCollider(false), isVisible(false)
 {
 	SetCollision();
 	vao=0, vbo=0, ebo=0;

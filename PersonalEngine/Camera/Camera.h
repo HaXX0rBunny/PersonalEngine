@@ -5,6 +5,11 @@
 class Camera
 {
 	Camera();
+
+
+	Camera(const Camera& other) = delete;
+	const Camera& operator=(const Camera& other) = delete;
+	~Camera();
 public:
 
 	static Camera* GetInstance()
@@ -13,5 +18,5 @@ public:
 		return &Instace;
 	}
 
-
+	void Seton();
 };

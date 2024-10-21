@@ -8,7 +8,6 @@ class BaseComponent :public BaseRTTI
 
 	BaseComponent(const BaseComponent&) = delete;
 public:
-	BaseComponent() :own(nullptr) {}
 	BaseComponent(GameObject* owner) : own(owner) {}
 	static std::string GetType() { return "BaseComponent"; };
 	virtual ~BaseComponent() = default;

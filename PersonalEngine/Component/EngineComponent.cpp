@@ -1,7 +1,9 @@
 #include "EngineComponent.h"
 #include "../CManager/ComponentManager.h"
 
-EngineComponent::EngineComponent()
+
+EngineComponent::EngineComponent(GameObject* owner)
+	: BaseComponent(owner)
 {
 	ComponentManager<EngineComponent>::Instance()->AddComponent(this);
 }

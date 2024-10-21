@@ -145,6 +145,8 @@
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
+    <ClCompile Include="Component\PlayerComponent.cpp" />
+    <ClCompile Include="Component\RigidbodyComponent.cpp" />
     <ClCompile Include="Component\SpriteComponent.cpp" />
     <ClCompile Include="Component\TransformComponent.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui.cpp" />
@@ -162,8 +164,12 @@
     <ClCompile Include="Event\EventManager.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="ResourceManager\MusicResource.cpp" />
+    <ClCompile Include="Utility\EngineState.cpp" />
+    <ClCompile Include="Utility\InputProcess.cpp" />
+    <ClCompile Include="Utility\Time.cpp" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
+    <ClInclude Include="Component\PlayerComponent.h" />
     <ClInclude Include="EditorManager\EditorManager.h" />
     <ClInclude Include="EditorManager\EditorInteractManager.h" />
     <ClInclude Include="Event\Entity.h" />
@@ -191,6 +197,9 @@
     <ClCompile Include="Utility\Filedialog.cpp" />
     <ClCompile Include="Utility\Matrix.cpp" />
     <ClCompile Include="Utility\MyTexture.cpp" />
+    <ClInclude Include="Utility\EngineState.h" />
+    <ClInclude Include="Utility\InputProcess.h" />
+    <ClInclude Include="Utility\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CManager\ComponentManager.h" />

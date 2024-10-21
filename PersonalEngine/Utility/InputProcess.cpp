@@ -1,0 +1,96 @@
+#include "InputProcess.h"
+GLboolean Keystate::keystateW = GL_FALSE;
+GLboolean Keystate::keystateS = GL_FALSE;
+GLboolean Keystate::keystateA = GL_FALSE;
+GLboolean Keystate::keystateD = GL_FALSE;
+
+GLboolean Keystate::keystateF5 = GL_FALSE;
+
+/*  _________________________________________________________________________*/
+/*! key_callback
+
+@param GLFWwindow*
+Handle to window that is receiving event
+
+@param int
+the keyboard key that was pressed or released
+
+@parm int
+Platform-specific scancode of the key
+
+@parm int
+GLFW_PRESS, GLFW_REPEAT or GLFW_RELEASE
+action will be GLFW_KEY_UNKNOWN if GLFW lacks a key token for it,
+for example E-mail and Play keys.
+
+@parm int
+bit-field describing which modifier keys (shift, alt, control)
+were held down
+
+@return none
+
+This function is called when keyboard buttons are pressed.
+When the ESC key is pressed, the close flag of the window is set.
+*/
+void Keystate::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, true); // ESC ≈∞∞° ¥≠∑»¿ª ∂ß √¢¿ª ¥›¿Ω
+    }
+    if (key == GLFW_KEY_F5)
+    {
+        if (action == GLFW_PRESS && keystateF5 == GL_FALSE)
+        {
+            keystateF5 = GL_TRUE;
+
+        }
+        else if (action == GLFW_RELEASE)
+        {
+            keystateF5 = GL_FALSE;
+
+        }
+    }
+    updateKeyState(key, action, GLFW_KEY_W, keystateW);
+    updateKeyState(key, action, GLFW_KEY_S, keystateS);
+    updateKeyState(key, action, GLFW_KEY_A, keystateA);
+    updateKeyState(key, action, GLFW_KEY_D, keystateD);
+}
+
+
+/*  _________________________________________________________________________*/
+/*! updateKeyState
+
+@param int
+the keyboard key that was pressed or released
+
+@param int
+GLFW_PRESS, GLFW_REPEAT or GLFW_RELEASE
+action will be GLFW_KEY_UNKNOWN if GLFW lacks a key token for it,
+for example E-mail and Play keys.
+
+@parm int
+Platform-specific scancode of the key
+
+@parm GLBoolean
+Key State Modify
+
+
+@return none
+
+This function is called when keyboard buttons are pressed.
+When the ESC key is pressed, the close flag of the window is set.
+*/
+
+void Keystate::updateKeyState(const int& key, const int& action, const int& targetKey, GLboolean& keyState)
+{
+    if (key == targetKey && action == GLFW_PRESS)
+    {
+        keyState = true;
+    }
+    else if (key == targetKey && action == GLFW_RELEASE)
+    {
+        keyState = false;
+    }
+}
+

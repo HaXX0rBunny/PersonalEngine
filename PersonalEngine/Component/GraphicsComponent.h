@@ -6,7 +6,7 @@ class GameObject;
 class GraphicsComponent : public BaseComponent
 {
 public:
-	GraphicsComponent();
+
 	GraphicsComponent(GameObject* owner);
 	~GraphicsComponent();
 	virtual void LoadFromJson(const json& data) = 0;

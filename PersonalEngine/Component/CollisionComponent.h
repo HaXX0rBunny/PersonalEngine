@@ -5,11 +5,11 @@
 #include <gtc/type_ptr.hpp>
 
 #include "../Component/TransformComponent.h"
-#include "LogicComponent.h"
+#include "EngineComponent.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #define  fwidth_Line 5.f // 1.f~ 10.f   this is Limit width 
 
-class CollisionComp : public LogicComponent
+class CollisionComp : public EngineComponent
 {
 	glm::vec2 vPos;
 	glm::vec2 vScale;

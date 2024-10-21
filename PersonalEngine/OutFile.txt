@@ -1,114 +1,28 @@
-SettingWindow 62: Created Shader at 000001FEBBA31290
+GameStateManager 26: Created GameStateManager at 000001C1CF1D69E0
+GameObjMgr 20: Created GameObjectManager000001C1CF1D7100
+Component Manager<class GraphicsComponent> 30: Created  at 000001C1CF1D71C0
+ResourceManager 35: Created ResourceManager at 000001C1CF1FA8F0
+ResourceManager.inl 24: Created ShaderResource at 000001C1CF1FADD0
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEB969F3B0
-GameStateManager 26: Created GameStateManager at 000001FEBBA47140
-Component Manager<class LogicComponent> 30: Created  at 000001FEBBA46C00
-Component Manager<class EngineComponent> 30: Created  at 000001FEBBA468A0
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEBBA46540
-GameObjMgr 20: Created GameObjectManager000001FEBBA46D80
-Registry 26: Created Registry at 000001FEC18B0F30
-ResourceManager 35: Created ResourceManager at 000001FEC18B0990
-Serializer 19: Created Serializer at 000001FEC1860FA0
-GameObjMgr 20: Created GameObjectManager000001FEC17EC6B0
-Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 000001FEC17EC290
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEC17EC590
-ResourceManager 35: Created ResourceManager at 000001FEC17EC7D0
-ResourceManager.inl 24: Created ShaderResource at 000001FEC17EC5F0
+ShderResource 16: Created Shader at 000001C1C9175450
+ResourceManager.inl 24: Created ShaderResource at 000001C1CF1FAD10
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEC1861460
-ResourceManager.inl 24: Created ShaderResource at 000001FEC18B0F90
-Loading vertex shader: ../Extern/Shader/shader.vert
-Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEC18610A0
-SpriteComponent 222: Created SpriteComp000001FEC19772D0
-ResourceManager.inl 24: Created TextResource at 000001FEC17EC710
-TextResource 7: Created Texture at 000001FEC188CED0
+ShderResource 16: Created Shader at 000001C1CF1FD940
+Component Manager<class EngineComponent> 30: Created  at 000001C1CF1FA950
+ResourceManager.inl 24: Created TextResource at 000001C1CF1FA9B0
+TextResource 7: Created Texture at 000001C1CAD438B0
 Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
-Component Manager<class EngineComponent> 30: Created  at 000001FEC18B0E10
-TransformComponent 170: Created TransformComp000001FEC198E640
-Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp000001FEC1977390
-ResourceManager.inl 24: Created TextResource at 000001FEBBBE8EB0
-TextResource 7: Created Texture at 000001FEC188D850
+ResourceManager.inl 24: Created TextResource at 000001C1CF1F9810
+TextResource 7: Created Texture at 000001C1CAD43930
 Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
-TransformComponent 170: Created TransformComp000001FEC198E2D0
-Component Manager<class LogicComponent> 30: Created  at 000001FEBBBE8CD0
-Texture memory has been freed.
-ResourceManager.inl 24: Created TextResource at 000001FEC17D9190
-TextResource 7: Created Texture at 000001FEBBA52690
-Loaded texture: Default.png, Size: 500x500, Channels: 4
-SetTexture called...
-Texture memory has been freed.
-Texture memory has been freed.
-GameObjMgr 20: Created GameObjectManager000001FEC176B1B0
-Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 000001FEC176C290
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEC176B5D0
-ResourceManager 35: Created ResourceManager at 000001FEC176AB50
-ResourceManager.inl 24: Created ShaderResource at 000001FEC176B9F0
 Loading vertex shader: ../Extern/Shader/shader.vert
 Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEC1AD7060
-ResourceManager.inl 24: Created ShaderResource at 000001FEC176B3F0
-Loading vertex shader: ../Extern/Shader/shader.vert
-Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEC1AD7620
-SpriteComponent 222: Created SpriteComp000001FEC16B14C0
-ResourceManager.inl 24: Created TextResource at 000001FEC176B0F0
-TextResource 7: Created Texture at 000001FEC16E1D70
-Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
-Component Manager<class EngineComponent> 30: Created  at 000001FEC176BAB0
-TransformComponent 170: Created TransformComp000001FEC1B43230
-Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp000001FEC16B1400
-ResourceManager.inl 24: Created TextResource at 000001FEC176B450
-TextResource 7: Created Texture at 000001FEC16E2170
-Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
-TransformComponent 170: Created TransformComp000001FEC1B43440
-Component Manager<class LogicComponent> 30: Created  at 000001FEC176B930
+ShderResource 16: Created Shader at 000001C1CF1FD800
+Component Manager<class LogicComponent> 30: Created  at 000001C1CF1F98D0
+Registry 26: Created Registry at 000001C1CF1FA890
 Texture memory has been freed.
 Texture memory has been freed.
-GameObjMgr 20: Created GameObjectManager000001FEC176B510
-Component Manager<class LogicComponent> 30: Created  at 000001FEC176AEB0
-Component Manager<class EngineComponent> 30: Created  at 000001FEC176AFD0
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEC176AC10
-Registry 26: Created Registry at 000001FEC176BD50
-ResourceManager 35: Created ResourceManager at 000001FEC176AB50
-GameObjMgr 20: Created GameObjectManager000001FEC176B930
-Component Manager<class LogicComponent> 30: Created  at 000001FEC176B690
-Component Manager<class EngineComponent> 30: Created  at 000001FEC176BED0
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEC176B450
-Registry 26: Created Registry at 000001FEC176BD50
-ResourceManager 35: Created ResourceManager at 000001FEC176BAB0
-GameObjMgr 20: Created GameObjectManager000001FEC176B990
-Serializer 36: Created GO at 0000000000000000Registry 26: Created Registry at 000001FEC176AD90
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEC176B9F0
-ResourceManager 35: Created ResourceManager at 000001FEC176B090
-ResourceManager.inl 24: Created ShaderResource at 000001FEC176B0F0
-Loading vertex shader: ../Extern/Shader/shader.vert
-Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEC17E1710
-ResourceManager.inl 24: Created ShaderResource at 000001FEC176B150
-Loading vertex shader: ../Extern/Shader/shader.vert
-Loading fragment shader: ../Extern/Shader/shader.frag
-ShderResource 16: Created Shader at 000001FEC17E1B90
-SpriteComponent 222: Created SpriteComp000001FEC16B0E00
-ResourceManager.inl 24: Created TextResource at 000001FEC176BE70
-TextResource 7: Created Texture at 000001FEC1B31A20
-Loaded texture: Assets/awesomeface.png, Size: 512x512, Channels: 4
-Component Manager<class EngineComponent> 30: Created  at 000001FEC176B1B0
-TransformComponent 170: Created TransformComp000001FEC1B43A70
-Serializer 36: Created GO at 0000000000000000SpriteComponent 222: Created SpriteComp000001FEC16B0EC0
-ResourceManager.inl 24: Created TextResource at 000001FEC176AAF0
-TextResource 7: Created Texture at 000001FEC1B31920
-Loaded texture: ./Assets/Default.png, Size: 500x500, Channels: 4
-TransformComponent 170: Created TransformComp000001FEC1B43BD0
-Component Manager<class LogicComponent> 30: Created  at 000001FEC176B210
-Texture memory has been freed.
-Texture memory has been freed.
-GameObjMgr 20: Created GameObjectManager000001FEC176BED0
-Component Manager<class LogicComponent> 30: Created  at 000001FEC176B4B0
-Component Manager<class EngineComponent> 30: Created  at 000001FEC176AF70
-Component Manager<class GraphicsComponent> 30: Created  at 000001FEC176B9F0
-Registry 26: Created Registry at 000001FEC176AC10
-ResourceManager 35: Created ResourceManager at 000001FEC176AFD0
-ResourceManager 35: Created ResourceManager at 000001FEC176B5D0
+Serializer 19: Created Serializer at 000001C1CF1FD780
+ResourceManager 35: Created ResourceManager at 000001C1CF1F94B0

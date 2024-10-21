@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../Extern/image/stb_image.h"
 #undef STB_IMAGE_IMPLEMENTATION
-Texture::Texture()
+Texture::Texture() : textureID(0), width(0), height(0), channels(0)
 {
 	textureID = 0;
 	filePath = "./Assets/Default.png";

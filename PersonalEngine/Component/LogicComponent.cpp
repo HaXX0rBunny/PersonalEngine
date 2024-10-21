@@ -1,6 +1,7 @@
 #include "LogicComponent.h"
 #include "../CManager/ComponentManager.h"
-LogicComponent::LogicComponent()
+
+LogicComponent::LogicComponent(GameObject* owner) : BaseComponent(owner)
 {
 	ComponentManager<LogicComponent>::Instance()->AddComponent(this);
 }

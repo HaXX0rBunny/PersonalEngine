@@ -6,7 +6,8 @@ class GameObject;
 class EngineComponent : public BaseComponent
 {
 public:
-	EngineComponent();
+
+	EngineComponent(GameObject* owner);
 	~EngineComponent();
 	virtual void LoadFromJson(const json& data) = 0;
 	

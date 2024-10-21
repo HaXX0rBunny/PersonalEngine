@@ -13,24 +13,17 @@ void TransformComp::CalculateMatrix()
 	MyMatRotate(rotateMtx, rot);
 	MyMatScale(scaleMtx, scale);
 
-	glm::mat4 uWorld_NDC = glm::ortho(-800.0f, 800.f,400.f,
-		 -400.0f,-1.0f, 1.0f);
-
+	glm::mat4 uWorld_NDC = glm::ortho(-800.0f, 800.f,-400.f,
+		 400.0f,-1.0f, 1.0f);
 
 	MyMatConcat(trancsformMatrix, rotateMtx, scaleMtx);
 	MyMatConcat(trancsformMatrix, translateMtx, trancsformMatrix);
 	MyMatConcat(trancsformMatrix, uWorld_NDC, trancsformMatrix);
-
 }
 
 
 
-TransformComp::TransformComp() :pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
-{
-	CalculateMatrix();
-}
-
-TransformComp::TransformComp(GameObject* owner) :pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
+TransformComp::TransformComp(GameObject* owner) :EngineComponent(owner), pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
 {
 	CalculateMatrix();
 }
@@ -164,7 +157,6 @@ BaseRTTI* TransformComp::CreateTransformComp()
 		std::cerr << "Error: No valid GameObject found in GameObjectManager." << std::endl;
 		return nullptr;  // 혹은 적절한 예외 처리
 	}
-
 	BaseRTTI* out = new TransformComp(lastObj);
 
 	std::cout << "TransformComponent 170: Created TransformComp" << out << std::endl;
