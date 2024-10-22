@@ -18,13 +18,6 @@ int SetWindow::setWindow_()
 
     init(Window_width, Window_height, EngineTitle); // 초기화
 
-    if (!window)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
     GameLoop(window); // 메인 게임 루프
 
     cleanup(); // 프로그램 종료 시 자원 정리

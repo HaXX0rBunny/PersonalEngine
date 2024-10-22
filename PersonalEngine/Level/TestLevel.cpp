@@ -35,6 +35,9 @@ void Level::TestLevel::Init()
 	testComp->SetTexture();
 	testComp->SetColor(1, 1, 1);
 	testComp->SetAlpha(0.5f);
+
+
+
 	//Serializer::Instance()->SaveLevel("Data.json");
 }
 

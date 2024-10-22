@@ -3,9 +3,8 @@ GLboolean Keystate::keystateW = GL_FALSE;
 GLboolean Keystate::keystateS = GL_FALSE;
 GLboolean Keystate::keystateA = GL_FALSE;
 GLboolean Keystate::keystateD = GL_FALSE;
-
 GLboolean Keystate::keystateF5 = GL_FALSE;
-
+GLboolean Keystate::keystateSpace = GL_FALSE;
 /*  _________________________________________________________________________*/
 /*! key_callback
 
@@ -38,19 +37,9 @@ void Keystate::key_callback(GLFWwindow* window, int key, int scancode, int actio
     {
         glfwSetWindowShouldClose(window, true); // ESC ≈∞∞° ¥≠∑»¿ª ∂ß √¢¿ª ¥›¿Ω
     }
-    if (key == GLFW_KEY_F5)
-    {
-        if (action == GLFW_PRESS && keystateF5 == GL_FALSE)
-        {
-            keystateF5 = GL_TRUE;
 
-        }
-        else if (action == GLFW_RELEASE)
-        {
-            keystateF5 = GL_FALSE;
-
-        }
-    }
+    updateKeyState(key, action, GLFW_KEY_SPACE, keystateSpace);
+    updateKeyState(key, action, GLFW_KEY_F5, keystateF5);
     updateKeyState(key, action, GLFW_KEY_W, keystateW);
     updateKeyState(key, action, GLFW_KEY_S, keystateS);
     updateKeyState(key, action, GLFW_KEY_A, keystateA);

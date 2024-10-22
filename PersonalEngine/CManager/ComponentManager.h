@@ -13,7 +13,6 @@ template <typename T>
 class ComponentManager
 {
     // Ensure T is derived from BaseComponent
-    //static_assert(std::is_base_of<BaseComponent, T>::value, "T must inherit from BaseComponent");
 
     static ComponentManager* Instance_;
     std::vector<T* > Component;
@@ -27,9 +26,6 @@ public:
         if (Instance_ == nullptr)
         {
             Instance_ = new ComponentManager;
-
-            std::cout << "Component Manager<" << typeid(T).name() <<"> 30: Created  at " << Instance_ << std::endl;
-    
         }
         return Instance_;
     }

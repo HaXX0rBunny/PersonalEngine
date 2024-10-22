@@ -17,8 +17,7 @@ template <typename T>
 inline void GameObject::AddComponent(BaseComponent* component)
 {
     component->own = this;// Ensure that the component knows its owner
-    if (GetComponent<T>())
-    {
+    if (GetComponent<T>()){
         return;  // Prevent adding duplicate components
     }
     Component.insert({ component->GetType(), component });

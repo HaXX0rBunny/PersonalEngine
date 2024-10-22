@@ -30,13 +30,14 @@ public:
 	BaseComponent* LoadComponent(const std::string& type);
 	void Renamed(const std::string&);
 	void Clear();
-
+	std::string GetName();
 	enum Tag {
 		Default,
 		Player,
 		Enemy,
-		Ground,
 		Tile,
+		Wall,
+		Bomb,
 		None
 	};
 	Tag ObjectTag;

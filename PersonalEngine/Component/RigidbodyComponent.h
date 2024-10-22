@@ -3,6 +3,7 @@
 #include "TransformComponent.h"
 #include "EngineComponent.h"
 #include "../Utility/Time.h"
+#include "../GameObjectManager/GameObjectManager.h"
 #include <algorithm>
 #include <glm.hpp>
 

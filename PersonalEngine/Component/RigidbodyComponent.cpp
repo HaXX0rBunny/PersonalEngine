@@ -75,14 +75,44 @@ void RigidbodyComp::Update()
 
 void RigidbodyComp::LoadFromJson(const json& data)
 {
+	auto compData = data.find("CompData");
+
+	if (compData != data.end())
+	{
+		auto v = compData->find("Velocity");
+		Velocity.x = v->begin().value();
+		Velocity.y = (v->begin() + 1).value();
+		auto mv = compData->find("MaxVelocity");
+		MaxVelocity.x = mv->begin().value();
+		MaxVelocity.y = (mv->begin() + 1).value();
+
+		auto d = compData->find("drag");
+		drag = d->begin().value();
+	
+	}
 }
 
 json RigidbodyComp::SaveToJson()
 {
-    return json();
+	json data;
+	data["Type"] = GetType();
+	json compData;
+	compData["drag"] = drag;
+	compData["Velocity"] = { Velocity.x, Velocity.y};
+	compData["MaxVelocity"] = { MaxVelocity.x, MaxVelocity.y };
+	data["CompData"] = compData;
+	return data;
 }
 
 BaseRTTI* RigidbodyComp::CreateRigidbodyComp()
 {
-    return nullptr;
+	GameObject* lastObj = GameObjectManager::Instance()->GetLastObj();
+	if (lastObj == nullptr) {
+
+		return nullptr;  // 혹은 적절한 예외 처리
+	}
+
+	BaseRTTI* out = new RigidbodyComp(lastObj);
+
+	return out;
 }

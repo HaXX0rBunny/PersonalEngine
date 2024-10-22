@@ -1,4 +1,4 @@
-#include "ComponentManager.h"
+﻿#include "ComponentManager.h"
 template<typename T>
 ComponentManager<T>* ComponentManager<T>::Instance_ = nullptr;
 
@@ -49,6 +49,7 @@ inline void ComponentManager<T>::AddComponent(T* component)
     Component.push_back(component);
 }
 
+
 template<typename T>
 inline void ComponentManager<T>::RemoveComp(T* component)
 {
@@ -64,8 +65,11 @@ inline void ComponentManager<T>::Update()
 {
     for (auto& it : Component) {  // Correctly iterate through components
         if (it != nullptr)
-        it->Update();  // Ensure 'it' is a valid pointer
+        {
+            it->Update();  // Ensure 'it' is a valid pointer
+        }
     }
+
     for (auto it = Component.begin(); it != Component.end(); )
     {
         if (*it == nullptr)

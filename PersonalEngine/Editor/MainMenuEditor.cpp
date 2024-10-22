@@ -568,5 +568,3 @@ void MainMenuEditor::OpenNewFile(const std::string& openPath)
 }
 
 
-
-

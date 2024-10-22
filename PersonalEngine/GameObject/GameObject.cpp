@@ -5,7 +5,8 @@
 #include "../RTTI/Registry.h"
 GameObject::GameObject()
 {
-	name = "";
+	name = "Object_" + std::to_string(GameObjectManager::Instance()->AllObj().size());
+
 	GameObjectManager::Instance()->AddObj(name,this);
 	ObjectTag = Tag::Default;
 }
@@ -84,7 +85,6 @@ BaseComponent* GameObject::LoadComponent(const std::string& type)
 }
 void GameObject::Renamed(const std::string& re)
 {
-	
 	name = re;
 }
 void GameObject::Clear()
@@ -94,5 +94,10 @@ void GameObject::Clear()
 			delete comp.second;
 	}
 	Component.clear();
+}
+
+std::string GameObject::GetName()
+{
+	return name;
 }
 

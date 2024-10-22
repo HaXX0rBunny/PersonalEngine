@@ -1,5 +1,6 @@
 #pragma once
 #include "InputProcess.h"
+#include "../Serializer/Serializer.h"
 enum EngineMode
 {
 	Play,

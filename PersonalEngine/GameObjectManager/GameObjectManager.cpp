@@ -10,6 +10,7 @@ std::map<std::string, GameObject*> GameObjectManager::AllObj()
 	return allObj;
 }
 
+
 void GameObjectManager::RenameKey(const std::string& oldKey, const std::string& newKey)
 {
 	auto it = allObj.find(oldKey);
