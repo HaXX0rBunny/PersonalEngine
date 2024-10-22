@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <vector>
-#include <memory>  // For smart pointers if needed
+#include <list>
 #include <cassert>  // For static_assert
 
 template <typename T>
@@ -16,7 +16,7 @@ class ComponentManager
 
     static ComponentManager* Instance_;
     std::vector<T* > Component;
-
+    std::vector<T*> PendingComp;
     ComponentManager();
 
     ~ComponentManager();

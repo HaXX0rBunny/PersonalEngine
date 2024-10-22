@@ -1,1 +1,87 @@
-null
+[
+  {
+    "object": "test1",
+    "Components": [
+      {
+        "Type": "SpriteComp",
+        "CompData": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Alpha": 1.0,
+          "TextureName": "Assets/awesomeface.png"
+        }
+      },
+      {
+        "Type": "TransformComp",
+        "CompData": {
+          "Pos": [
+            -500.0,
+            0.0
+          ],
+          "Sca": [
+            500.0,
+            500.0
+          ],
+          "Rot": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "object": "test2",
+    "Components": [
+      {
+        "Type": "PlayerComp",
+        "CompData": {
+          "moveSpeed": 10.0,
+          "spin": 1.0,
+          "worldLimit": 375.0,
+          "playMode": false
+        }
+      },
+      {
+        "Type": "RigidbodyComp",
+        "CompData": {
+          "drag": 0.5,
+          "Velocity": [
+            0.0,
+            0.0
+          ],
+          "MaxVelocity": [
+            100.0,
+            100.0
+          ]
+        }
+      },
+      {
+        "Type": "SpriteComp",
+        "CompData": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Alpha": 0.5,
+          "TextureName": "./Assets/Default.png"
+        }
+      },
+      {
+        "Type": "TransformComp",
+        "CompData": {
+          "Pos": [
+            500.0,
+            100.0
+          ],
+          "Sca": [
+            500.0,
+            500.0
+          ],
+          "Rot": 45.0
+        }
+      }
+    ]
+  }
+]

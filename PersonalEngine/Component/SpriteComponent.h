@@ -6,7 +6,7 @@
 #include "../Shader.h"
 #include <vector>
 
-
+#include "../Camera/Camera.h"
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -27,8 +27,8 @@ private:
 	float Alpha;
 	//texture
 	//AEGfxTexture* mTex;
-	Shader* vShader;
-	Shader* fShader;
+	Shader* mShader;
+
 	Texture* mtex;
 	bool isMeshSet;
 	bool isTextureSet;

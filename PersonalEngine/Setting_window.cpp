@@ -61,7 +61,12 @@ void SetWindow::init(GLint width, GLint height, std::string title)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
+
+
     glfwSetKeyCallback(window, Keystate::key_callback);
+
+
+
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     gsm = GSM::GameStateManager::GetInstance();
@@ -74,7 +79,7 @@ void SetWindow::draw(Shader& shader)
 
     Time::update_time();
     std::stringstream sstr;
-    sstr << std::fixed << EngineTitle << " | " << std::setprecision(2) << "FPS : " << Time::fps;
+    sstr << std::fixed << EngineTitle << " | " << std::setprecision(2) << "MODE : " << EngineState::engineState_ << "FPS : " << Time::fps ;
     glfwSetWindowTitle(window, sstr.str().c_str());
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -83,6 +88,8 @@ void SetWindow::draw(Shader& shader)
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     MainMenuEditor::TopBar();
+
+
 
     gsm->Update();
 
@@ -141,7 +148,7 @@ void SetWindow::GameLoop(GLFWwindow* window)
         glfwPollEvents();
 
         draw(*shader);
-        EngineState::UpdateEnigneState();
+
         glfwSwapBuffers(window);
     }
 

@@ -4,6 +4,7 @@
 #include "../ResourceManager/ResourceManager.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../RTTI/Registry.h"
+#include "../Camera/Camera.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
 GSM::GameStateManager::GameStateManager() :previousLevel(nullptr), currentLevel(nullptr)
 {
@@ -43,7 +44,9 @@ void GSM::GameStateManager::Update()
 	{
 		currentLevel->Update();
 	}
+	Camera::GetInstance()->Update();
 	ComponentManager<GraphicsComponent>::Instance()->Update();
+
 }
 
 void GSM::GameStateManager::Exit()

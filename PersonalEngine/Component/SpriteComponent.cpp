@@ -6,8 +6,8 @@
 #include "../GameObjectManager/GameObjectManager.h"
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
-	vShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
-	fShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.frag");
+	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
+
 	vao = 0;
 	vbo = 0;
 	ebo = 0;
@@ -85,13 +85,13 @@ void SpriteComp::SetMesh()
 
 	std::vector<Vertex> vertices = {
 		// 우측 상단 정점
-		{{ 0.5f,  0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}}, // 위치, 컬러, 텍스처 좌표
+		{{ 0.5f,  0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}, // 위치, 컬러, 텍스처 좌표
 		// 우측 하단 정점
-		{{ 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}, // 위치, 컬러, 텍스처 좌표
+		{{ 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f}}, // 위치, 컬러, 텍스처 좌표
 		// 좌측 하단 정점
-		{{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}}, // 위치, 컬러, 텍스처 좌표
+		{{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}}, // 위치, 컬러, 텍스처 좌표
 		// 좌측 상단 정점
-		{{-0.5f,  0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}  // 위치, 컬러, 텍스처 좌표
+		{{-0.5f,  0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}  // 위치, 컬러, 텍스처 좌표
 	};
 
 	// 인덱스 배열을 std::vector로 관리하지 않지만, 정적 배열로 사용
@@ -141,8 +141,8 @@ void SpriteComp::Render()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	vShader->use();
-	fShader->use();
+	mShader->use();
+	mShader->use();
 	mtex->UseTexture();
 	// 셰이더 리소스 가져오기
 	// 파일명에 확장자 없이 전달
@@ -151,9 +151,9 @@ void SpriteComp::Render()
 	한 쉐이더로 변형이 이뤄져서 맨 마지막만 그려지는 것
 	*/
 
-	unsigned int colorLoc = glGetUniformLocation(fShader->ID, "spriteColor");
+	unsigned int colorLoc = glGetUniformLocation(mShader->ID, "spriteColor");
 	glUniform4f(colorLoc, mColor.r, mColor.g, mColor.b, Alpha);
-	unsigned int transformLoc = glGetUniformLocation(vShader->ID, "transform");
+	unsigned int transformLoc = glGetUniformLocation(mShader->ID, "transform");
 	if (own->GetComponent<TransformComp>() == nullptr)
 	{
 		glm::vec4 defaultMat{ 1.0f };
@@ -166,8 +166,16 @@ void SpriteComp::Render()
 		//std::cout << own->GetComponent<TransformComp>() << std::endl;
 		//own->GetComponent<TransformComp>()->PrintMatrix();
 	}
-	// VAO 바인딩 및 그리기
-	
+
+	glm::mat4 viewMatrix = Camera::GetInstance()->GetViewMatrix();
+	glm::mat4 projectionMatrix = Camera::GetInstance()->GetProjectionMatrix();
+
+	unsigned int viewLoc = glGetUniformLocation(mShader->ID, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
+	unsigned int projectionLoc = glGetUniformLocation(mShader->ID, "projection");
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glDisable(GL_BLEND);

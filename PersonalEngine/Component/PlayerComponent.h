@@ -7,7 +7,7 @@
 #include "../Utility/InputProcess.h"
 #include "../Utility/EngineState.h"
 #include "../GameObjectManager/GameObjectManager.h"
-
+#include "../Camera/Camera.h"
 class PlayerComp : public EngineComponent
 {
 	float moveSpeed;
@@ -30,5 +30,5 @@ public:
 
 	json SaveToJson()override;
 	//For the RTTI
-	static BaseRTTI* CreateTransformComp();
+	static BaseRTTI* CreatePlayerComp();
 };

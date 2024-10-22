@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Component\CollisionComponent.cpp" />
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />

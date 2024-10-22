@@ -20,6 +20,7 @@ char newObjectName[1000] = "";
 
 void MainMenuEditor::TopBar()
 {
+	UpdateEditorState();
 	ImGui::BeginMainMenuBar();
 
 	if (ImGui::BeginMenu("File"))
@@ -284,6 +285,20 @@ void MainMenuEditor::TopBar()
 							}
 						}
 					}
+					if (component.first == "PlayerComp")
+					{
+						if (const auto& playerComp = object->GetComponent<PlayerComp>())
+						{
+							ImGui::Text("Player Component");
+						}
+					}
+					if (component.first == "RigidbodyComp")
+					{
+						if (const auto& rigidbodyComp = object->GetComponent<RigidbodyComp>())
+						{
+							ImGui::Text("Rigidbody Component");
+						}
+					}
 					ImGui::TreePop();
 				}
 				// 우클릭 시 팝업 메뉴 열기
@@ -340,7 +355,31 @@ void MainMenuEditor::TopBar()
 				{
 					ImGui::MenuItem("Component (Already Added)", NULL, false, false);
 				}
+				// 현재 오브젝트에 SpriteComponent가 있는지 확인
+				if (object->GetComponent<PlayerComp>() == nullptr)
+				{
+					if (ImGui::MenuItem("Add Player Component"))
+					{
+						object->AddComponent<PlayerComp>();
+					}
+				}
+				else
+				{
+					ImGui::MenuItem("Player Component (Already Added)", NULL, false, false);
+				}
 
+				// 현재 오브젝트에 TransformComponent가 있는지 확인
+				if (object->GetComponent<RigidbodyComp>() == nullptr)
+				{
+					if (ImGui::MenuItem("Add Rigidbody Component"))
+					{
+						object->AddComponent<RigidbodyComp>();
+					}
+				}
+				else
+				{
+					ImGui::MenuItem("Component (Already Added)", NULL, false, false);
+				}
 				ImGui::EndPopup();
 			}
 		}
@@ -565,6 +604,22 @@ void MainMenuEditor::OpenNewFile(const std::string& openPath)
 	{
 		showInvalidFileDialog = true;
 	}
+}
+
+void MainMenuEditor::UpdateEditorState()
+{
+	EngineState::UpdateEnigneState();
+	if(Keystate::keystateF5 == GL_TRUE)
+		if (EngineState::engineState_ == Editor)
+		{
+			GSM::GameStateManager::GetInstance()->Exit();
+			GSM::GameStateManager::GetInstance()->Init();
+			Serializer::Instance()->LoadLevel(currentfile);
+		}
+		else
+		{
+			Serializer::Instance()->SaveLevel(currentfile);
+		}
 }
 
 

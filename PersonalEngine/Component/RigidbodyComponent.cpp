@@ -77,17 +77,34 @@ void RigidbodyComp::LoadFromJson(const json& data)
 {
 	auto compData = data.find("CompData");
 
+
 	if (compData != data.end())
 	{
-		auto v = compData->find("Velocity");
-		Velocity.x = v->begin().value();
-		Velocity.y = (v->begin() + 1).value();
-		auto mv = compData->find("MaxVelocity");
-		MaxVelocity.x = mv->begin().value();
-		MaxVelocity.y = (mv->begin() + 1).value();
-
+		// drag 값 로딩
 		auto d = compData->find("drag");
-		drag = d->begin().value();
+		if (d != compData->end())
+		{
+			//std::cout << "Loading Rotation: " << r.value() << std::endl;
+			drag = d.value();
+		}
+		// Pos 값 로딩
+		auto v = compData->find("Velocity");
+		if (v != compData->end() && v->is_array())
+		{
+			//std::cout << "Loading Pos: " << (*p)[0] << ", " << (*p)[1] << std::endl;
+			Velocity.x = (*v)[0];
+			Velocity.y = (*v)[1];
+		}
+
+		// Scale 값 로딩
+		auto mv = compData->find("MaxVelocity");
+		if (mv != compData->end() && mv->is_array())
+		{
+			//std::cout << "Loading Scale: " << (*s)[0] << ", " << (*s)[1] << std::endl;
+			MaxVelocity.x = (*mv)[0];
+			MaxVelocity.y = (*mv)[1];
+		}
+
 	
 	}
 }

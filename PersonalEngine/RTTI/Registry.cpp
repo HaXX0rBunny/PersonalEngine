@@ -1,6 +1,8 @@
 #include "Registry.h"
 #include "../Component/TransformComponent.h"
 #include "../Component/SpriteComponent.h"
+#include "../Component/PlayerComponent.h"
+#include "../Component/RigidbodyComponent.h"
 Registry* Registry::Instance_ = nullptr;  
 
 Registry::Registry()
@@ -8,7 +10,9 @@ Registry::Registry()
     //Register All the functions
 
 
-    
+ 
+    rttiMap.insert({ "RigidbodyComp", &RigidbodyComp::CreateRigidbodyComp });
+    rttiMap.insert({ "PlayerComp", &PlayerComp::CreatePlayerComp });
     rttiMap.insert({ "SpriteComp", &SpriteComp::CreateSpriteComp });
     rttiMap.insert({ "TransformComp", &TransformComp::CreateTransformComp });
 }

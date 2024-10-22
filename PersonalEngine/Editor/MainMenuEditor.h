@@ -13,7 +13,7 @@
 #include "../Component/TransformComponent.h"
 #include "../Utility/Filedialog.h"
 #include "../Utility/CompareFile.h"
-
+#include "../Utility/EngineState.h"
 enum SaveState {
 	Save,
 	Cancel,
@@ -33,5 +33,6 @@ public:
 	static void StartNewFile();
 	static void OpenNewFile(const std::string& openPath);
 	static void DragSetObject();
+	static void UpdateEditorState();
 	char buffer[100] = { 0 };
 };

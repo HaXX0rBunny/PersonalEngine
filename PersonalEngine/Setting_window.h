@@ -22,7 +22,7 @@
 #include "Serializer/Serializer.h"
 #include "Utility/InputProcess.h"
 
-
+#include "Camera/Camera.h"
 #include "../Extern/image/stb_image.h"
 
 //Todo Struct 

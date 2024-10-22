@@ -46,7 +46,7 @@ inline T* ComponentManager<T>::GetComponent(const std::string& str) const
 template<typename T>
 inline void ComponentManager<T>::AddComponent(T* component)
 {
-    Component.push_back(component);
+    PendingComp.push_back(component);
 }
 
 
@@ -63,22 +63,21 @@ inline void ComponentManager<T>::RemoveComp(T* component)
 template<typename T>
 inline void ComponentManager<T>::Update()
 {
-    for (auto& it : Component) {  // Correctly iterate through components
-        if (it != nullptr)
-        {
-            it->Update();  // Ensure 'it' is a valid pointer
+    for (auto it = Component.begin(); it != Component.end(); )
+    {
+        if (*it != nullptr) {
+            (*it)->Update();
+            ++it;
+        }
+        else {
+            it = Component.erase(it);  // Remove null components
         }
     }
 
-    for (auto it = Component.begin(); it != Component.end(); )
+    // Move pending components to the active list
+    for (auto it = PendingComp.begin(); it != PendingComp.end(); ++it)
     {
-        if (*it == nullptr)
-        {
-            it = Component.erase(it);
-        }
-        else
-        {
-            it++;
-        }
+        Component.push_back(*it);  // Move pending component to active list
     }
+    PendingComp.clear();
 }
