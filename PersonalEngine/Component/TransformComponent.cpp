@@ -1,7 +1,5 @@
 #include "TransformComponent.h"
 
-#include <gl.h>
-#include <iostream>
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../ResourceManager/ResourceManager.h"
 #include "../GameObjectManager/GameObjectManager.h"
@@ -23,7 +21,7 @@ void TransformComp::CalculateMatrix()
 
 
 
-TransformComp::TransformComp(GameObject* owner) :EngineComponent(owner), pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f))
+TransformComp::TransformComp(GameObject* owner) :EngineComponent(owner), pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f)), prePos({0,0,0})
 {
 	CalculateMatrix();
 }
@@ -34,7 +32,7 @@ TransformComp::~TransformComp()
 
 void TransformComp::Update()
 {
-	
+
 }
 
 const glm::mat4& TransformComp::GetMatrix() const
@@ -44,6 +42,9 @@ const glm::mat4& TransformComp::GetMatrix() const
 
 void TransformComp::SetPos(const float& x, const float& y, const float& z)
 {
+	prePos.x = pos.x;
+	prePos.y = pos.y;
+	prePos.z = pos.z;
 	pos.x = x;
 	pos.y = y;
 	pos.z = z;
@@ -62,6 +63,7 @@ void TransformComp::SetPos(const glm::vec3& otherPos)
 {
 	pos = otherPos;
 	CalculateMatrix();
+	std::cout << "플레이어 위치 업데이트: " << pos.x << ", " << pos.y <<  std::endl;
 }
 
 void TransformComp::SetScale(const glm::vec3& otherScale)
@@ -92,6 +94,11 @@ void TransformComp::PrintMatrix()
 		}
 		std::cout << " |" << std::endl;
 	}
+}
+
+glm::vec3 TransformComp::GetPreviousPosition() const
+{
+	return prePos;
 }
 
 

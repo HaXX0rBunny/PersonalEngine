@@ -14,6 +14,9 @@ void PlayerComp::Update()
 {
 	if (EngineState::engineState_ == Editor)
 		return;
+	if (isColliding)
+		return;
+
 	TransformComp* t = own->GetComponent<TransformComp>();
 	RigidbodyComp* r = own->GetComponent<RigidbodyComp>();
 	if (!t||!r)
@@ -44,6 +47,11 @@ void PlayerComp::Update()
 		else if (t->GetPos().y <= -worldLimit)
 			t->SetPos( t->GetPos().x, -worldLimit + 1 );
 	}
+}
+
+void PlayerComp::SetCollisionState(bool state)
+{
+	isColliding = state;
 }
 
 void PlayerComp::CreateBomb()

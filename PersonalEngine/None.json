@@ -1,38 +1,23 @@
 [
   {
-    "object": "test1",
+    "object": "player",
     "Components": [
       {
-        "Type": "SpriteComp",
+        "Type": "CollisionComp",
         "CompData": {
-          "Color": [
-            1.0,
-            1.0,
-            1.0
-          ],
-          "Alpha": 1.0,
-          "TextureName": "Assets/awesomeface.png"
-        }
-      },
-      {
-        "Type": "TransformComp",
-        "CompData": {
-          "Pos": [
-            -500.0,
+          "Position": [
+            0.0,
             0.0
           ],
-          "Sca": [
-            500.0,
-            500.0
+          "Scale": [
+            100.0,
+            100.0
           ],
-          "Rot": 0.0
+          "Rotation": 0.0,
+          "isCollider": false,
+          "isVisible": false
         }
-      }
-    ]
-  },
-  {
-    "object": "test2",
-    "Components": [
+      },
       {
         "Type": "PlayerComp",
         "CompData": {
@@ -80,6 +65,67 @@
             500.0
           ],
           "Rot": 45.0
+        }
+      }
+    ]
+  },
+  {
+    "object": "test1",
+    "Components": [
+      {
+        "Type": "CollisionComp",
+        "CompData": {
+          "Position": [
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            100.0,
+            100.0
+          ],
+          "Rotation": 0.0,
+          "isCollider": false,
+          "isVisible": false
+        }
+      },
+      {
+        "Type": "RigidbodyComp",
+        "CompData": {
+          "drag": 0.5,
+          "Velocity": [
+            0.0,
+            0.0
+          ],
+          "MaxVelocity": [
+            100.0,
+            100.0
+          ]
+        }
+      },
+      {
+        "Type": "SpriteComp",
+        "CompData": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Alpha": 1.0,
+          "TextureName": "Assets/awesomeface.png"
+        }
+      },
+      {
+        "Type": "TransformComp",
+        "CompData": {
+          "Pos": [
+            -500.0,
+            0.0
+          ],
+          "Sca": [
+            500.0,
+            500.0
+          ],
+          "Rot": 0.0
         }
       }
     ]

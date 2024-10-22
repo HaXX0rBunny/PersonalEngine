@@ -1,13 +1,18 @@
 #include "CollisionComponent.h"
-
+#include "../CollsionManager/CollisionManager.h"
+#include "../CollsionManager/CollisionEvent.h"
+#include "../Event/EventManager.h"
+#include <set>
 CollisionComp::CollisionComp(GameObject* owner) :EngineComponent(owner), vPos({ 0,0 }), vScale({ 0,0 }),fRot(0),isCollider(false), isVisible(false)
 {
 	SetCollision();
 	vao=0, vbo=0, ebo=0;
+	CollisionManager::GetInstance().RegisterCollisionComponent(this);
 }
 
 CollisionComp::~CollisionComp()
 {
+	CollisionManager::GetInstance().UnregisterCollisionComponent(this);
 	if (vao != 0)
 		glDeleteVertexArrays(1, &vao);
 	if (vbo != 0)
@@ -16,10 +21,68 @@ CollisionComp::~CollisionComp()
 		glDeleteBuffers(1, &ebo);
 }
 
-void CollisionComp::Update()
-{
-	Render();
+void CollisionComp::Update() {
+
+
+	auto allObjects = GameObjectManager::Instance()->AllObj();
+	for (auto& obj : allObjects) {
+		CollisionComp* other = obj.second->GetComponent<CollisionComp>();
+		if (other && other != this && CheckCollision(other)) {
+		
+
+				std::cout << "Collision event triggered between "
+					<< this->GetOwner()->GetName()
+					<< " and "
+					<< other->GetOwner()->GetName()
+					<< std::endl;
+
+				EventManager::GetInstance()->AddEvent<CollisionEvent>(this, other);
+			
+		
+		}
+	}
+
 }
+void CollisionComp::OnEvent(Event* event) {
+	// 이벤트가 충돌 이벤트인지 확인
+	if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
+		// src와 dst가 nullptr이 아닌지 확인
+		if (!collisionEvent->src || !collisionEvent->dst) {
+			std::cerr << "Invalid source or destination in CollisionEvent." << std::endl;
+			return; // 유효하지 않은 경우 처리 중단
+		}
+
+		// 충돌한 다른 컴포넌트 확인
+		CollisionComp* other = dynamic_cast<CollisionComp*>(collisionEvent->src == this ? collisionEvent->dst : collisionEvent->src);
+
+		if (other) {
+			GameObject* otherObject = other->GetOwner();
+			GameObject* thisObject = this->GetOwner();
+			PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
+
+			// PlayerComp가 유효한지 확인
+			if (playerComp) {
+				// Player와 Wall 사이의 충돌 처리
+				if (thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag == GameObject::Wall) {
+					std::cout << "Player와 Wall 충돌 처리!" << std::endl;
+
+					// 플레이어의 위치를 이전 위치로 되돌림
+					TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
+
+					if (playerTransform) {
+						glm::vec3 previousPos = playerTransform->GetPreviousPosition();
+						playerTransform->SetPos(previousPos);  // 이전 위치로 되돌림
+						playerComp->SetCollisionState(true);
+					}
+				}
+				else {
+					playerComp->SetCollisionState(false);
+				}
+			}
+		}
+	}
+}
+
 void CollisionComp::Render()
 {
 	if (!isVisible) return;  
@@ -86,6 +149,24 @@ void CollisionComp::SetCollisionBox()
 
 
 }
+
+bool CollisionComp::CheckCollision(const CollisionComp* other) const
+{
+	const glm::vec3& pos1 = own->GetComponent<TransformComp>()->GetPos();
+	const glm::vec3& scale1 = own->GetComponent<TransformComp>()->GetScale();
+	const glm::vec3& pos2 = other->own->GetComponent<TransformComp>()->GetPos();
+	const glm::vec3& scale2 = other->own->GetComponent<TransformComp>()->GetScale();
+
+	bool collisionX = pos1.x + scale1.x >= pos2.x && pos2.x + scale2.x >= pos1.x;
+	bool collisionY = pos1.y + scale1.y >= pos2.y && pos2.y + scale2.y >= pos1.y;
+
+	// 충돌이 발생하는지 디버그 출력
+	/*if (collisionX && collisionY) {
+		std::cout << "Collision detected between objects." << std::endl;
+	}*/
+
+	return collisionX && collisionY;
+}
 void CollisionComp::SetCollision()
 {
 	TransformComp* C_TransComp=own->GetComponent<TransformComp>();
@@ -144,4 +225,61 @@ void CollisionComp::SetVisible(const bool& cb_in)
 
 
 
+void CollisionComp::LoadFromJson(const json& data) {
+	auto compData = data.find("CompData");
 
+	if (compData != data.end()) {
+		// Load position
+		auto pos = compData->find("Position");
+		if (pos != compData->end() && pos->is_array()) {
+			vPos.x = (*pos)[0];
+			vPos.y = (*pos)[1];
+		}
+
+		// Load scale
+		auto scale = compData->find("Scale");
+		if (scale != compData->end() && scale->is_array()) {
+			vScale.x = (*scale)[0];
+			vScale.y = (*scale)[1];
+		}
+
+		// Load rotation
+		auto rotation = compData->find("Rotation");
+		if (rotation != compData->end()) {
+			fRot = rotation.value();
+		}
+
+		// Load collider and visibility state
+		auto collider = compData->find("isCollider");
+		if (collider != compData->end()) {
+			isCollider = collider.value();
+		}
+
+		auto visible = compData->find("isVisible");
+		if (visible != compData->end()) {
+			isVisible = visible.value();
+		}
+	}
+}
+
+json CollisionComp::SaveToJson() {
+	json data;
+	data["Type"] = GetType();  // Save the component type
+	json compData;
+	compData["Position"] = { vPos.x, vPos.y };
+	compData["Scale"] = { vScale.x, vScale.y };
+	compData["Rotation"] = fRot;
+	compData["isCollider"] = isCollider;
+	compData["isVisible"] = isVisible;
+	data["CompData"] = compData;  // Save component-specific data
+	return data;
+}
+
+BaseRTTI* CollisionComp::CreateCollisionComp() {
+	GameObject* lastObj = GameObjectManager::Instance()->GetLastObj();
+	if (!lastObj) {
+		return nullptr;  // Handle missing GameObject
+	}
+
+	return new CollisionComp(lastObj);  // Return a new CollisionComp instance
+}

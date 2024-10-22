@@ -1,15 +1,17 @@
 #pragma once
-#include "gl.h"
-#include "glfw3.h"
+#include "../Component/SpriteComponent.h"
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 
 #include "../Component/TransformComponent.h"
 #include "EngineComponent.h"
 #include "../GameObjectManager/GameObjectManager.h"
+#include "../Event/Entity.h"
 #define  fwidth_Line 5.f // 1.f~ 10.f   this is Limit width 
 
-class CollisionComp : public EngineComponent
+
+
+class CollisionComp : public EngineComponent , public Entity
 {
 	glm::vec2 vPos;
 	glm::vec2 vScale;
@@ -28,6 +30,7 @@ public:
 
 
 	void Update() override;
+	void OnEvent(Event* event) override;
 	void Render();
 	//Gettors
 	const glm::vec2& GetPos() const { return vPos; };
@@ -35,6 +38,7 @@ public:
 	const float& GetRot() const { return fRot; };
 	const bool& GetVisible() const { return isVisible; };
 	//Mutators
+	bool CheckCollision(const CollisionComp* other) const;
 	void SetCollision();
 	void SetCollision(const glm::vec3& vPos_i, const glm::vec3& vScale_i, const float& fRot_i);
 	void SetCollision(const float& fPosx_i, const float& fPosy_i, const float& fScalex_i, const float& fSacaley_i, const float& fRot_i);
@@ -45,11 +49,15 @@ public:
 	void SetRot(const float& fRoti);
 	void SetVisible(const bool& cb_in);
 	void SetCollisionBox();
-	
-
 
 	static std::string GetType()
 	{
 		return "CollisionComp";
 	}
+
+	void LoadFromJson(const json& data);
+
+	json SaveToJson()override;
+	//For the RTTI
+	static BaseRTTI* CreateCollisionComp();
 };

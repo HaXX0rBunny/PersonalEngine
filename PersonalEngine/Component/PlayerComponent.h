@@ -14,11 +14,12 @@ class PlayerComp : public EngineComponent
 	float spin;
 	float worldLimit;
 	bool playMode;
+	bool isColliding = false;
 public:
 	PlayerComp(GameObject* owner);
 	~PlayerComp();
 	void Update() override;
-
+	void SetCollisionState(bool state);
 	void SetMode(const bool& cb_in);
 	bool GetMode();
 	void CreateBomb();

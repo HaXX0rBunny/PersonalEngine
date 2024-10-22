@@ -8,7 +8,7 @@ struct Event
 	Event(Entity* _src, Entity* _des);
 	virtual ~Event() = default;
 
-	void DispatchEvent();
+	void DispatchEvent(); 
 
 	Entity* src;
 	Entity* dst;

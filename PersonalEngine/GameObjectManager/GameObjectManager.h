@@ -1,7 +1,10 @@
 #pragma once
+
 #include <list>
 #include <map>
 #include "../GameObject/GameObject.h"
+
+#include "../Event/EventManager.h"
 class GameObjectManager
 {
 	~GameObjectManager();

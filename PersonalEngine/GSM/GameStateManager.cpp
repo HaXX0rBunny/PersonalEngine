@@ -5,6 +5,8 @@
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../RTTI/Registry.h"
 #include "../Camera/Camera.h"
+#include "../CollsionManager/CollisionManager.h"
+#include "../Event/EventManager.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
 GSM::GameStateManager::GameStateManager() :previousLevel(nullptr), currentLevel(nullptr)
 {
@@ -38,12 +40,14 @@ void GSM::GameStateManager::Init()
 
 void GSM::GameStateManager::Update()
 {
+	EventManager::GetInstance()->DispatchEvent();
 	ComponentManager<LogicComponent>::Instance()->Update();
 	ComponentManager<EngineComponent>::Instance()->Update();
 	if (currentLevel)
 	{
 		currentLevel->Update();
 	}
+
 	Camera::GetInstance()->Update();
 	ComponentManager<GraphicsComponent>::Instance()->Update();
 

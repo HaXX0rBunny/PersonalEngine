@@ -9,6 +9,7 @@ class TransformComp : public EngineComponent
 	float rot;
 
 	glm::mat4 trancsformMatrix;
+	glm::vec3 prePos;
 	void CalculateMatrix();
 public:
 
@@ -28,6 +29,7 @@ public:
 	void SetScale(const glm::vec3& otherScale);
 	void SetRot(const float& otherRot);
 	void PrintMatrix();
+	glm::vec3 GetPreviousPosition() const;
 	static std::string GetType()
 	{
 		return "TransformComp";
