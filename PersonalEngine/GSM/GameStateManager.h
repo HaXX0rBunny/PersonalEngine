@@ -23,7 +23,6 @@ namespace GSM
 			{
 				Instance = new GameStateManager;
 
-				std::cout << "GameStateManager 26: Created GameStateManager at " << Instance << std::endl;
 			}
 			return Instance;
 		}

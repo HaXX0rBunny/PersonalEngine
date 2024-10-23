@@ -14,15 +14,14 @@ private:
 
 public:
     // 싱글톤 인스턴스 가져오기
-    static CollisionManager& GetInstance() {
+    static CollisionManager* GetInstance() {
         static CollisionManager instance;
-        return instance;
+        return &instance;
     }
  
     void Update();
     // 충돌 컴포넌트 등록
     void RegisterCollisionComponent(CollisionComp* comp);
-
     // 충돌 컴포넌트 해제
     void UnregisterCollisionComponent(CollisionComp* comp);
 

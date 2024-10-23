@@ -11,7 +11,7 @@ void Level::TestLevel::Init()
 	//Serializer::Instance()->LoadLevel("test.json");
 	//Serializer::Instance()->LoadLevel("test.json");
 	//Serializer::Instance()->LoadLevel("test.json");
-	testObj2 = new GameObject("test1");
+	/*testObj2 = new GameObject("test1");
 	testObj2->ObjectTag = GameObject::Tag::Wall;
 	testObj2->AddComponent<SpriteComp>();
 	testObj2->AddComponent<TransformComp>();
@@ -41,7 +41,7 @@ void Level::TestLevel::Init()
 	testComp->SetColor(1, 1, 1);
 	testComp->SetAlpha(0.5f);
 
-
+*/
 
 
 	//Serializer::Instance()->SaveLevel("Data.json");

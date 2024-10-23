@@ -7,7 +7,7 @@
 #include <gtc/type_ptr.hpp>
 
 #include <stdlib.h>
-#include "Editor/MainMenuEditor.h"
+
 #include "Shader.h"
 #include <fstream>
 #include <iostream>
@@ -16,7 +16,10 @@
 #include "Shader.h"
 
 #include "Level/TestLevel.h"
+
 #include "GSM/GameStateManager.h"
+#include "GameEditorManager/GameEditorManager.h"
+
 #include "ResourceManager/ResourceManager.h"
 #include "ResourceManager/ShaderResource.h"
 #include "Serializer/Serializer.h"
@@ -34,6 +37,7 @@ struct SetWindow
 #define EngineTitle "Biginner"
 
 	static GSM::GameStateManager* gsm;
+	static GEM::GameEditorManager* gem;
 	static GLFWwindow* window ;
 	static int gGameRunning;
 	

@@ -12,4 +12,6 @@ public:
 			Instance_ = new GuiManager();
 		return Instance_;
 	}
+
+	void Update();
 };

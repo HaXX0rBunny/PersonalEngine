@@ -49,10 +49,9 @@ void PlayerComp::Update()
 	}
 }
 
-void PlayerComp::SetCollisionState(bool state)
-{
-	isColliding = state;
-}
+void PlayerComp::SetCollisionState(bool state){	isColliding = state;}
+void PlayerComp::SetMode(const bool& cb_in) { playMode = cb_in; }
+bool PlayerComp::GetMode() { return playMode; }
 
 void PlayerComp::CreateBomb()
 {
@@ -83,15 +82,6 @@ void PlayerComp::CreateBomb()
 
 }
 
-void PlayerComp::SetMode(const bool& cb_in)
-{
-	playMode = cb_in;
-}
-
-bool PlayerComp::GetMode()
-{
-	return playMode;
-}
 
 
 void PlayerComp::LoadFromJson(const json& data)

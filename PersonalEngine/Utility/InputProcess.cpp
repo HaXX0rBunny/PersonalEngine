@@ -5,6 +5,8 @@ GLboolean Keystate::keystateA = GL_FALSE;
 GLboolean Keystate::keystateD = GL_FALSE;
 GLboolean Keystate::keystateF5 = GL_FALSE;
 GLboolean Keystate::keystateSpace = GL_FALSE;
+GLboolean Keystate::keystateLBtn = GL_FALSE;
+GLboolean Keystate::keystateRBtn = GL_FALSE;
 /*  _________________________________________________________________________*/
 /*! key_callback
 
@@ -77,7 +79,24 @@ void Keystate::updateKeyState(const int& key, const int& action, const int& targ
     {
         keyState = true;
     }
+    else 
+    {
+        keyState = false;
+    }
+
+}
+
+void Keystate::updateMouseKeyState(const int& key, const int& action, const int& targetKey, GLboolean& keyState)
+{
+    if (key == targetKey && action == GLFW_PRESS || key == targetKey && action == GLFW_REPEAT)
+    {
+        keyState = true;
+    }
     else if (key == targetKey && action == GLFW_RELEASE)
+    {
+        keyState = false;
+    }
+    else
     {
         keyState = false;
     }

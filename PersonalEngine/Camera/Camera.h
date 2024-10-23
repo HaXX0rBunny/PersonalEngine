@@ -5,6 +5,15 @@
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Component/TransformComponent.h"
 #include "../Component/PlayerComponent.h"
+constexpr float kDefaultLeft = -800.0f;
+constexpr float kDefaultRight = 800.0f;
+constexpr float kDefaultBottom = -400.0f;
+constexpr float kDefaultTop = 400.0f;
+constexpr float kDefaultNearClip = -100.0f;
+constexpr float kDefaultFarClip = 100.0f;
+constexpr float kMinZoomLevel = 0.1f;
+constexpr float kMaxZoomLevel = 2.0f;
+constexpr float kZoomStep = 0.1f;
 class Camera
 {
 	glm::vec3 cameraPosition;
@@ -35,7 +44,7 @@ public:
 	// Zoom in/out
 	void ZoomIn();
 	void ZoomOut();
-
+	void SetZoomLevel(float newZoomLevel);
 	void UpdateViewMatrix();
 	const glm::mat4& GetViewMatrix(); 
 

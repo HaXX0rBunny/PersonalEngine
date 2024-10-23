@@ -41,7 +41,7 @@ void GSM::GameStateManager::Init()
 
 void GSM::GameStateManager::Update()
 {
-	CollisionManager::GetInstance().Update();
+	CollisionManager::GetInstance()->Update();
 	EventManager::GetInstance()->DispatchEvent();
 	ComponentManager<LogicComponent>::Instance()->Update();
 	ComponentManager<EngineComponent>::Instance()->Update();

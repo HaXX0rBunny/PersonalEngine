@@ -63,7 +63,7 @@ void TransformComp::SetPos(const glm::vec3& otherPos)
 {
 	pos = otherPos;
 	CalculateMatrix();
-	std::cout << "플레이어 위치 업데이트: " << pos.x << ", " << pos.y <<  std::endl;
+
 }
 
 void TransformComp::SetScale(const glm::vec3& otherScale)

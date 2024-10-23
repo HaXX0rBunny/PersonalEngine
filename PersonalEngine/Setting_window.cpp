@@ -3,6 +3,7 @@
 
 GLFWwindow* SetWindow::window = nullptr;
 GSM::GameStateManager* SetWindow::gsm = nullptr;
+GEM::GameEditorManager* SetWindow::gem = nullptr;
 int SetWindow::gGameRunning = 1;
 
 std::string SetWindow::title;
@@ -71,6 +72,8 @@ void SetWindow::init(GLint width, GLint height, std::string title)
 
     gsm = GSM::GameStateManager::GetInstance();
     gsm->ChangeLevel(new Level::TestLevel);
+    gem = GEM::GameEditorManager::GetInstance();
+    gem->Init();
 }
 
 void SetWindow::draw(Shader& shader)
@@ -87,7 +90,7 @@ void SetWindow::draw(Shader& shader)
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    MainMenuEditor::TopBar();
+    gem->Update();
 
 
 
@@ -103,7 +106,7 @@ void SetWindow::cleanup()
 {
     gsm->Exit();
     gsm->DeleteGSM();
-
+    gem->DeleteGEM();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

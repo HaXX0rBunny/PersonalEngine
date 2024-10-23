@@ -10,8 +10,6 @@ EventManager::~EventManager() {
         qp_entities.pop();
     }
 }
-
-
 // 이벤트를 삭제
 void EventManager::DelEvent(Event* event) {
     if (!qp_entities.empty()) {

@@ -160,9 +160,9 @@
     <ClCompile Include="Dependencies\include\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="EditorManager\EditorInteractManager.cpp" />
-    <ClCompile Include="EditorManager\EditorManager.cpp" />
-    <ClCompile Include="Editor\MainMenuEditor.cpp" />
+    <ClCompile Include="Editor\MainMenu.cpp" />
+    <ClCompile Include="GameEditorManager\EditorInteractManager.cpp" />
+    <ClCompile Include="GameEditorManager\GameEditorManager.cpp" />
     <ClCompile Include="Event\Event.cpp" />
     <ClCompile Include="Event\EventManager.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
@@ -175,8 +175,10 @@
     <ClInclude Include="CollsionManager\CollisionManager.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
     <ClInclude Include="Component\PlayerComponent.h" />
-    <ClInclude Include="EditorManager\EditorManager.h" />
-    <ClInclude Include="EditorManager\EditorInteractManager.h" />
+    <ClInclude Include="Editor\MainMenu.h" />
+    <ClInclude Include="GameEditorManager\BaseEditor.h" />
+    <ClInclude Include="GameEditorManager\GameEditorManager.h" />
+    <ClInclude Include="GameEditorManager\EditorInteractManager.h" />
     <ClInclude Include="Event\Entity.h" />
     <ClInclude Include="Event\Event.h" />
     <ClInclude Include="Event\EventManager.h" />
@@ -227,7 +229,6 @@
     <ClInclude Include="Dependencies\include\imgui\imstb_textedit.h" />
     <ClInclude Include="Dependencies\include\imgui\imstb_truetype.h" />
     <ClInclude Include="Editor\GuiManager.h" />
-    <ClInclude Include="Editor\MainMenuEditor.h" />
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GSM\GameStateManager.h" />

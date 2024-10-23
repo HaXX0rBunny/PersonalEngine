@@ -5,14 +5,14 @@
 #include <set>
 CollisionComp::CollisionComp(GameObject* owner) :EngineComponent(owner), vPos({ 0,0 }), vScale({ 0,0 }),fRot(0),isCollider(false), isVisible(false)
 {
-	SetCollision();
+	SetCollisionBox();
 	vao=0, vbo=0, ebo=0;
-	CollisionManager::GetInstance().RegisterCollisionComponent(this);
+	CollisionManager::GetInstance()->RegisterCollisionComponent(this);
 }
 
 CollisionComp::~CollisionComp()
 {
-	CollisionManager::GetInstance().UnregisterCollisionComponent(this);
+	CollisionManager::GetInstance()->UnregisterCollisionComponent(this);
 	if (vao != 0)
 		glDeleteVertexArrays(1, &vao);
 	if (vbo != 0)
@@ -22,11 +22,10 @@ CollisionComp::~CollisionComp()
 }
 
 void CollisionComp::Update() {
-
-	Render();
 	SetCollision();
-
+	Render();
 }
+
 void CollisionComp::OnEvent(Event* event) {
 	// 이벤트가 충돌 이벤트인지 확인
 	if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
@@ -91,7 +90,6 @@ void CollisionComp::SetCollisionBox()
 	for (int i = 0; i < 4; i++)
 	{
 		glm::vec3 pos(vertices[i].position[0], vertices[i].position[1], vertices[i].position[2]);
-
 		glm::vec4 transformedPos = Mat4 * glm::vec4(pos, 1.0f);
 
 		vertices[i].position[0] = transformedPos.x;
