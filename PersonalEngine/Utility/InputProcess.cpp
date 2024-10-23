@@ -79,7 +79,7 @@ void Keystate::updateKeyState(const int& key, const int& action, const int& targ
     {
         keyState = true;
     }
-    else 
+    else if(key == targetKey && action == GLFW_RELEASE)
     {
         keyState = false;
     }

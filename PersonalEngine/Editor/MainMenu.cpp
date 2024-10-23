@@ -30,6 +30,7 @@ void MainMenu::Update()
 	TopBar();
 	ShowObjectDialog();
 	ShowObjectEditDiaglog();
+	//std::cout << ImGui::GetMousePos().x << ", " << ImGui::GetMousePos().y << std::endl;
 }
 
 

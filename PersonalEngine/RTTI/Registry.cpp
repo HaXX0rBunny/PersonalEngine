@@ -3,6 +3,7 @@
 #include "../Component/SpriteComponent.h"
 #include "../Component/PlayerComponent.h"
 #include "../Component/RigidbodyComponent.h"
+#include "../Component/CollisionComponent.h"
 Registry* Registry::Instance_ = nullptr;  
 
 Registry::Registry()
@@ -10,7 +11,8 @@ Registry::Registry()
     //Register All the functions
 
 
- 
+
+    rttiMap.insert({ "CollisionComp", &CollisionComp::CreateCollisionComp });
     rttiMap.insert({ "RigidbodyComp", &RigidbodyComp::CreateRigidbodyComp });
     rttiMap.insert({ "PlayerComp", &PlayerComp::CreatePlayerComp });
     rttiMap.insert({ "SpriteComp", &SpriteComp::CreateSpriteComp });

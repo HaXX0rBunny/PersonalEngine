@@ -86,7 +86,9 @@ void CollisionComp::SetCollisionBox()
 		// 좌측 상단 정점
 		{{-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}  // 위치, 컬러
 	};
-	glm::mat4 Mat4 = own->GetComponent<TransformComp>()->GetMatrix();
+	glm::mat4 Mat4 = { 1.0f };
+	if (own->GetComponent<TransformComp>() != nullptr)
+			glm::mat4 Mat4 = own->GetComponent<TransformComp>()->GetMatrix();
 	for (int i = 0; i < 4; i++)
 	{
 		glm::vec3 pos(vertices[i].position[0], vertices[i].position[1], vertices[i].position[2]);
@@ -254,6 +256,6 @@ BaseRTTI* CollisionComp::CreateCollisionComp() {
 	if (!lastObj) {
 		return nullptr;  // Handle missing GameObject
 	}
-
-	return new CollisionComp(lastObj);  // Return a new CollisionComp instance
+	BaseRTTI* out = new CollisionComp(lastObj);  // Return a new CollisionComp instance
+	return out;
 }
