@@ -7,6 +7,7 @@
 #include "../Camera/Camera.h"
 #include "../CollsionManager/CollisionManager.h"
 #include "../Event/EventManager.h"
+#include "../CollsionManager/CollisionManager.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
 GSM::GameStateManager::GameStateManager() :previousLevel(nullptr), currentLevel(nullptr)
 {
@@ -40,6 +41,7 @@ void GSM::GameStateManager::Init()
 
 void GSM::GameStateManager::Update()
 {
+	CollisionManager::GetInstance().Update();
 	EventManager::GetInstance()->DispatchEvent();
 	ComponentManager<LogicComponent>::Instance()->Update();
 	ComponentManager<EngineComponent>::Instance()->Update();

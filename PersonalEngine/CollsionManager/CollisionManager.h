@@ -19,27 +19,14 @@ public:
         return instance;
     }
  
+    void Update();
     // 충돌 컴포넌트 등록
-    void RegisterCollisionComponent(CollisionComp* comp) {
-        collisionComponents.push_back(comp);
-    }
+    void RegisterCollisionComponent(CollisionComp* comp);
 
     // 충돌 컴포넌트 해제
-    void UnregisterCollisionComponent(CollisionComp* comp) {
-        collisionComponents.erase(std::remove(collisionComponents.begin(), collisionComponents.end(), comp), collisionComponents.end());
-    }
+    void UnregisterCollisionComponent(CollisionComp* comp);
 
     // 모든 충돌 체크
-    void CheckAllCollisions() {
-        for (size_t i = 0; i < collisionComponents.size(); ++i) {
-            for (size_t j = i + 1; j < collisionComponents.size(); ++j) {
-                CollisionComp* comp1 = collisionComponents[i];
-                CollisionComp* comp2 = collisionComponents[j];
+    void CheckAllCollisions();
 
-                if (comp1->CheckCollision(comp2)) {
-                    EventManager::GetInstance()->AddEvent<CollisionEvent>(comp1, comp2);
-                }
-            }
-        }
-    }
 };

@@ -23,24 +23,8 @@ CollisionComp::~CollisionComp()
 
 void CollisionComp::Update() {
 
-
-	auto allObjects = GameObjectManager::Instance()->AllObj();
-	for (auto& obj : allObjects) {
-		CollisionComp* other = obj.second->GetComponent<CollisionComp>();
-		if (other && other != this && CheckCollision(other)) {
-		
-
-				std::cout << "Collision event triggered between "
-					<< this->GetOwner()->GetName()
-					<< " and "
-					<< other->GetOwner()->GetName()
-					<< std::endl;
-
-				EventManager::GetInstance()->AddEvent<CollisionEvent>(this, other);
-			
-		
-		}
-	}
+	Render();
+	SetCollision();
 
 }
 void CollisionComp::OnEvent(Event* event) {
@@ -60,15 +44,10 @@ void CollisionComp::OnEvent(Event* event) {
 			GameObject* thisObject = this->GetOwner();
 			PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
-			// PlayerComp가 유효한지 확인
 			if (playerComp) {
-				// Player와 Wall 사이의 충돌 처리
 				if (thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag == GameObject::Wall) {
-					std::cout << "Player와 Wall 충돌 처리!" << std::endl;
 
-					// 플레이어의 위치를 이전 위치로 되돌림
 					TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
-
 					if (playerTransform) {
 						glm::vec3 previousPos = playerTransform->GetPreviousPosition();
 						playerTransform->SetPos(previousPos);  // 이전 위치로 되돌림
@@ -160,10 +139,7 @@ bool CollisionComp::CheckCollision(const CollisionComp* other) const
 	bool collisionX = pos1.x + scale1.x >= pos2.x && pos2.x + scale2.x >= pos1.x;
 	bool collisionY = pos1.y + scale1.y >= pos2.y && pos2.y + scale2.y >= pos1.y;
 
-	// 충돌이 발생하는지 디버그 출력
-	/*if (collisionX && collisionY) {
-		std::cout << "Collision detected between objects." << std::endl;
-	}*/
+	
 
 	return collisionX && collisionY;
 }

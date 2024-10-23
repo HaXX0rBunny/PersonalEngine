@@ -47,6 +47,7 @@ void EventManager::UnregisterEntity(Event* event, Entity* ep_UnRegEntity) {
 
 // 큐에 있는 모든 이벤트를 디스패치
 void EventManager::DispatchEvent() {
+    std::vector<Event*> toDelete;
     while (!qp_entities.empty()) {
         Event* event = qp_entities.front();
         qp_entities.pop();
@@ -59,7 +60,9 @@ void EventManager::DispatchEvent() {
             event->src->OnEvent(event);
         if(event->dst)
             event->dst->OnEvent(event);
-
-        delete event;  // 이벤트 삭제
+        toDelete.push_back(event);
+    }
+    for (Event* event : toDelete) {
+        delete event;
     }
 }
