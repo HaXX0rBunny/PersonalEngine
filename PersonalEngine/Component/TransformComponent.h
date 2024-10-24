@@ -12,7 +12,7 @@ class TransformComp : public EngineComponent
 	glm::vec3 prePos;
 	void CalculateMatrix();
 public:
-
+	TransformComp& operator=(const TransformComp& other);
 	TransformComp(GameObject* owner);
 
 	~TransformComp();

@@ -2,6 +2,7 @@
 
 #include <queue>
 #include <map>
+#include <list>
 #include "Event.h"
 #include "Entity.h"
 
@@ -10,7 +11,7 @@ class EventManager {
     std::queue<Event*> qp_entities;
 
     // 이벤트 레지스트리: 이벤트와 관련된 엔티티들 관리
-    std::map<Event*, std::vector<Entity*>> mpp_eventRegistry;
+    std::map<Event*, std::list<Entity*>> mpp_eventRegistry;
 
     EventManager();  // 생성자
     EventManager(const EventManager& other) = delete;  // 복사 생성자 금지

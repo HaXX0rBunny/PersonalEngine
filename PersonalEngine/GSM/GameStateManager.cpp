@@ -41,15 +41,16 @@ void GSM::GameStateManager::Init()
 
 void GSM::GameStateManager::Update()
 {
-	CollisionManager::GetInstance()->Update();
-	EventManager::GetInstance()->DispatchEvent();
+
+
 	ComponentManager<LogicComponent>::Instance()->Update();
 	ComponentManager<EngineComponent>::Instance()->Update();
 	if (currentLevel)
 	{
 		currentLevel->Update();
 	}
-
+	CollisionManager::GetInstance()->Update();
+	EventManager::GetInstance()->DispatchEvent();
 	Camera::GetInstance()->Update();
 	ComponentManager<GraphicsComponent>::Instance()->Update();
 

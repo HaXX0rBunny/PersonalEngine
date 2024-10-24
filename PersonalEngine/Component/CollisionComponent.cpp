@@ -44,7 +44,7 @@ void CollisionComp::OnEvent(Event* event) {
 			PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
 			if (playerComp) {
-				if (thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag == GameObject::Wall) {
+				if (thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
 
 					TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
 					if (playerTransform) {

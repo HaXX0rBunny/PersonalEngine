@@ -47,6 +47,16 @@ bool GameObject::HasComponent(const std::string& id) const
 	return it != Component.end();
 }
 
+bool GameObject::IsPicking() const
+{
+	return isPicking;
+}
+
+void GameObject::SetPicking(const bool& b_pickin)
+{
+	isPicking = b_pickin;
+}
+
 std::map<std::string, BaseComponent*> GameObject::AllComponent()
 {
 	return Component;

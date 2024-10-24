@@ -74,18 +74,29 @@ void SetWindow::init(GLint width, GLint height, std::string title)
     gsm->ChangeLevel(new Level::TestLevel);
     gem = GEM::GameEditorManager::GetInstance();
     gem->Init();
+
+
+    glEnable(GL_DEPTH_TEST);  // 깊이 테스트 활성화
+
+    glEnable(GL_BLEND);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    glDepthFunc(GL_LESS);
+
+    glClearColor(0.3f, 0.3f, 0.3f, 0.0f);
 }
 
 void SetWindow::draw(Shader& shader)
 {
 
-
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Time::update_time();
     std::stringstream sstr;
     sstr << std::fixed << EngineTitle << " | " << std::setprecision(2) << "MODE : " << EngineState::engineState_ << "FPS : " << Time::fps ;
     glfwSetWindowTitle(window, sstr.str().c_str());
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -99,21 +110,28 @@ void SetWindow::draw(Shader& shader)
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 }
 
 
 void SetWindow::cleanup()
 {
+
+  //  glDisable(GL_BLEND);
     gsm->Exit();
     gsm->DeleteGSM();
     gem->DeleteGEM();
+
+    // IMGUI 종료
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    Serializer::Instance()->DestroyThis();
 
+    // 리소스 정리
+    Serializer::Instance()->DestroyThis();
     ResourceManager::GetInstance()->Clear();
- 
+
+    // GLFW 종료
     glfwTerminate();
  
 }
@@ -123,7 +141,7 @@ void SetWindow::cleanup()
 
 void SetWindow::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, Window_width, Window_height);
+    glViewport(0, 0, width, height);
 }
 
 

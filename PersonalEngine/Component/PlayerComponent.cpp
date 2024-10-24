@@ -1,6 +1,6 @@
 #include "PlayerComponent.h"
 
-PlayerComp::PlayerComp(GameObject* owner):EngineComponent(owner), moveSpeed(10), spin(1), worldLimit(375), playMode(false)
+PlayerComp::PlayerComp(GameObject* owner): LogicComponent(owner), moveSpeed(10), spin(1), worldLimit(375), playMode(false)
 {
 
 }

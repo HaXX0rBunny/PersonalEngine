@@ -1,6 +1,6 @@
 #pragma once
 #include "SpriteComponent.h"
-#include "EngineComponent.h"
+#include "LogicComponent.h"
 #include "TransformComponent.h"
 #include "../GameObject/GameObject.h"
 #include "RigidbodyComponent.h"
@@ -8,7 +8,7 @@
 #include "../Utility/EngineState.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Camera/Camera.h"
-class PlayerComp : public EngineComponent
+class PlayerComp : public LogicComponent
 {
 	float moveSpeed;
 	float spin;

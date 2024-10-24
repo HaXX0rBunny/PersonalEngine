@@ -4,6 +4,9 @@
 #include "TransformComponent.h"
 #include "../GameObject/GameObject.h"
 #include "../GameObjectManager/GameObjectManager.h"
+//#include "glm/gtc/"
+#include "glm/mat4x4.hpp"
+#include "glm/matrix.hpp"
 SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
 {
 	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
@@ -137,9 +140,8 @@ void SpriteComp::SetMesh()
 
 void SpriteComp::Render()
 {
+
 	if (!mtex) return;
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	mShader->use();
 	mShader->use();
@@ -162,9 +164,9 @@ void SpriteComp::Render()
 	}
 	else
 	{
+
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(own->GetComponent<TransformComp>()->GetMatrix()));
-		//std::cout << own->GetComponent<TransformComp>() << std::endl;
-		//own->GetComponent<TransformComp>()->PrintMatrix();
+
 	}
 
 	glm::mat4 viewMatrix = Camera::GetInstance()->GetViewMatrix();
@@ -178,8 +180,9 @@ void SpriteComp::Render()
 
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glDisable(GL_BLEND);
+
 	// 바인딩 해제
+
 	glBindVertexArray(0);
 	glUseProgram(0);
 

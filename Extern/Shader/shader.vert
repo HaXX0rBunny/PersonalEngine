@@ -15,6 +15,6 @@ void main()
 {
     //gl_Position = projection*transform*vec4(aPos, 1.0);
     gl_Position = projection*view*transform*vec4(aPos, 1.0);
-    ourColor = aColor; // vertex data로부터 가져오 컬러 입력을 ourColor에 설정
+
     TexCoord = vec2(aTexCoord.x, aTexCoord.y); // 
 }

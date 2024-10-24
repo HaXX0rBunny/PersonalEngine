@@ -4,11 +4,28 @@
 #include "../ResourceManager/ResourceManager.h"
 #include "../GameObjectManager/GameObjectManager.h"
 
+static void printMtx(const glm::mat4& mat)
+{
+	// Print the full 4x4 matrix
+	for (int i = 0; i < 4; i++)
+	{
+		std::cout << " | ";
+		for (int x = 0; x < 4; x++) {
+			std::cout << " " << mat[x][i];
+		}
+		std::cout << " |" << std::endl;
+	}
+	std::cout << std::endl;
+}
+
 void TransformComp::CalculateMatrix()
 {
 	glm::mat4 translateMtx, rotateMtx, scaleMtx;
+
 	MyMatTranslate(translateMtx, pos);
+
 	MyMatRotate(rotateMtx, rot);
+
 	MyMatScale(scaleMtx, scale);
 
 	//glm::mat4 uWorld_NDC = glm::ortho(-800.0f, 800.f,-400.f,
@@ -17,11 +34,25 @@ void TransformComp::CalculateMatrix()
 	MyMatConcat(trancsformMatrix, rotateMtx, scaleMtx);
 	MyMatConcat(trancsformMatrix, translateMtx, trancsformMatrix);
 	//MyMatConcat(trancsformMatrix, uWorld_NDC, trancsformMatrix);
+
 }
 
 
 
-TransformComp::TransformComp(GameObject* owner) :EngineComponent(owner), pos({ 0,0,0 }), scale({ 100,100,0 }), rot(0), trancsformMatrix(glm::mat4(1.0f)), prePos({0,0,0})
+TransformComp& TransformComp::operator=(const TransformComp& other)
+{
+
+	if (this == &other) return *this;  // 자기 자신과의 대입 방지
+	pos = other.pos;
+	scale = other.scale;
+	rot = other.rot;
+	trancsformMatrix = other.trancsformMatrix;
+	prePos = other.prePos;
+	return *this;
+
+}
+
+TransformComp::TransformComp(GameObject* owner) :EngineComponent(owner), pos({ 0,0,0 }), scale({ 100,100,1 }), rot(0), trancsformMatrix(glm::mat4(1.0f)), prePos({ 0,0,0 })
 {
 	CalculateMatrix();
 }

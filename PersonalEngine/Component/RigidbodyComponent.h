@@ -20,7 +20,7 @@ class RigidbodyComp : public EngineComponent
 public:
 
 	RigidbodyComp(GameObject* owner);
-
+	RigidbodyComp& operator=(const RigidbodyComp& other);
 	//void Addvelocity(const AEVec2& otherVec);
 	void AddVelocity(float x, float y);
 	glm::vec2 GetVelocity();

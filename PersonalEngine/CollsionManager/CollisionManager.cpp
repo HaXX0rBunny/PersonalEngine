@@ -1,7 +1,4 @@
-
 #include "CollisionManager.h"
-
-
 
 void CollisionManager::RegisterCollisionComponent(CollisionComp* comp)
 {

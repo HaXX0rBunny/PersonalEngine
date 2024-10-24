@@ -16,6 +16,15 @@ RigidbodyComp::RigidbodyComp(GameObject* owner): EngineComponent(owner)
 	MaxVelocity.y = 100;
 }
 
+RigidbodyComp& RigidbodyComp::operator=(const RigidbodyComp& other)
+{
+	Velocity.x = other.Velocity.x;
+	Velocity.y = other.Velocity.y;
+	MaxVelocity.x = other.MaxVelocity.x;
+	MaxVelocity.y = other.MaxVelocity.y;
+	return *this;
+}
+
 void RigidbodyComp::AddVelocity(float x, float y)
 {
 	Velocity.x += x;
@@ -57,8 +66,9 @@ void RigidbodyComp::Update()
 	TransformComp* t = own->GetComponent<TransformComp>();
 	if (!t)
 		return;
-	float x = t->GetPos().x + static_cast<float>(Velocity.x * Time::delta_time);
-	float y = t->GetPos().y + static_cast<float>(Velocity.y * Time::delta_time);
+	glm::vec3 tPos=t->GetPos();
+	float x = tPos.x + static_cast<float>(Velocity.x * Time::delta_time);
+	float y = tPos.y + static_cast<float>(Velocity.y * Time::delta_time);
 
 	Velocity.x /= drag;
 
@@ -70,7 +80,7 @@ void RigidbodyComp::Update()
 	if (CheckEpsilon(Velocity.y) == false)
 		Velocity.y = 0;
 
-	t->SetPos( x,y );
+	t->SetPos( x,y, tPos.z);
 }
 
 void RigidbodyComp::LoadFromJson(const json& data)

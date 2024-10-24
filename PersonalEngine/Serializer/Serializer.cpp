@@ -35,11 +35,13 @@ void Serializer::LoadLevel(const std::string& filename)
 		{
 			//Create the go 
 			GameObject* go = GameObjectManager::Instance()->GetObj(obj.value());
+		
 			std::cout << "Serializer 36: Created GO at " << go;
 			if (go == nullptr)
 			{
 				go = new GameObject(obj.value());//= GOManager::getPtr()->AddObj();
 			}
+			go->ObjectTag = item.find("Tag").value();
 			//Find the component section
 			auto cmp = item.find("Components");
 			if (cmp == item.end())//NOT FOUND
@@ -83,7 +85,7 @@ void Serializer::SaveLevel(const std::string& filename)
 	{
 		json object;
 		object["object"] = go.first;
-
+		object["Tag"] = go.second->ObjectTag;
 		json components;
 		//iterate on each component
 		for (auto& c : go.second->AllComp())

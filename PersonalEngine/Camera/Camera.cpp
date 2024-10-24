@@ -60,7 +60,7 @@ void Camera::SetZoomLevel(float newZoomLevel) {
 
     if (zoomLevel != newZoomLevel) {
         zoomLevel = newZoomLevel;
-        SetProjectionMatrix(kDefaultLeft * zoomLevel, kDefaultRight * zoomLevel, kDefaultBottom * zoomLevel, kDefaultTop * zoomLevel, -1.0f, 1.0f);
+        SetProjectionMatrix(kDefaultLeft * zoomLevel, kDefaultRight * zoomLevel, kDefaultBottom * zoomLevel, kDefaultTop * zoomLevel, -100.0f, 100.0f);
     }
 }
 
@@ -75,7 +75,6 @@ const glm::mat4& Camera::GetViewMatrix() {
 void Camera::SetProjectionMatrix(float left, float right, float bottom, float top, float nearClip, float farClip) {
     projectionMatrix = glm::ortho(left, right, bottom, top, nearClip, farClip);
 }
-
 const glm::mat4& Camera::GetProjectionMatrix() {
     return projectionMatrix;
 }

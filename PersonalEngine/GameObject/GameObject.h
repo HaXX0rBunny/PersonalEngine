@@ -26,6 +26,8 @@ public:
 	void RemoveComponent(T* component);
 	void RemoveComponent(const std::string& id);
 	bool HasComponent(const std::string&) const;
+	bool IsPicking()const;
+	void SetPicking(const bool& b_pickin);
 	std::map<std::string, BaseComponent*> AllComponent();
 	BaseComponent* LoadComponent(const std::string& type);
 	void Renamed(const std::string&);
@@ -44,7 +46,7 @@ public:
 private:
 	std::map<std::string, BaseComponent*> Component;
 	std::string name;
-
+	bool isPicking;
 };
 
 #include "GameObject.inl"
