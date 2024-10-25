@@ -1,6 +1,7 @@
 #include "CollisionComponent.h"
 #include "../CollsionManager/CollisionManager.h"
 #include "../Event/EventManager.h"
+#include "../ResourceManager/ResourceManager.h"
 #include <iostream>
 #include <vector>
 #include <limits>
@@ -9,6 +10,9 @@ CollisionComp::CollisionComp(GameObject* owner)
     : EngineComponent(owner), isCollider(false), isVisible(false), vao(0), vbo(0), ebo(0)
 {
     CollisionManager::GetInstance()->RegisterCollisionComponent(this);
+	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
+
+	SetCollisionBox();
 }
 
 CollisionComp::~CollisionComp()
@@ -21,73 +25,97 @@ CollisionComp::~CollisionComp()
 
 void CollisionComp::Update()
 {
+	//UpdateTransformMatrix();
     Render();
 }
 
-void CollisionComp::OnEvent(Event* event)
-{
-    if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
-        if (!collisionEvent->src || !collisionEvent->dst) {
-            std::cerr << "Invalid source or destination in CollisionEvent." << std::endl;
-            return;
-        }
+void CollisionComp::OnEvent(Event* event) {
+	if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
+		if (!collisionEvent->src || !collisionEvent->dst) {
+			std::cerr << "Invalid source or destination in CollisionEvent." << std::endl;
+			return;
+		}
 
-        CollisionComp* other = dynamic_cast<CollisionComp*>(collisionEvent->src == this ? collisionEvent->dst : collisionEvent->src);
-        if (other) {
-            GameObject* thisObject = this->GetOwner();
-            GameObject* otherObject = other->GetOwner();
-            PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
+		CollisionComp* other = dynamic_cast<CollisionComp*>(collisionEvent->src == this ? collisionEvent->dst : collisionEvent->src);
+		if (!other) return;
 
-            if (playerComp && thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
-                TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
-                TransformComp* otherTransform = otherObject->GetComponent<TransformComp>();
+		GameObject* thisObject = this->GetOwner();
+		GameObject* otherObject = other->GetOwner();
+		PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
-                glm::mat4 playerMatrix = CreateTransformMatrix(playerTransform);
-                glm::mat4 otherMatrix = CreateTransformMatrix(otherTransform);
+		if (playerComp && thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
+			// 충돌 축 계산 및 적용
+			const glm::mat4& playerMatrix = thisObject->GetComponent<TransformComp>()->GetMatrix();
+			const glm::mat4& otherMatrix = otherObject->GetComponent<TransformComp>()->GetMatrix();
+			std::vector<glm::vec3> axes = CalculateAxes(playerMatrix, otherMatrix);
 
-                std::vector<glm::vec3> axes = {
-                    glm::normalize(glm::vec3(playerMatrix[0])),
-                    glm::normalize(glm::vec3(playerMatrix[1])),
-                    glm::normalize(glm::vec3(otherMatrix[0])),
-                    glm::normalize(glm::vec3(otherMatrix[1]))
-                };
+			// 충돌 감지 및 처리
+			glm::vec3 smallestAxis;
+			float minOverlap;
+			bool collisionDetected = DetectCollision(playerMatrix, otherMatrix, axes, smallestAxis, minOverlap);
 
-                float minOverlap = std::numeric_limits<float>::max();
-                glm::vec3 smallestAxis;
-                bool collisionDetected = true;
+			if (collisionDetected) {
+				glm::vec3 playerPos = thisObject->GetComponent<TransformComp>()->GetPos();
+				glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
+				playerPos += (glm::dot(playerPos - otherObject->GetComponent<TransformComp>()->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
 
-                for (const auto& axis : axes) {
-                    float min1, max1, min2, max2;
-                    ProjectOntoAxis(playerMatrix, axis, min1, max1);
-                    ProjectOntoAxis(otherMatrix, axis, min2, max2);
+				thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
+				playerComp->SetCollisionState(true);
+			}
+			else {
+				playerComp->SetCollisionState(false);
+			}
+		}
+	}
+}
 
-                    if (max1 < min2 || max2 < min1) {
-                        collisionDetected = false;
-                        break;
-                    }
-                    else {
-                        float overlap = std::min(max1, max2) - std::max(min1, min2);
-                        if (overlap < minOverlap) {
-                            minOverlap = overlap;
-                            smallestAxis = axis;
-                        }
-                    }
-                }
+std::vector<glm::vec3> CollisionComp::CalculateAxes(const glm::mat4& playerMatrix, const glm::mat4& otherMatrix) const {
+	return {
+		glm::normalize(glm::vec3(playerMatrix[0])),
+		glm::normalize(glm::vec3(playerMatrix[1])),
+		glm::normalize(glm::vec3(otherMatrix[0])),
+		glm::normalize(glm::vec3(otherMatrix[1]))
+	};
+}
 
-                if (collisionDetected) {
-                    glm::vec3 playerPos = playerTransform->GetPos();
-                    glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
-                    playerPos += (glm::dot(playerPos - otherTransform->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
-                    playerTransform->SetPos(playerPos);
+bool CollisionComp::DetectCollision(
+	const glm::mat4& matrix1, const glm::mat4& matrix2,
+	const std::vector<glm::vec3>& axes, glm::vec3& smallestAxis, float& minOverlap) const {
+	minOverlap = std::numeric_limits<float>::max();
 
-                    playerComp->SetCollisionState(true);
-                }
-                else {
-                    playerComp->SetCollisionState(false);
-                }
-            }
-        }
-    }
+	for (const auto& axis : axes) {
+		float min1, max1, min2, max2;
+		ProjectOntoAxis(matrix1, axis, min1, max1);
+		ProjectOntoAxis(matrix2, axis, min2, max2);
+
+		if (max1 < min2 || max2 < min1) {
+			return false;  // 겹침이 없는 축이 있으면 충돌이 아님
+		}
+		else {
+			float overlap = std::min(max1, max2) - std::max(min1, min2);
+			if (overlap < minOverlap) {
+				minOverlap = overlap;
+				smallestAxis = axis;
+			}
+		}
+	}
+	return true;  // 모든 축에서 겹침이 발생하면 충돌임
+}
+
+void CollisionComp::ProjectOntoAxis(const glm::mat4& transform, const glm::vec3& axis, float& min, float& max) const {
+	std::vector<glm::vec3> vertices = {
+		glm::vec3(transform * glm::vec4(0.5f, 0.5f, 0.0f, 1.0f)),
+		glm::vec3(transform * glm::vec4(0.5f, -0.5f, 0.0f, 1.0f)),
+		glm::vec3(transform * glm::vec4(-0.5f, -0.5f, 0.0f, 1.0f)),
+		glm::vec3(transform * glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f))
+	};
+
+	min = max = glm::dot(vertices[0], axis);
+	for (const auto& vertex : vertices) {
+		float projection = glm::dot(vertex, axis);
+		min = std::min(min, projection);
+		max = std::max(max, projection);
+	}
 }
 
 glm::mat4 CollisionComp::CreateTransformMatrix(const TransformComp* transform) const
@@ -105,12 +133,31 @@ glm::mat4 CollisionComp::CreateTransformMatrix(const TransformComp* transform) c
 
 void CollisionComp::Render()
 {
-    if (!isVisible) return;
-    glLineWidth(fwidth_Line);
-    glBindVertexArray(vao);
-    glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+	//if (!isVisible) return;
+
+
+	glLineWidth(fwidth_Line);
+
+	// VAO 바인딩
+	glBindVertexArray(vao);
+
+	// 셰이더 프로그램 사용
+	mShader->use(); // 셰이더 프로그램 활성화
+
+	// 변환 매트릭스 가져오기
+	glm::mat4 transformMatrix = own->GetComponent<TransformComp>()->GetMatrix();
+
+	// 변환 매트릭스를 셰이더로 전송
+	unsigned int transformLoc = glGetUniformLocation(mShader->ID, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformMatrix));
+
+	// 충돌 박스 그리기
+	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0);
+
+	// VAO 바인딩 해제
+	glBindVertexArray(0);
 }
+
 
 
 
@@ -124,27 +171,11 @@ void CollisionComp::SetCollisionBox()
 {
 	if (vao != 0) return;
 	std::vector<Vertex> vertices = {
-		// 우측 상단 정점
-		{{ 0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 위치, 컬러
-		// 우측 하단 정점
-		{{ 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 위치, 컬러
-		// 좌측 하단 정점
-		{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 위치, 컬러
-		// 좌측 상단 정점
-		{{-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}  // 위치, 컬러
+		{{0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 우측 상단
+		{{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 우측 하단
+		{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 좌측 하단
+		{{-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}  // 좌측 상단
 	};
-	glm::mat4 Mat4 = { 1.0f };
-	if (own->GetComponent<TransformComp>() != nullptr)
-		glm::mat4 Mat4 = own->GetComponent<TransformComp>()->GetMatrix();
-	for (int i = 0; i < 4; i++)
-	{
-		glm::vec3 pos(vertices[i].position[0], vertices[i].position[1], vertices[i].position[2]);
-		glm::vec4 transformedPos = Mat4 * glm::vec4(pos, 1.0f);
-
-		vertices[i].position[0] = transformedPos.x;
-		vertices[i].position[1] = transformedPos.y;
-		vertices[i].position[2] = transformedPos.z;
-	}
 
 	unsigned int indices[] = { 0, 1, 2, 3 };
 
@@ -152,18 +183,13 @@ void CollisionComp::SetCollisionBox()
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 
-	// VAO 바인드
 	glBindVertexArray(vao);
-
-	// VBO 바인드 및 데이터 전송
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 
-	// EBO 바인드 및 데이터 전송
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	// 정점 속성 포인터 설정
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 	glEnableVertexAttribArray(0);
 
@@ -176,24 +202,9 @@ void CollisionComp::SetCollisionBox()
 
 }
 bool CollisionComp::CheckCollision(const CollisionComp* other) const {
-	TransformComp* tComp1 = own->GetComponent<TransformComp>();
-	TransformComp* tComp2 = other->own->GetComponent<TransformComp>();
+	glm::mat4 transform1 = own->GetComponent<TransformComp>()->GetMatrix();
+	glm::mat4 transform2 = other->own->GetComponent<TransformComp>()->GetMatrix();
 
-	if (!tComp1 || !tComp2) return false;
-
-	glm::vec3 pos1 = tComp1->GetPos();
-	glm::vec3 scale1 = tComp1->GetScale();
-	float rot1 = glm::radians(tComp1->GetRot());
-
-	glm::vec3 pos2 = tComp2->GetPos();
-	glm::vec3 scale2 = tComp2->GetScale();
-	float rot2 = glm::radians(tComp2->GetRot());
-
-	// 회전 변환 적용한 매트릭스 생성
-	glm::mat4 transform1 = glm::translate(glm::mat4(1.0f), pos1) * glm::rotate(glm::mat4(1.0f), rot1, glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), scale1);
-	glm::mat4 transform2 = glm::translate(glm::mat4(1.0f), pos2) * glm::rotate(glm::mat4(1.0f), rot2, glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), scale2);
-
-	// 각 상자의 축 벡터
 	std::vector<glm::vec3> axes = {
 		glm::normalize(glm::vec3(transform1[0])),
 		glm::normalize(glm::vec3(transform1[1])),
@@ -204,17 +215,14 @@ bool CollisionComp::CheckCollision(const CollisionComp* other) const {
 	for (const auto& axis : axes) {
 		float min1, max1, min2, max2;
 
-		// 첫 번째 상자 투영
-		ProjectOntoAxis(pos1, scale1, rot1, axis, min1, max1);
-
-		// 두 번째 상자 투영
-		ProjectOntoAxis(pos2, scale2, rot2, axis, min2, max2);
+		ProjectOntoAxis(transform1, axis, min1, max1);
+		ProjectOntoAxis(transform2, axis, min2, max2);
 
 		if (max1 < min2 || max2 < min1) {
-			return false;  // 충돌 없음
+			return false; // 충돌 없음
 		}
 	}
-	return true;  // 모든 축에서 충돌이 발생하는 경우
+	return true; // 충돌 발생
 }
 void CollisionComp::ProjectOntoAxis(const glm::vec3& pos, const glm::vec3& scale, float rot, const glm::vec3& axis, float& min, float& max) const {
 	std::vector<glm::vec3> vertices;
@@ -242,21 +250,7 @@ void CollisionComp::ProjectOntoAxis(const glm::vec3& pos, const glm::vec3& scale
 		if (projection > max) max = projection;
 	}
 }
-void CollisionComp::ProjectOntoAxis(const glm::mat4& transform, const glm::vec3& axis, float& min, float& max) const {
-	std::vector<glm::vec3> vertices = {
-		glm::vec3(transform * glm::vec4(0.5f, 0.5f, 0.0f, 1.0f)),
-		glm::vec3(transform * glm::vec4(0.5f, -0.5f, 0.0f, 1.0f)),
-		glm::vec3(transform * glm::vec4(-0.5f, -0.5f, 0.0f, 1.0f)),
-		glm::vec3(transform * glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f))
-	};
 
-	min = max = glm::dot(vertices[0], axis);
-	for (const auto& vertex : vertices) {
-		float projection = glm::dot(vertex, axis);
-		if (projection < min) min = projection;
-		if (projection > max) max = projection;
-	}
-}
 void CollisionComp::LoadFromJson(const json& data) {
 	auto compData = data.find("CompData");
 

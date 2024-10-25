@@ -31,8 +31,8 @@ void TransformComp::CalculateMatrix()
 	//glm::mat4 uWorld_NDC = glm::ortho(-800.0f, 800.f,-400.f,
 	//	 400.0f,-1.0f, 1.0f);
 
-	MyMatConcat(trancsformMatrix, rotateMtx, scaleMtx);
-	MyMatConcat(trancsformMatrix, translateMtx, trancsformMatrix);
+	MyMatConcat(trancsformMatrix, translateMtx	, rotateMtx);// translation * rotation
+	MyMatConcat(trancsformMatrix, trancsformMatrix, scaleMtx); // (translation * rotation) * scale
 	//MyMatConcat(trancsformMatrix, uWorld_NDC, trancsformMatrix);
 
 }
