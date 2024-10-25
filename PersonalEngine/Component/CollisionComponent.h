@@ -13,40 +13,28 @@
 
 class CollisionComp : public EngineComponent , public Entity
 {
-	glm::vec2 vPos;
-	glm::vec2 vScale;
-	float fRot;
+
 	bool isCollider;
 	bool isVisible;
 	GLuint vao, vbo, ebo;
 public:
-	CollisionComp(GameObject* owner);
-	~CollisionComp();
-
 	struct Vertex {
 		float position[3];
 		float color[3];
 	};
 
+public:
+	CollisionComp(GameObject* owner);
+	~CollisionComp();
 
 	void Update() override;
 	void OnEvent(Event* event) override;
 	void Render();
-	//Gettors
-	const glm::vec2& GetPos() const { return vPos; };
-	const glm::vec2& GetScale() const { return vScale; };
-	const float& GetRot() const { return fRot; };
-	const bool& GetVisible() const { return isVisible; };
-	//Mutators
+
 	bool CheckCollision(const CollisionComp* other) const;
-	void SetCollision();
-	void SetCollision(const glm::vec3& vPos_i, const glm::vec3& vScale_i, const float& fRot_i);
-	void SetCollision(const float& fPosx_i, const float& fPosy_i, const float& fScalex_i, const float& fSacaley_i, const float& fRot_i);
-	void SetPos(const float& x, const float& y);
-	void SetPos(const glm::vec3& vPosi);
-	void SetScale(const float& x, const float& y);
-	void SetScale(const glm::vec3& vScalei);
-	void SetRot(const float& fRoti);
+	void ProjectOntoAxis(const glm::vec3& pos, const glm::vec3& scale, float rot, const glm::vec3& axis, float& min, float& max) const;
+	void ProjectOntoAxis(const glm::mat4& transform, const glm::vec3& axis, float& min, float& max) const;
+
 	void SetVisible(const bool& cb_in);
 	void SetCollisionBox();
 
@@ -60,4 +48,7 @@ public:
 	json SaveToJson()override;
 	//For the RTTI
 	static BaseRTTI* CreateCollisionComp();
+private:
+	glm::mat4 CreateTransformMatrix(const TransformComp* transform) const;
 };
+

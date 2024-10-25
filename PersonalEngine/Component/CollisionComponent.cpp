@@ -1,112 +1,125 @@
 #include "CollisionComponent.h"
 #include "../CollsionManager/CollisionManager.h"
-#include "../CollsionManager/CollisionEvent.h"
 #include "../Event/EventManager.h"
-#include <set>
-CollisionComp::CollisionComp(GameObject* owner) :EngineComponent(owner), vPos({ 0,0 }), vScale({ 0,0 }),fRot(0),isCollider(false), isVisible(false)
+#include <iostream>
+#include <vector>
+#include <limits>
+
+CollisionComp::CollisionComp(GameObject* owner)
+    : EngineComponent(owner), isCollider(false), isVisible(false), vao(0), vbo(0), ebo(0)
 {
-	SetCollisionBox();
-	vao=0, vbo=0, ebo=0;
-	CollisionManager::GetInstance()->RegisterCollisionComponent(this);
+    CollisionManager::GetInstance()->RegisterCollisionComponent(this);
 }
 
 CollisionComp::~CollisionComp()
 {
-	CollisionManager::GetInstance()->UnregisterCollisionComponent(this);
-	if (vao != 0)
-		glDeleteVertexArrays(1, &vao);
-	if (vbo != 0)
-		glDeleteBuffers(1, &vbo);
-	if (ebo != 0)
-		glDeleteBuffers(1, &ebo);
+    CollisionManager::GetInstance()->UnregisterCollisionComponent(this);
+    if (vao) glDeleteVertexArrays(1, &vao);
+    if (vbo) glDeleteBuffers(1, &vbo);
+    if (ebo) glDeleteBuffers(1, &ebo);
 }
 
-void CollisionComp::Update() {
-	SetCollision();
-	Render();
-}
-void CollisionComp::OnEvent(Event* event) {
-	if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
-		if (!collisionEvent->src || !collisionEvent->dst) {
-			std::cerr << "Invalid source or destination in CollisionEvent." << std::endl;
-			return;
-		}
-
-		CollisionComp* other = dynamic_cast<CollisionComp*>(collisionEvent->src == this ? collisionEvent->dst : collisionEvent->src);
-		if (other) {
-			GameObject* otherObject = other->GetOwner();
-			GameObject* thisObject = this->GetOwner();
-			PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
-
-			if (playerComp) {
-				if (thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
-					TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
-					TransformComp* otherTransform = otherObject->GetComponent<TransformComp>();
-
-					if (playerTransform && otherTransform) {
-						glm::vec3 playerPos = playerTransform->GetPos();
-						glm::vec3 otherPos = otherTransform->GetPos();
-						glm::vec3 playerScale = playerTransform->GetScale();
-						glm::vec3 otherScale = otherTransform->GetScale();
-
-						// 겹침이 해결될 때까지 반복
-					
-							float overlapX = (playerScale.x / 2 + otherScale.x / 2) - std::abs(playerPos.x - otherPos.x);
-							float overlapY = (playerScale.y / 2 + otherScale.y / 2) - std::abs(playerPos.y - otherPos.y);
-
-							// 겹침이 없으면 종료
-							if (overlapX < 0 && overlapY < 0) {
-								return;
-							}
-
-							// 가장 작은 겹침 축을 선택하여 이동
-							if (overlapX < overlapY) {
-								// x축에서 이동
-								float moveX = (playerPos.x < otherPos.x) ? -overlapX - 0.1f : overlapX + 0.1f;
-								playerPos.x += moveX;
-								std::cout << "Moved X by: " << moveX << std::endl;
-							}
-							else {
-								// y축에서 이동
-								float moveY = (playerPos.y < otherPos.y) ? -overlapY - 0.1f : overlapY + 0.1f;
-								playerPos.y += moveY;
-								std::cout << "Moved Y by: " << moveY << std::endl;
-							}
-
-							// 위치 업데이트 및 디버그 출력
-							playerTransform->SetPos(playerPos);
-							std::cout << "Overlap X: " << overlapX << ", Overlap Y: " << overlapY << std::endl;
-							std::cout << "New Player Position: (" << playerPos.x << ", " << playerPos.y << ", " << playerPos.z << ")" << std::endl;
-					
-
-						playerComp->SetCollisionState(true);
-					}
-				}
-				else {
-					playerComp->SetCollisionState(false);
-				}
-			}
-		}
-	}
+void CollisionComp::Update()
+{
+    Render();
 }
 
+void CollisionComp::OnEvent(Event* event)
+{
+    if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
+        if (!collisionEvent->src || !collisionEvent->dst) {
+            std::cerr << "Invalid source or destination in CollisionEvent." << std::endl;
+            return;
+        }
 
+        CollisionComp* other = dynamic_cast<CollisionComp*>(collisionEvent->src == this ? collisionEvent->dst : collisionEvent->src);
+        if (other) {
+            GameObject* thisObject = this->GetOwner();
+            GameObject* otherObject = other->GetOwner();
+            PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
+            if (playerComp && thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
+                TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
+                TransformComp* otherTransform = otherObject->GetComponent<TransformComp>();
 
+                glm::mat4 playerMatrix = CreateTransformMatrix(playerTransform);
+                glm::mat4 otherMatrix = CreateTransformMatrix(otherTransform);
 
+                std::vector<glm::vec3> axes = {
+                    glm::normalize(glm::vec3(playerMatrix[0])),
+                    glm::normalize(glm::vec3(playerMatrix[1])),
+                    glm::normalize(glm::vec3(otherMatrix[0])),
+                    glm::normalize(glm::vec3(otherMatrix[1]))
+                };
+
+                float minOverlap = std::numeric_limits<float>::max();
+                glm::vec3 smallestAxis;
+                bool collisionDetected = true;
+
+                for (const auto& axis : axes) {
+                    float min1, max1, min2, max2;
+                    ProjectOntoAxis(playerMatrix, axis, min1, max1);
+                    ProjectOntoAxis(otherMatrix, axis, min2, max2);
+
+                    if (max1 < min2 || max2 < min1) {
+                        collisionDetected = false;
+                        break;
+                    }
+                    else {
+                        float overlap = std::min(max1, max2) - std::max(min1, min2);
+                        if (overlap < minOverlap) {
+                            minOverlap = overlap;
+                            smallestAxis = axis;
+                        }
+                    }
+                }
+
+                if (collisionDetected) {
+                    glm::vec3 playerPos = playerTransform->GetPos();
+                    glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
+                    playerPos += (glm::dot(playerPos - otherTransform->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
+                    playerTransform->SetPos(playerPos);
+
+                    playerComp->SetCollisionState(true);
+                }
+                else {
+                    playerComp->SetCollisionState(false);
+                }
+            }
+        }
+    }
+}
+
+glm::mat4 CollisionComp::CreateTransformMatrix(const TransformComp* transform) const
+{
+    if (!transform) return glm::mat4(1.0f);
+
+    glm::vec3 position = transform->GetPos();
+    glm::vec3 scale = transform->GetScale();
+    float rotation = glm::radians(transform->GetRot());
+
+    return glm::translate(glm::mat4(1.0f), position) *
+        (rotation != 0.0f ? glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1)) : glm::mat4(1.0f)) *
+        glm::scale(glm::mat4(1.0f), scale);
+}
 
 void CollisionComp::Render()
 {
-	if (!isVisible) return;  
-	//glEnable(GL_LINE_SMOOTH);
-	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST); 
-	//glLineWidth(5.0f);
-	glLineWidth(fwidth_Line);
-
-	glBindVertexArray(vao);
-	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0); 
-	glBindVertexArray(0);
+    if (!isVisible) return;
+    glLineWidth(fwidth_Line);
+    glBindVertexArray(vao);
+    glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }
+
+
+
+void CollisionComp::SetVisible(const bool& cb_in)
+{
+    isVisible = cb_in;
+}
+
+
 void CollisionComp::SetCollisionBox()
 {
 	if (vao != 0) return;
@@ -122,7 +135,7 @@ void CollisionComp::SetCollisionBox()
 	};
 	glm::mat4 Mat4 = { 1.0f };
 	if (own->GetComponent<TransformComp>() != nullptr)
-			glm::mat4 Mat4 = own->GetComponent<TransformComp>()->GetMatrix();
+		glm::mat4 Mat4 = own->GetComponent<TransformComp>()->GetMatrix();
 	for (int i = 0; i < 4; i++)
 	{
 		glm::vec3 pos(vertices[i].position[0], vertices[i].position[1], vertices[i].position[2]);
@@ -162,101 +175,94 @@ void CollisionComp::SetCollisionBox()
 
 
 }
+bool CollisionComp::CheckCollision(const CollisionComp* other) const {
+	TransformComp* tComp1 = own->GetComponent<TransformComp>();
+	TransformComp* tComp2 = other->own->GetComponent<TransformComp>();
 
-bool CollisionComp::CheckCollision(const CollisionComp* other) const
-{
-	const glm::vec3& pos1 = own->GetComponent<TransformComp>()->GetPos();
-	const glm::vec3& scale1 = own->GetComponent<TransformComp>()->GetScale();
-	const glm::vec3& pos2 = other->own->GetComponent<TransformComp>()->GetPos();
-	const glm::vec3& scale2 = other->own->GetComponent<TransformComp>()->GetScale();
+	if (!tComp1 || !tComp2) return false;
 
-	bool collisionX = pos1.x + scale1.x >= pos2.x && pos2.x + scale2.x >= pos1.x;
-	bool collisionY = pos1.y + scale1.y >= pos2.y && pos2.y + scale2.y >= pos1.y;
+	glm::vec3 pos1 = tComp1->GetPos();
+	glm::vec3 scale1 = tComp1->GetScale();
+	float rot1 = glm::radians(tComp1->GetRot());
 
+	glm::vec3 pos2 = tComp2->GetPos();
+	glm::vec3 scale2 = tComp2->GetScale();
+	float rot2 = glm::radians(tComp2->GetRot());
 
-	return collisionX && collisionY;
+	// 회전 변환 적용한 매트릭스 생성
+	glm::mat4 transform1 = glm::translate(glm::mat4(1.0f), pos1) * glm::rotate(glm::mat4(1.0f), rot1, glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), scale1);
+	glm::mat4 transform2 = glm::translate(glm::mat4(1.0f), pos2) * glm::rotate(glm::mat4(1.0f), rot2, glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), scale2);
+
+	// 각 상자의 축 벡터
+	std::vector<glm::vec3> axes = {
+		glm::normalize(glm::vec3(transform1[0])),
+		glm::normalize(glm::vec3(transform1[1])),
+		glm::normalize(glm::vec3(transform2[0])),
+		glm::normalize(glm::vec3(transform2[1]))
+	};
+
+	for (const auto& axis : axes) {
+		float min1, max1, min2, max2;
+
+		// 첫 번째 상자 투영
+		ProjectOntoAxis(pos1, scale1, rot1, axis, min1, max1);
+
+		// 두 번째 상자 투영
+		ProjectOntoAxis(pos2, scale2, rot2, axis, min2, max2);
+
+		if (max1 < min2 || max2 < min1) {
+			return false;  // 충돌 없음
+		}
+	}
+	return true;  // 모든 축에서 충돌이 발생하는 경우
 }
-void CollisionComp::SetCollision()
-{
-	TransformComp* C_TransComp=own->GetComponent<TransformComp>();
-	SetPos(C_TransComp->GetPos());
-	SetScale(C_TransComp->GetScale());
-	SetRot(C_TransComp->GetRot());
+void CollisionComp::ProjectOntoAxis(const glm::vec3& pos, const glm::vec3& scale, float rot, const glm::vec3& axis, float& min, float& max) const {
+	std::vector<glm::vec3> vertices;
+	if (rot != 0.0f) {
+		vertices = {
+			pos + glm::vec3(glm::rotate(glm::mat4(1.0f), rot, glm::vec3(0.0f, 0.0f, 1.0f)) * glm::vec4(scale.x / 2, scale.y / 2, 0.0f, 1.0f)),
+			pos + glm::vec3(glm::rotate(glm::mat4(1.0f), rot, glm::vec3(0.0f, 0.0f, 1.0f)) * glm::vec4(scale.x / 2, -scale.y / 2, 0.0f, 1.0f)),
+			pos + glm::vec3(glm::rotate(glm::mat4(1.0f), rot, glm::vec3(0.0f, 0.0f, 1.0f)) * glm::vec4(-scale.x / 2, -scale.y / 2, 0.0f, 1.0f)),
+			pos + glm::vec3(glm::rotate(glm::mat4(1.0f), rot, glm::vec3(0.0f, 0.0f, 1.0f)) * glm::vec4(-scale.x / 2, scale.y / 2, 0.0f, 1.0f))
+		};
+	}
+	else {
+		vertices = {
+			pos + glm::vec3(scale.x / 2, scale.y / 2, 0.0f),
+			pos + glm::vec3(scale.x / 2, -scale.y / 2, 0.0f),
+			pos + glm::vec3(-scale.x / 2, -scale.y / 2, 0.0f),
+			pos + glm::vec3(-scale.x / 2, scale.y / 2, 0.0f)
+		};
+	}
+
+	min = max = glm::dot(vertices[0], axis);
+	for (const auto& vertex : vertices) {
+		float projection = glm::dot(vertex, axis);
+		if (projection < min) min = projection;
+		if (projection > max) max = projection;
+	}
 }
+void CollisionComp::ProjectOntoAxis(const glm::mat4& transform, const glm::vec3& axis, float& min, float& max) const {
+	std::vector<glm::vec3> vertices = {
+		glm::vec3(transform * glm::vec4(0.5f, 0.5f, 0.0f, 1.0f)),
+		glm::vec3(transform * glm::vec4(0.5f, -0.5f, 0.0f, 1.0f)),
+		glm::vec3(transform * glm::vec4(-0.5f, -0.5f, 0.0f, 1.0f)),
+		glm::vec3(transform * glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f))
+	};
 
-void CollisionComp::SetCollision(const glm::vec3& vPos_i, const glm::vec3& vScale_i, const float& fRot_i)
-{
-	SetPos(vPos_i);
-	SetScale(vScale_i);
-	SetRot(fRot_i);
+	min = max = glm::dot(vertices[0], axis);
+	for (const auto& vertex : vertices) {
+		float projection = glm::dot(vertex, axis);
+		if (projection < min) min = projection;
+		if (projection > max) max = projection;
+	}
 }
-
-void CollisionComp::SetCollision(const float& fPosx_i, const float& fPosy_i, const float& fScalex_i, const float& fSacaley_i, const float& fRot_i)
-{
-	SetPos(fPosx_i, fPosy_i);
-	SetScale(fScalex_i, fSacaley_i);
-	SetRot(fRot_i);
-}
-
-
-
-void CollisionComp::SetPos(const float& x, const float& y)
-{
-	vPos.x = x;
-	vPos.y = y;
-}
-void CollisionComp::SetPos(const glm::vec3& vPosi)
-{
-	vPos.x = vPosi.x;
-	vPos.y = vPosi.y;
-}
-void CollisionComp::SetScale(const float& x, const float& y)
-{
-	vScale.x = x;
-	vScale.y = y;
-}
-
-void CollisionComp::SetScale(const glm::vec3& vScalei)
-{
-	vScale.x = vScalei.x;
-	vScale.y = vScalei.y;
-}
-
-void CollisionComp::SetRot(const float& fRoti)
-{
-	fRot = fRoti;
-}
-
-void CollisionComp::SetVisible(const bool& cb_in)
-{
-	isVisible = cb_in;
-}
-
-
-
 void CollisionComp::LoadFromJson(const json& data) {
 	auto compData = data.find("CompData");
 
 	if (compData != data.end()) {
 		// Load position
-		auto pos = compData->find("Position");
-		if (pos != compData->end() && pos->is_array()) {
-			vPos.x = (*pos)[0];
-			vPos.y = (*pos)[1];
-		}
-
-		// Load scale
-		auto scale = compData->find("Scale");
-		if (scale != compData->end() && scale->is_array()) {
-			vScale.x = (*scale)[0];
-			vScale.y = (*scale)[1];
-		}
-
-		// Load rotation
-		auto rotation = compData->find("Rotation");
-		if (rotation != compData->end()) {
-			fRot = rotation.value();
-		}
+		
 
 		// Load collider and visibility state
 		auto collider = compData->find("isCollider");
@@ -275,9 +281,7 @@ json CollisionComp::SaveToJson() {
 	json data;
 	data["Type"] = GetType();  // Save the component type
 	json compData;
-	compData["Position"] = { vPos.x, vPos.y };
-	compData["Scale"] = { vScale.x, vScale.y };
-	compData["Rotation"] = fRot;
+	
 	compData["isCollider"] = isCollider;
 	compData["isVisible"] = isVisible;
 	data["CompData"] = compData;  // Save component-specific data
