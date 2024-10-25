@@ -2,16 +2,12 @@
 
 void CollisionManager::RegisterCollisionComponent(CollisionComp* comp)
 {
-    {
-        collisionComponents.push_back(comp);
-    }
+    collisionComponents.push_back(comp);
 }
 
 void CollisionManager::UnregisterCollisionComponent(CollisionComp* comp)
 {
-    
-        collisionComponents.erase(std::remove(collisionComponents.begin(), collisionComponents.end(), comp), collisionComponents.end());
-    
+    collisionComponents.erase(std::remove(collisionComponents.begin(), collisionComponents.end(), comp), collisionComponents.end());
 }
 
 void CollisionManager::CheckAllCollisions() {

@@ -25,19 +25,14 @@ void CollisionComp::Update() {
 	SetCollision();
 	Render();
 }
-
 void CollisionComp::OnEvent(Event* event) {
-	// 이벤트가 충돌 이벤트인지 확인
 	if (CollisionEvent* collisionEvent = dynamic_cast<CollisionEvent*>(event)) {
-		// src와 dst가 nullptr이 아닌지 확인
 		if (!collisionEvent->src || !collisionEvent->dst) {
 			std::cerr << "Invalid source or destination in CollisionEvent." << std::endl;
-			return; // 유효하지 않은 경우 처리 중단
+			return;
 		}
 
-		// 충돌한 다른 컴포넌트 확인
 		CollisionComp* other = dynamic_cast<CollisionComp*>(collisionEvent->src == this ? collisionEvent->dst : collisionEvent->src);
-
 		if (other) {
 			GameObject* otherObject = other->GetOwner();
 			GameObject* thisObject = this->GetOwner();
@@ -45,11 +40,45 @@ void CollisionComp::OnEvent(Event* event) {
 
 			if (playerComp) {
 				if (thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
-
 					TransformComp* playerTransform = thisObject->GetComponent<TransformComp>();
-					if (playerTransform) {
-						glm::vec3 previousPos = playerTransform->GetPreviousPosition();
-						playerTransform->SetPos(previousPos);  // 이전 위치로 되돌림
+					TransformComp* otherTransform = otherObject->GetComponent<TransformComp>();
+
+					if (playerTransform && otherTransform) {
+						glm::vec3 playerPos = playerTransform->GetPos();
+						glm::vec3 otherPos = otherTransform->GetPos();
+						glm::vec3 playerScale = playerTransform->GetScale();
+						glm::vec3 otherScale = otherTransform->GetScale();
+
+						// 겹침이 해결될 때까지 반복
+					
+							float overlapX = (playerScale.x / 2 + otherScale.x / 2) - std::abs(playerPos.x - otherPos.x);
+							float overlapY = (playerScale.y / 2 + otherScale.y / 2) - std::abs(playerPos.y - otherPos.y);
+
+							// 겹침이 없으면 종료
+							if (overlapX < 0 && overlapY < 0) {
+								return;
+							}
+
+							// 가장 작은 겹침 축을 선택하여 이동
+							if (overlapX < overlapY) {
+								// x축에서 이동
+								float moveX = (playerPos.x < otherPos.x) ? -overlapX - 0.1f : overlapX + 0.1f;
+								playerPos.x += moveX;
+								std::cout << "Moved X by: " << moveX << std::endl;
+							}
+							else {
+								// y축에서 이동
+								float moveY = (playerPos.y < otherPos.y) ? -overlapY - 0.1f : overlapY + 0.1f;
+								playerPos.y += moveY;
+								std::cout << "Moved Y by: " << moveY << std::endl;
+							}
+
+							// 위치 업데이트 및 디버그 출력
+							playerTransform->SetPos(playerPos);
+							std::cout << "Overlap X: " << overlapX << ", Overlap Y: " << overlapY << std::endl;
+							std::cout << "New Player Position: (" << playerPos.x << ", " << playerPos.y << ", " << playerPos.z << ")" << std::endl;
+					
+
 						playerComp->SetCollisionState(true);
 					}
 				}
@@ -60,6 +89,11 @@ void CollisionComp::OnEvent(Event* event) {
 		}
 	}
 }
+
+
+
+
+
 
 void CollisionComp::Render()
 {
@@ -139,7 +173,6 @@ bool CollisionComp::CheckCollision(const CollisionComp* other) const
 	bool collisionX = pos1.x + scale1.x >= pos2.x && pos2.x + scale2.x >= pos1.x;
 	bool collisionY = pos1.y + scale1.y >= pos2.y && pos2.y + scale2.y >= pos1.y;
 
-	
 
 	return collisionX && collisionY;
 }

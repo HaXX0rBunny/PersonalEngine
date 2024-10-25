@@ -249,6 +249,8 @@ void MainMenu::NewObjectPopup()
 			if (strlen(newObjectName) > 0)
 			{
 				GameObject* newObj = new GameObject(newObjectName);
+				newObj->AddComponent<TransformComp>();
+				newObj->AddComponent<SpriteComp>();
 				strcpy_s(newObjectName, "");
 				ImGui::CloseCurrentPopup();
 			}

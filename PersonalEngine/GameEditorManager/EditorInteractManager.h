@@ -22,5 +22,5 @@ public:
 	
 	void Update();
 	void CheckObject();
-	void CheckMouseToCollision();
+	void CheckMouseToCollision(const glm::vec2& CVmousePos_in);
 };

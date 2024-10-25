@@ -1,6 +1,6 @@
 #include "PlayerComponent.h"
 
-PlayerComp::PlayerComp(GameObject* owner): LogicComponent(owner), moveSpeed(10), spin(1), worldLimit(375), playMode(false)
+PlayerComp::PlayerComp(GameObject* owner): LogicComponent(owner), moveSpeed(10), spin(1), worldLimit(2000), playMode(false)
 {
 
 }
@@ -14,8 +14,8 @@ void PlayerComp::Update()
 {
 	if (EngineState::engineState_ == Editor)
 		return;
-	if (isColliding)
-		return;
+	//if (isColliding)
+	//	return;
 
 	TransformComp* t = own->GetComponent<TransformComp>();
 	RigidbodyComp* r = own->GetComponent<RigidbodyComp>();
@@ -64,7 +64,7 @@ void PlayerComp::CreateBomb()
 	if (t)
 	{
 		TransformComp* bombTransform = bomb->GetComponent<TransformComp>();
-		bombTransform->SetPos(t->GetPos().x, t->GetPos().y);  // 플레이어와 동일한 위치에 폭탄 생성
+		bombTransform->SetPos(t->GetPos().x, t->GetPos().y, 5);  // 플레이어와 동일한 위치에 폭탄 생성
 		bombTransform->SetScale(100, 100);
 	}
 

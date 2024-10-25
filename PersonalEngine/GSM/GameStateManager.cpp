@@ -43,14 +43,19 @@ void GSM::GameStateManager::Update()
 {
 
 
-	ComponentManager<LogicComponent>::Instance()->Update();
-	ComponentManager<EngineComponent>::Instance()->Update();
+
+
 	if (currentLevel)
 	{
 		currentLevel->Update();
 	}
-	CollisionManager::GetInstance()->Update();
-	EventManager::GetInstance()->DispatchEvent();
+	if (EngineState::engineState_ == Play)
+	{
+		ComponentManager<LogicComponent>::Instance()->Update();
+		CollisionManager::GetInstance()->Update();
+		EventManager::GetInstance()->DispatchEvent();
+	}
+	ComponentManager<EngineComponent>::Instance()->Update();
 	Camera::GetInstance()->Update();
 	ComponentManager<GraphicsComponent>::Instance()->Update();
 

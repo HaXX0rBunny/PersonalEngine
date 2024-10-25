@@ -12,12 +12,11 @@ void main()
 {
     // 텍스처에서 색상을 샘플링
     vec4 texColor = texture(ourTexture, TexCoord);
-	
-	
+    
     // 텍스처 컬러와 스프라이트 컬러를 곱함
     // spriteColor는 RGB와 알파 값을 모두 포함
-    // FragColor = vec4(ourColor,1);
+    //FragColor = vec4(ourColor,1);
     FragColor = texColor * spriteColor;
-	if (FragColor.a < 0.3)
-		discard;
+    if(FragColor.a < 0.3)
+	discard; 
 }

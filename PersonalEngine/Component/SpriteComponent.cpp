@@ -7,7 +7,7 @@
 //#include "glm/gtc/"
 #include "glm/mat4x4.hpp"
 #include "glm/matrix.hpp"
-SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false)
+SpriteComp::SpriteComp(GameObject* owner) :GraphicsComponent(owner), Alpha(1.0f), mtex(nullptr), isMeshSet(false), isTextureSet(false), SpriteType(Rect)
 {
 	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
 
@@ -66,9 +66,19 @@ void SpriteComp::SetAlpha(const float& a)
 	Alpha = a;
 }
 
+void SpriteComp::SetPolyType(const polygon& ce_in)
+{
+	SpriteType = ce_in;
+}
+
 float SpriteComp::GetAlpha()
 {
 	return Alpha;
+}
+
+const SpriteComp::polygon& SpriteComp::GetPolyType()
+{
+	return SpriteType;
 }
 
 void SpriteComp::SetColor(const float& r, const float& g, const float& b)
@@ -122,15 +132,12 @@ void SpriteComp::SetMesh()
 	// 위치 속성 (x, y, z)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 	glEnableVertexAttribArray(0);
-
 	// 컬러 속성 (r, g, b)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 	glEnableVertexAttribArray(1);
-
 	// 텍스처 좌표 속성 (u, v)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
 	glEnableVertexAttribArray(2);
-
 	// VAO, VBO, EBO 바인딩 해제 (안전하게)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
