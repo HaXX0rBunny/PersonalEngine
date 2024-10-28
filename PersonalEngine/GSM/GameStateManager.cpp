@@ -55,8 +55,9 @@ void GSM::GameStateManager::Update()
 		CollisionManager::GetInstance()->Update();
 		EventManager::GetInstance()->DispatchEvent();
 	}
-	ComponentManager<EngineComponent>::Instance()->Update();
 	Camera::GetInstance()->Update();
+	ComponentManager<EngineComponent>::Instance()->Update();
+
 	ComponentManager<GraphicsComponent>::Instance()->Update();
 
 }

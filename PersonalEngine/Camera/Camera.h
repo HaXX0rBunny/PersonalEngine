@@ -45,6 +45,7 @@ public:
 	void ZoomIn();
 	void ZoomOut();
 	void SetZoomLevel(float newZoomLevel);
+	const float& getZoom() { return zoomLevel; };
 	void UpdateViewMatrix();
 	const glm::mat4& GetViewMatrix(); 
 

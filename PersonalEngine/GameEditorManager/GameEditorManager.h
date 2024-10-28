@@ -1,6 +1,6 @@
 #pragma once
 #include"../Editor/MainMenu.h"
-
+#include "../GameEditorManager/EditorInteractManager.h"
 
 namespace GEM
 {

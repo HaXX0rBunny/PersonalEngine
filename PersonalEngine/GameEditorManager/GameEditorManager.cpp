@@ -22,12 +22,13 @@ void GEM::GameEditorManager::DeleteGEM()
 void GEM::GameEditorManager::Init()
 {
 	mainMenu = new MainMenu();
-	
+
 }
 
 void GEM::GameEditorManager::Update()
 {
 	mainMenu->Update();
+	EditorInteractManager::GetInstance()->Update();
 }
 
 void GEM::GameEditorManager::Exit()
