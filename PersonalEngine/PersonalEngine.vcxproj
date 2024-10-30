@@ -160,7 +160,11 @@
     <ClCompile Include="Dependencies\include\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Dependencies\include\imgui\implot.cpp" />
+    <ClCompile Include="Dependencies\include\imgui\implot_demo.cpp" />
+    <ClCompile Include="Dependencies\include\imgui\implot_items.cpp" />
     <ClCompile Include="Editor\MainMenu.cpp" />
+    <ClCompile Include="Editor\ProfilerMoniter.cpp" />
     <ClCompile Include="GameEditorManager\EditorInteractManager.cpp" />
     <ClCompile Include="GameEditorManager\GameEditorManager.cpp" />
     <ClCompile Include="Event\Event.cpp" />
@@ -169,13 +173,17 @@
     <ClCompile Include="ResourceManager\MusicResource.cpp" />
     <ClCompile Include="Utility\EngineState.cpp" />
     <ClCompile Include="Utility\InputProcess.cpp" />
+    <ClCompile Include="Utility\Profiler.cpp" />
     <ClCompile Include="Utility\Time.cpp" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="CollsionManager\CollisionEvent.h" />
     <ClInclude Include="CollsionManager\CollisionManager.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
     <ClInclude Include="Component\PlayerComponent.h" />
+    <ClInclude Include="Dependencies\include\imgui\implot.h" />
+    <ClInclude Include="Dependencies\include\imgui\implot_internal.h" />
     <ClInclude Include="Editor\MainMenu.h" />
+    <ClInclude Include="Editor\ProfilerMoniter.h" />
     <ClInclude Include="GameEditorManager\BaseEditor.h" />
     <ClInclude Include="GameEditorManager\GameEditorManager.h" />
     <ClInclude Include="GameEditorManager\EditorInteractManager.h" />
@@ -207,6 +215,7 @@
     <ClInclude Include="Utility\EngineState.h" />
     <ClInclude Include="Utility\GLHeader.h" />
     <ClInclude Include="Utility\InputProcess.h" />
+    <ClInclude Include="Utility\Profiler.h" />
     <ClInclude Include="Utility\Time.h" />
     <ClInclude Include="Utility\WindowFigure.h" />
   </ItemGroup>

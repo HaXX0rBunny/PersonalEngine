@@ -26,7 +26,7 @@ MainMenu::MainMenu() :
 
 void MainMenu::Update()
 {
-	UpdateEditorState();
+
 	TopBar();
 	ShowObjectDialog();
 	ShowObjectEditDiaglog();
@@ -366,7 +366,8 @@ void MainMenu::UpdateEditorState()
 {
 	EngineState::UpdateEnigneState();
 	if (Keystate::keystateF5 == GL_TRUE)
-		if (EngineState::engineState_ == Editor&& isEditor == false)
+	{
+		if (EngineState::engineState_ == Editor && isEditor == false)
 		{
 			GSM::GameStateManager::GetInstance()->Exit();
 			GSM::GameStateManager::GetInstance()->Init();
@@ -376,9 +377,9 @@ void MainMenu::UpdateEditorState()
 		else
 		{
 			Serializer::Instance()->SaveLevel(currentfile);
-		
 			isEditor = false;
 		}
+	}
 }
 
 void MainMenu::ShowObjectDialog()

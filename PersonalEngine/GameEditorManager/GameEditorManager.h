@@ -1,7 +1,8 @@
 #pragma once
 #include"../Editor/MainMenu.h"
 #include "../GameEditorManager/EditorInteractManager.h"
-
+#include "../Utility/EngineState.h"
+#include "../Editor/ProfilerMoniter.h"
 namespace GEM
 {
 	class BaseEditor;

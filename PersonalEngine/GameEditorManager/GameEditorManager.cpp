@@ -27,8 +27,15 @@ void GEM::GameEditorManager::Init()
 
 void GEM::GameEditorManager::Update()
 {
-	mainMenu->Update();
-	EditorInteractManager::GetInstance()->Update();
+	if (Keystate::keystateF5 == GL_TRUE)
+		EditorInteractManager::GetInstance()->selectedObject = nullptr;
+	mainMenu->UpdateEditorState();
+	if (EngineState::engineState_ == EngineMode::Editor)
+	{
+		mainMenu->Update();
+		EditorInteractManager::GetInstance()->Update();
+	}
+
 }
 
 void GEM::GameEditorManager::Exit()

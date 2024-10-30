@@ -1,4 +1,5 @@
 #include "EditorInteractManager.h"
+
 EditorInteractManager EditorInteractManager::Instance;
 
 EditorInteractManager::EditorInteractManager() : selectedObject(nullptr), lastMousePos({0,0})
@@ -48,14 +49,20 @@ bool EditorInteractManager::IsPointInBounds(const glm::vec2& point, GameObject* 
 }
 void EditorInteractManager::Update()
 {
-    if (ImGui::IsKeyPressed(ImGuiKey_1)) currentMode = EditMode::Position;
-    if (ImGui::IsKeyPressed(ImGuiKey_2)) currentMode = EditMode::Rotation;
-    if (ImGui::IsKeyPressed(ImGuiKey_3)) currentMode = EditMode::Scale;
+
+    if (Keystate::keystateQ==GL_TRUE) 
+        currentMode = EditMode::Position;
+    if (Keystate::keystateW == GL_TRUE)
+        currentMode = EditMode::Rotation;
+    if (Keystate::keystateE == GL_TRUE)
+        currentMode = EditMode::Scale;
 
     // 왼쪽 마우스 버튼 클릭 확인
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-        ImVec2 mousePos = ImGui::GetMousePos();
-        CheckMouseToCollision(glm::vec2(mousePos.x, mousePos.y));
+        double MouseX, MouseY;
+        glfwGetCursorPos(glfwGetCurrentContext(), &MouseX, &MouseY);
+        //ImVec2 mousePos = ImGui::GetMousePos();
+        CheckMouseToCollision(glm::vec2(MouseX, MouseY));
     }
 
     // 드래그 처리
@@ -121,6 +128,7 @@ void EditorInteractManager::Update()
 // 속성 창 표시를 위한 별도의 함수
 void EditorInteractManager::ShowObjectProperties()
 {
+    std::cout << selectedObject << std::endl;
     ImGui::Begin("Object Properties");
     ImGui::Text("Selected Object: %s", selectedObject->GetName().c_str());
 
@@ -131,6 +139,12 @@ void EditorInteractManager::ShowObjectProperties()
         currentMode = static_cast<EditMode>(currentModeIndex);
     }
 
+    if (!selectedObject->GetComponent<TransformComp>())
+    {
+
+        ImGui::End();
+        return;
+    }
     if (auto transform = selectedObject->GetComponent<TransformComp>()) {
         glm::vec3 position = transform->GetPos();
         if (ImGui::DragFloat3("Position", &position[0], 0.1f)) {

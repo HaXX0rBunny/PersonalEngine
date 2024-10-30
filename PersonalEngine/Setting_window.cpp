@@ -1,14 +1,10 @@
 #include "Setting_window.h"
-
-
-GLFWwindow* SetWindow::window = nullptr;
+GLFWwindow* window;
 GSM::GameStateManager* SetWindow::gsm = nullptr;
 GEM::GameEditorManager* SetWindow::gem = nullptr;
 int SetWindow::gGameRunning = 1;
 
-std::string SetWindow::title;
-GLint SetWindow::width;
-GLint SetWindow::height;
+
 
 int SetWindow::setWindow_()
 {
@@ -17,7 +13,7 @@ int SetWindow::setWindow_()
         exit(EXIT_FAILURE);
     }
 
-    init(Window_width, Window_height, EngineTitle); // 초기화
+    init(); // 초기화
 
     GameLoop(window); // 메인 게임 루프
 
@@ -25,18 +21,15 @@ int SetWindow::setWindow_()
     return 0;
 }
 
-void SetWindow::init(GLint width, GLint height, std::string title)
+void SetWindow::init()
 {
-    SetWindow::width = width;
-    SetWindow::height = height;
-    SetWindow::title = title;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    window = glfwCreateWindow(Window_width, Window_height, EngineTitle, NULL, NULL);
 
     if (!window)
     {
@@ -55,6 +48,8 @@ void SetWindow::init(GLint width, GLint height, std::string title)
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
+
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
@@ -126,7 +121,7 @@ void SetWindow::cleanup()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-
+    ImPlot::DestroyContext();
     // 리소스 정리
     Serializer::Instance()->DestroyThis();
     ResourceManager::GetInstance()->Clear();

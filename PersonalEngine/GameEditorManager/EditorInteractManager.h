@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+
 #include "../GameEditorManager/BaseEditor.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../GameObject/GameObject.h"
@@ -10,6 +11,8 @@
 #include "../Camera/Camera.h"
 #include <glm.hpp>
 #include "../Utility/InputProcess.h"
+
+
 class EditorInteractManager {
 private:
     enum class EditMode {
@@ -19,7 +22,7 @@ private:
     };
 
     static EditorInteractManager Instance;
-    GameObject* selectedObject;
+
     glm::vec2 lastMousePos;
     bool isDragging;
     EditMode currentMode;  // 현재 편집 모드
@@ -32,6 +35,7 @@ private:
     glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPos);
     bool IsPointInBounds(const glm::vec2& point, GameObject* object);
 public:
+    GameObject* selectedObject;
     static EditorInteractManager* GetInstance() {
         return &Instance;
     }
@@ -50,5 +54,6 @@ public:
     // 드래깅 관련
     void StartDragging(const glm::vec2& startPos);
     void EndDragging() { isDragging = false; }
+    
 
 };

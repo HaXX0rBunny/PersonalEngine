@@ -12,6 +12,7 @@
 #include "../GSM/GameStateManager.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/TransformComponent.h"
+#include "../GameEditorManager/EditorInteractManager.h"
 #include "../Component/CollisionComponent.h"
 #include "../Utility/Filedialog.h"
 #include "../Utility/CompareFile.h"
