@@ -133,7 +133,7 @@ glm::mat4 CollisionComp::CreateTransformMatrix(const TransformComp* transform) c
 
 void CollisionComp::Render()
 {
-	if (!isVisible) return;
+
 
 
 	//glLineWidth(fwidth_Line);
@@ -170,6 +170,7 @@ void CollisionComp::SetVisible(const bool& cb_in)
 
 void CollisionComp::SetCollisionBox()
 {
+	//if (!isVisible) return;
 	if (vao != 0) return;
 	std::vector<Vertex> vertices;
 	float offset = fwidth_Line * 0.01f;
