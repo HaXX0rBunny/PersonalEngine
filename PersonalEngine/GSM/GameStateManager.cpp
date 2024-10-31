@@ -52,14 +52,20 @@ void GSM::GameStateManager::Update()
 	if (EngineState::engineState_ == Play)
 	{
 		ComponentManager<LogicComponent>::Instance()->Update();
+		DEBUG_PROFILER_START("Collision");
 		CollisionManager::GetInstance()->Update();
+		DEBUG_PROFILER_END;
+		DEBUG_PROFILER_START("Event");
 		EventManager::GetInstance()->DispatchEvent();
+		DEBUG_PROFILER_END;
 	}
+	DEBUG_PROFILER_START("Camera");
 	Camera::GetInstance()->Update();
+	DEBUG_PROFILER_END;
 	ComponentManager<EngineComponent>::Instance()->Update();
-
+	DEBUG_PROFILER_START("Grapics");
 	ComponentManager<GraphicsComponent>::Instance()->Update();
-
+	DEBUG_PROFILER_END;
 }
 
 void GSM::GameStateManager::Exit()

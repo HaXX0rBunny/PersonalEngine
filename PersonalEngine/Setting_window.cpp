@@ -24,6 +24,7 @@ int SetWindow::setWindow_()
 void SetWindow::init()
 {
 
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -96,11 +97,9 @@ void SetWindow::draw(Shader& shader)
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    gem->Update();
-
-
 
     gsm->Update();
+    gem->Update();
 
 
     ImGui::Render();
@@ -125,7 +124,7 @@ void SetWindow::cleanup()
     // 리소스 정리
     Serializer::Instance()->DestroyThis();
     ResourceManager::GetInstance()->Clear();
-
+    DEBUG_PROFILER_DELETE;
     // GLFW 종료
     glfwTerminate();
  

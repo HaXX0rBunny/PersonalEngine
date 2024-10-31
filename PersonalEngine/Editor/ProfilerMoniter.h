@@ -1,22 +1,20 @@
 #pragma once
 #include <map>
 #include "imgui/implot.h"
+#include "../Utility/Profiler.h"
 class ProfilerMoniter
 {
-
+    ProfilerMoniter() = default;
+    ProfilerMoniter(const ProfilerMoniter& other) = delete;
+    const ProfilerMoniter& operator=(const ProfilerMoniter& other) = delete;
+    ~ProfilerMoniter();
 public:
+    static ProfilerMoniter* GetInstance() {
+        static ProfilerMoniter Instance;  // ½Ì±ÛÅæ ÆÐÅÏ »ç¿ë
+        return &Instance;
+    }
 	void Update();
-    template <typename T>
-    inline T RandomRange(T min, T max);
+    void Clear();
+
 };
 
-template<typename T>
-inline T ProfilerMoniter::RandomRange(T min, T max)
-{
-
- 
-            T scale = rand() / (T)RAND_MAX;
-            return min + scale * (max - min);
-
-
-}

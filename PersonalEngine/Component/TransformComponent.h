@@ -1,7 +1,7 @@
 #pragma once
 #include "EngineComponent.h"
 #include "../Utility/Matrix.h"
-
+#include "../Utility/Profiler.h"
 class TransformComp : public EngineComponent
 {
 	glm::vec3 pos;

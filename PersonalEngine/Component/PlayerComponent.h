@@ -8,6 +8,7 @@
 #include "../Utility/EngineState.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Camera/Camera.h"
+#include "../Utility/Profiler.h"
 class PlayerComp : public LogicComponent
 {
 	float moveSpeed;
@@ -22,7 +23,7 @@ public:
 	void SetCollisionState(bool state);
 	void SetMode(const bool& cb_in);
 	bool GetMode();
-	void CreateBomb();
+
 	static std::string GetType()
 	{
 		return "PlayerComp";

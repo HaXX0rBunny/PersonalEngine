@@ -1,58 +1,87 @@
-#include "ProfilerMoniter.h"
+﻿#include "ProfilerMoniter.h"
 #include <math.h>
+#include <vector>
 
-
+ProfilerMoniter::~ProfilerMoniter()
+{
+}
 
 void ProfilerMoniter::Update()
 {
+    BigginerProfiler::Profiler* profiler = BigginerProfiler::Profiler::GetPtr();
+    const int MAX_SAMPLES = 100;
 
-    static double xs1[101], ys1[101], ys2[101], ys3[101];
-    srand(0);
-    for (int i = 0; i < 101; ++i) {
-        xs1[i] = (float)i;
-        ys1[i] = RandomRange(400.0, 450.0);
-        ys2[i] = RandomRange(275.0, 350.0);
-        ys3[i] = RandomRange(150.0, 225.0);
-    }
+    static std::vector<double> timeData[7];
+    static std::vector<double> xData;
+    static int frameCount = 0;
     static bool show_lines = true;
     static bool show_fills = true;
-    static float fill_ref = 0;
-    static int shade_mode = 0;
-    static ImPlotShadedFlags flags = 0;
-    ImGui::Checkbox("Lines", &show_lines); ImGui::SameLine();
-    ImGui::Checkbox("Fills", &show_fills);
-    if (show_fills) {
-        ImGui::SameLine();
-        if (ImGui::RadioButton("To -INF", shade_mode == 0))
-            shade_mode = 0;
-        ImGui::SameLine();
-        if (ImGui::RadioButton("To +INF", shade_mode == 1))
-            shade_mode = 1;
-        ImGui::SameLine();
-        if (ImGui::RadioButton("To Ref", shade_mode == 2))
-            shade_mode = 2;
-        if (shade_mode == 2) {
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(100);
-            ImGui::DragFloat("##Ref", &fill_ref, 1, -100, 500);
+
+    // 새로운 데이터 추가
+    if (!profiler->GetBlock().empty()) {
+        frameCount++;
+
+        double times[7] = { 0 };
+        for (const auto* block : profiler->GetBlock()) {
+            std::string name = block->GetName();
+            double time = block->GetSeconds() * 1000000.0; // 마이크로초 변환
+
+            if (name == "Camera") times[0] = time;
+            else if (name == "Transform") times[1] = time;
+            else if (name == "Grapics") times[2] = time;
+            else if (name == "player") times[3] = time;
+            else if (name == "Collision") times[4] = time;
+            else if (name == "Event") times[5] = time;
+        }
+
+       
+        xData.push_back(static_cast<double>(frameCount));
+        for (int i = 0; i < 7; ++i) {
+            timeData[i].push_back(times[i]);
+        }
+
+        // 최대 샘플 수 유지
+        if (xData.size() > MAX_SAMPLES) {
+            xData.erase(xData.begin());
+            for (int i = 0; i < 7; ++i) {
+                timeData[i].erase(timeData[i].begin());
+            }
         }
     }
 
-    if (ImPlot::BeginPlot("Stock Prices")) {
-        ImPlot::SetupAxes("Days", "Price");
-        ImPlot::SetupAxesLimits(0, 100, 0, 500);
-        if (show_fills) {
+    if (ImPlot::BeginPlot("Profiler Data (Microseconds)")) {
+        // 자동 스크롤을 위한 X축 설정
+        double xmin = frameCount - MAX_SAMPLES;
+        double xmax = frameCount;
+
+        ImPlot::SetupAxes("Frames", "Time (µs)",
+            ImPlotAxisFlags_AutoFit,  // X축 자동 맞춤
+            ImPlotAxisFlags_AutoFit); // Y축 자동 맞춤
+
+        // 현재 시간 범위로 축 설정
+        ImPlot::SetupAxesLimits(xmin, xmax, 0, 1200, ImPlotCond_Always);
+
+        const char* labels[] = { "Camera", "Transform", "Graphics",
+                               "Player", "Collision", "Event" };
+
+        if (!xData.empty()) {
             ImPlot::PushStyleVar(ImPlotStyleVar_FillAlpha, 0.25f);
-            ImPlot::PlotShaded("Stock 1", xs1, ys1, 101, shade_mode == 0 ? -INFINITY : shade_mode == 1 ? INFINITY : fill_ref, flags);
-            ImPlot::PlotShaded("Stock 2", xs1, ys2, 101, shade_mode == 0 ? -INFINITY : shade_mode == 1 ? INFINITY : fill_ref, flags);
-            ImPlot::PlotShaded("Stock 3", xs1, ys3, 101, shade_mode == 0 ? -INFINITY : shade_mode == 1 ? INFINITY : fill_ref, flags);
+            for (int i = 0; i < 6; ++i) {
+                if (show_fills) {
+                    ImPlot::PlotShaded(labels[i], xData.data(), timeData[i].data(),
+                        xData.size(), 0.0);
+                }
+                if (show_lines) {
+                    ImPlot::PlotLine(labels[i], xData.data(), timeData[i].data(),
+                        xData.size());
+                }
+            }
             ImPlot::PopStyleVar();
-        }
-        if (show_lines) {
-            ImPlot::PlotLine("Stock 1", xs1, ys1, 101);
-            ImPlot::PlotLine("Stock 2", xs1, ys2, 101);
-            ImPlot::PlotLine("Stock 3", xs1, ys3, 101);
         }
         ImPlot::EndPlot();
     }
+
+    ImGui::Checkbox("Lines", &show_lines);
+    ImGui::SameLine();
+    ImGui::Checkbox("Fills", &show_fills);
 }

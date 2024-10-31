@@ -20,6 +20,7 @@ static void printMtx(const glm::mat4& mat)
 
 void TransformComp::CalculateMatrix()
 {
+	DEBUG_PROFILER_START("Transform");
 	glm::mat4 translateMtx, rotateMtx, scaleMtx;
 
 	MyMatTranslate(translateMtx, pos);
@@ -34,7 +35,7 @@ void TransformComp::CalculateMatrix()
 	MyMatConcat(trancsformMatrix, translateMtx	, rotateMtx);// translation * rotation
 	MyMatConcat(trancsformMatrix, trancsformMatrix, scaleMtx); // (translation * rotation) * scale
 	//MyMatConcat(trancsformMatrix, uWorld_NDC, trancsformMatrix);
-
+	DEBUG_PROFILER_END;
 }
 
 

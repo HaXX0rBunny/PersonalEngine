@@ -1,6 +1,6 @@
 #pragma once
-#include "gl.h"
-#include "glfw3.h"
+#include "../Utility/GLHeader.h"
+
 #include "GraphicsComponent.h"
 #include "../Utility/MyTexture.h"
 #include "../Shader.h"

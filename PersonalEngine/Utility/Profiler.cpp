@@ -1,6 +1,6 @@
 #include "Profiler.h"
 #include <iostream>
-
+#include <iomanip>
 BigginerProfiler::Block::Block(const std::string& _name, Block* _parent) : name(_name), parent(_parent)
 {
 	start = std::chrono::steady_clock::now();
@@ -39,7 +39,7 @@ void BigginerProfiler::Block::Dump(int n)const
 	for (int i = 0; i < n; ++i)
 		std::cout << "\t";
 	//print name and second
-	std::cout << GetName() << " in " << GetSeconds() << " seconds" << std::endl;
+	std::cout << GetName() << " in " << std::fixed << std::setprecision(7) << GetSeconds() << " seconds" << std::endl;
 
 	//print children
 	for (const auto* c : children)
@@ -95,6 +95,16 @@ void BigginerProfiler::Profiler::Clear()
 	for (auto it : fullyFinishedBlocks)
 		delete it;
 	fullyFinishedBlocks.clear();
+}
+
+int BigginerProfiler::Profiler::Getsize()
+{
+	return fullyFinishedBlocks.size();
+}
+
+const std::list<BigginerProfiler::Block*>& BigginerProfiler::Profiler::GetBlock()
+{
+	return fullyFinishedBlocks;
 }
 
 BigginerProfiler::Profiler* BigginerProfiler::Profiler::GetPtr()

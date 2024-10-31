@@ -29,6 +29,7 @@
 #include "Camera/Camera.h"
 #include "../Extern/image/stb_image.h"
 #include "Utility/WindowFigure.h"
+#include "Utility/Profiler.h"
 //Todo Struct 
 #define Window_width 1600
 #define Window_height 800

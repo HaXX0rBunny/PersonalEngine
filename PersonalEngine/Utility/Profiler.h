@@ -40,7 +40,8 @@ namespace BigginerProfiler
 		void End();
 		void Dump();
 		void Clear();
-		
+		int Getsize();
+		const std::list<Block*>& GetBlock();
 		static Profiler* GetPtr();
 		void DeletePtr();
 	};

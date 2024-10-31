@@ -27,6 +27,7 @@ void GEM::GameEditorManager::Init()
 
 void GEM::GameEditorManager::Update()
 {
+	ProfilerMoniter::GetInstance()->Update();
 	if (Keystate::keystateF5 == GL_TRUE)
 		EditorInteractManager::GetInstance()->selectedObject = nullptr;
 	mainMenu->UpdateEditorState();

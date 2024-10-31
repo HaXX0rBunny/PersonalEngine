@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../Utility/Profiler.h"
 #include <iostream>
 namespace GSM
 {
