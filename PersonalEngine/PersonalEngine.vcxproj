@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="CManager\BombManager.cpp" />
     <ClCompile Include="CollsionManager\CollisionEvent.cpp" />
     <ClCompile Include="CollsionManager\CollisionManager.cpp" />
     <ClCompile Include="Component\BombComponent.cpp" />
