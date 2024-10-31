@@ -8,7 +8,7 @@
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Event/Entity.h"
 #include "../Shader.h"
-#define  fwidth_Line 5.f // 1.f~ 10.f   this is Limit width 
+#define  fwidth_Line 1.f // 1.f~ 10.f   this is Limit width 
 
 
 

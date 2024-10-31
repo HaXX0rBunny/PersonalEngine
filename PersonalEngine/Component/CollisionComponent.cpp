@@ -133,17 +133,17 @@ glm::mat4 CollisionComp::CreateTransformMatrix(const TransformComp* transform) c
 
 void CollisionComp::Render()
 {
-	//if (!isVisible) return;
+	if (!isVisible) return;
 
 
-	glLineWidth(fwidth_Line);
+	//glLineWidth(fwidth_Line);
 
 	// VAO 바인딩
 	glBindVertexArray(vao);
 
 	// 셰이더 프로그램 사용
 	mShader->use(); // 셰이더 프로그램 활성화
-
+	mShader->setBool("useTexture", false);
 	// 변환 매트릭스 가져오기
 	glm::mat4 transformMatrix = own->GetComponent<TransformComp>()->GetMatrix();
 
@@ -152,7 +152,8 @@ void CollisionComp::Render()
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformMatrix));
 
 	// 충돌 박스 그리기
-	glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0);
+
+	glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0); // 4개의 선 * 2개의 삼각형 * 3개의 정점
 
 	// VAO 바인딩 해제
 	glBindVertexArray(0);
@@ -170,35 +171,66 @@ void CollisionComp::SetVisible(const bool& cb_in)
 void CollisionComp::SetCollisionBox()
 {
 	if (vao != 0) return;
-	std::vector<Vertex> vertices = {
-		{{0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 우측 상단
-		{{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 우측 하단
-		{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, // 좌측 하단
-		{{-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}  // 좌측 상단
-	};
+	std::vector<Vertex> vertices;
+	float offset = fwidth_Line * 0.01f;
 
-	unsigned int indices[] = { 0, 1, 2, 3 };
+	// 외곽선을 그리기 위한 사각형들 (두꺼운 선을 표현하기 위해)
+	// 왼쪽 선
+	vertices.push_back({ {-0.5f - offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 좌하단
+	vertices.push_back({ {-0.5f - offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 좌상단
+	vertices.push_back({ {-0.5f + offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 우상단
+	vertices.push_back({ {-0.5f + offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 우하단
+
+	// 상단 선
+	vertices.push_back({ {-0.5f - offset, 0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {-0.5f - offset, 0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ { 0.5f + offset, 0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ { 0.5f + offset, 0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+
+	// 오른쪽 선
+	vertices.push_back({ {0.5f - offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {0.5f - offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {0.5f + offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {0.5f + offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+
+	// 하단 선
+	vertices.push_back({ {-0.5f - offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {-0.5f - offset, -0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ { 0.5f + offset, -0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ { 0.5f + offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+
+	// 각 사각형을 그리기 위한 인덱스
+	std::vector<GLuint> indices;
+	for (int i = 0; i < 4; ++i) // 4개의 선
+	{
+		int base = i * 4;
+		// 각 선마다 두 개의 삼각형
+		indices.push_back(base + 0);
+		indices.push_back(base + 1);
+		indices.push_back(base + 2);
+
+		indices.push_back(base + 0);
+		indices.push_back(base + 2);
+		indices.push_back(base + 3);
+	}
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 
 	glBindVertexArray(vao);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
 
 }
 bool CollisionComp::CheckCollision(const CollisionComp* other) const {

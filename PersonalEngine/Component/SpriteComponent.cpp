@@ -151,7 +151,7 @@ void SpriteComp::Render()
 	if (!mtex) return;
 
 	mShader->use();
-	mShader->use();
+	mShader->setBool("useTexture", true);
 	mtex->UseTexture();
 	// 셰이더 리소스 가져오기
 	// 파일명에 확장자 없이 전달
