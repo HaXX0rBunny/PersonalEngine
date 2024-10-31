@@ -44,7 +44,7 @@ void Texture::LoadTexture()
 
 		stbi_image_free(data); // 이미지 데이터 해제
 		data = nullptr;
-
+		
 	}
 
 }

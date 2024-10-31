@@ -5,20 +5,30 @@
 #include "LogicComponent.h"
 #include "RigidbodyComponent.h"
 #include "TransformComponent.h"
-
-
-class BomnComp : public LogicComponent
+#include "../Utility/Time.h"
+#include "../CManager/BombManager.h"
+enum BombType {
+	Default,
+	Timebomb,
+	Dynamite,
+	Boobytrap,
+	melloondago,
+};
+class BombComp : public BaseComponent
 {
 	int BombCount;
 	int LifeTime;
 	int BombPower;
-	int BombType;
+	BombType Bombtype;
+	BombComp(GameObject* owner);
+	~BombComp();
 public:
 	void Update();
 	void CreateBomb();
 	const std::string& GetType() { "BombComp"; };
 	void LoadFromJson(const json& data);
-
+	void Explosion();
+	void BombEffect();
 	json SaveToJson()override;
 	//For the RTTI
 	static BaseRTTI* CreateBomnComp();

@@ -177,6 +177,7 @@
     <ClCompile Include="Utility\Profiler.cpp" />
     <ClCompile Include="Utility\Time.cpp" />
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="CManager\BombManager.h" />
     <ClInclude Include="CollsionManager\CollisionEvent.h" />
     <ClInclude Include="CollsionManager\CollisionManager.h" />
     <ClInclude Include="Component\BombComponent.h" />

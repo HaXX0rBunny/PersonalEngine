@@ -1,15 +1,24 @@
 #include "BombComponent.h"
 #include "../GameObject/GameObject.h"
-void BomnComp::Update()
+BombComp::BombComp(GameObject* owner) : BaseComponent(owner)
+{
+
+}
+BombComp::~BombComp()
+{
+
+}
+void BombComp::Update()
 {
 	if (Keystate::keystateSpace == GL_TRUE) {
 		CreateBomb();
 	}
 }
 
-void BomnComp::CreateBomb()
+void BombComp::CreateBomb()
 {
 	GameObject* bomb = new GameObject("Bomb");
+	BombManager::GetInstance()->AddBomb(own);
 	bomb->AddComponent<TransformComp>();
 
 	// 폭탄의 위치를 플레이어 위치로 설정
@@ -31,19 +40,27 @@ void BomnComp::CreateBomb()
 
 	// GameObjectManager에 폭탄 오브젝트 추가
 	GameObjectManager::Instance()->RenameKey("Bomb", bombName);
-
+	Keystate::keystateSpace = GL_FALSE;
 }
 
-void BomnComp::LoadFromJson(const json& data)
+
+
+void BombComp::Explosion()
 {
 }
 
-json BomnComp::SaveToJson()
+void BombComp::BombEffect()
+{
+}
+void BombComp::LoadFromJson(const json& data)
+{
+}
+json BombComp::SaveToJson()
 {
 	return json();
 }
 
-BaseRTTI* BomnComp::CreateBomnComp()
+BaseRTTI* BombComp::CreateBomnComp()
 {
 	return nullptr;
 }
