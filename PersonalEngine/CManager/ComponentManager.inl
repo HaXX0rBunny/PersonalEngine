@@ -53,16 +53,25 @@ inline void ComponentManager<T>::AddComponent(T* component)
 template<typename T>
 inline void ComponentManager<T>::RemoveComp(T* component)
 {
+    // 즉시 Component 벡터에서 제거
     auto it = std::find(Component.begin(), Component.end(), component);
     if (it != Component.end()) {
-        Component.erase(it);  
+        Component.erase(it);
     }
+
 }
 
 
 template<typename T>
 inline void ComponentManager<T>::Update()
 {
+    // Pending 추가만 처리
+    for (auto comp : PendingComp) {
+        Component.push_back(comp);
+    }
+    PendingComp.clear();
+
+
     for (auto it = Component.begin(); it != Component.end(); )
     {
         if (*it != nullptr) {
@@ -74,10 +83,5 @@ inline void ComponentManager<T>::Update()
         }
     }
 
-    // Move pending components to the active list
-    for (auto it = PendingComp.begin(); it != PendingComp.end(); ++it)
-    {
-        Component.push_back(*it);  // Move pending component to active list
-    }
-    PendingComp.clear();
+
 }

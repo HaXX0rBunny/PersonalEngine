@@ -17,6 +17,7 @@ class ComponentManager
     static ComponentManager* Instance_;
     std::vector<T* > Component;
     std::vector<T*> PendingComp;
+
     ComponentManager();
 
     ~ComponentManager();

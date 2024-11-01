@@ -8,7 +8,7 @@
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Event/Entity.h"
 #include "../Shader.h"
-#define  fwidth_Line 1.f // 1.f~ 10.f   this is Limit width 
+#define  fwidth_Line 1000.f // 1.f~ 10.f   this is Limit width 
 
 
 
@@ -24,6 +24,7 @@ public:
 	struct Vertex {
 		float position[3];
 		float color[3];
+		float Line;
 	};
 
 public:

@@ -145,6 +145,8 @@ void CollisionComp::Render()
 	mShader->use(); // 셰이더 프로그램 활성화
 	mShader->setBool("useTexture", false);
 	// 변환 매트릭스 가져오기
+	GLint fwidthLoc = glGetUniformLocation(mShader->ID, "fwidth_Line");
+	glUniform1f(fwidthLoc, fwidth_Line);
 	glm::mat4 transformMatrix = own->GetComponent<TransformComp>()->GetMatrix();
 
 	// 변환 매트릭스를 셰이더로 전송
@@ -165,6 +167,7 @@ void CollisionComp::Render()
 void CollisionComp::SetVisible(const bool& cb_in)
 {
     isVisible = cb_in;
+	SetCollisionBox();
 }
 
 
@@ -173,32 +176,32 @@ void CollisionComp::SetCollisionBox()
 	//if (!isVisible) return;
 	if (vao != 0) return;
 	std::vector<Vertex> vertices;
-	float offset = fwidth_Line * 0.01f;
+
 
 	// 외곽선을 그리기 위한 사각형들 (두꺼운 선을 표현하기 위해)
 	// 왼쪽 선
-	vertices.push_back({ {-0.5f - offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 좌하단
-	vertices.push_back({ {-0.5f - offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 좌상단
-	vertices.push_back({ {-0.5f + offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 우상단
-	vertices.push_back({ {-0.5f + offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} }); // 우하단
+	vertices.push_back({ {-0.5f , -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, 1 }); // 좌하단
+	vertices.push_back({ {-0.5f ,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, 2 }); // 좌상단
+	vertices.push_back({ {-0.5f ,  0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, 3 }); // 우상단
+	vertices.push_back({ {-0.5f , -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, 4 }); // 우하단
 
 	// 상단 선
-	vertices.push_back({ {-0.5f - offset, 0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ {-0.5f - offset, 0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ { 0.5f + offset, 0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ { 0.5f + offset, 0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {-0.5f , 0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 1 });
+	vertices.push_back({ {-0.5f , 0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 2 });
+	vertices.push_back({ { 0.5f , 0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 3 });
+	vertices.push_back({ { 0.5f , 0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 4 });
 
 	// 오른쪽 선
-	vertices.push_back({ {0.5f - offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ {0.5f - offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ {0.5f + offset,  0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ {0.5f + offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+	vertices.push_back({ {0.5f , -0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 1 });
+	vertices.push_back({ {0.5f ,  0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 2 });
+	vertices.push_back({ {0.5f ,  0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 3 });
+	vertices.push_back({ {0.5f , -0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 4 });
 
-	// 하단 선
-	vertices.push_back({ {-0.5f - offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ {-0.5f - offset, -0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ { 0.5f + offset, -0.5f + offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
-	vertices.push_back({ { 0.5f + offset, -0.5f - offset, 0.0f}, {0.0f, 1.0f, 0.0f} });
+
+	vertices.push_back({ {-0.5f , -0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 1 }); // index 12
+	vertices.push_back({ {-0.5f , -0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 2 }); // index 13
+	vertices.push_back({ { 0.5f , -0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 3 }); // index 14
+	vertices.push_back({ { 0.5f , -0.5f , 0.0f}, {0.0f, 1.0f, 0.0f}, 4 }); // index 15
 
 	// 각 사각형을 그리기 위한 인덱스
 	std::vector<GLuint> indices;
@@ -232,6 +235,9 @@ void CollisionComp::SetCollisionBox()
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Line));
+	glEnableVertexAttribArray(3);
 
 }
 bool CollisionComp::CheckCollision(const CollisionComp* other) const {

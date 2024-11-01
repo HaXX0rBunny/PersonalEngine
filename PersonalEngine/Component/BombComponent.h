@@ -1,7 +1,7 @@
 #pragma once
 #include "SpriteComponent.h"
 #include "../Utility/InputProcess.h"
-
+#include "../Utility/Time.h"
 #include "LogicComponent.h"
 #include "RigidbodyComponent.h"
 #include "TransformComponent.h"
@@ -14,19 +14,23 @@ enum BombType {
 	Boobytrap,
 	melloondago,
 };
-class BombComp : public BaseComponent
+class BombComp : public LogicComponent
 {
+	double startTime;  // 생성 시점 저장
 	int BombCount;
-	int LifeTime;
+	float LifeTime;
+	bool isExploded;
 	int BombPower;
 	BombType Bombtype;
+
+public:
 	BombComp(GameObject* owner);
 	~BombComp();
-public:
-	void Update();
-	void CreateBomb();
-	const std::string& GetType() { "BombComp"; };
-	void LoadFromJson(const json& data);
+	void Update()override;
+	void Explode();
+
+	static std::string GetType() { return "BombComp"; };
+	void LoadFromJson(const json& data)override;
 	void Explosion();
 	void BombEffect();
 	json SaveToJson()override;

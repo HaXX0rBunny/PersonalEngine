@@ -7,6 +7,7 @@
 #include "../Camera/Camera.h"
 #include "../CollsionManager/CollisionManager.h"
 #include "../Event/EventManager.h"
+#include "../CManager/BombManager.h"
 #include "../CollsionManager/CollisionManager.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
 GSM::GameStateManager::GameStateManager() :previousLevel(nullptr), currentLevel(nullptr)
@@ -51,6 +52,7 @@ void GSM::GameStateManager::Update()
 	}
 	if (EngineState::engineState_ == Play)
 	{
+		//BombManager::GetInstance()->Update();
 		ComponentManager<LogicComponent>::Instance()->Update();
 		DEBUG_PROFILER_START("Collision");
 		CollisionManager::GetInstance()->Update();
@@ -82,7 +84,7 @@ void GSM::GameStateManager::Exit()
 	the component manager will be deleted even though the components may still exist, 
 	so the game object will not be able to access the component when it is deleted.
 	This may result in memory leaks or abnormal behavior.*/
-
+	//BombManager::GetInstance()->DestroyInstance();
 	ComponentManager<LogicComponent>::Instance()->DestroyInstance();
 	ComponentManager<GraphicsComponent>::Instance()->DestroyInstance();  // Add this
 	ComponentManager<EngineComponent>::Instance()->DestroyInstance();

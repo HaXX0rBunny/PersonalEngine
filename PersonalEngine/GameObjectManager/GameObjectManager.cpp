@@ -39,6 +39,7 @@ void GameObjectManager::RemoveObj(const std::string& id)
 		allObj.erase(it);  // ¸Ê¿¡¼­ Á¦°Å
 	}
 }
+
 void GameObjectManager::DestroyThis()
 {
 	if (Instance_)

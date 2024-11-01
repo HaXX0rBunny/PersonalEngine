@@ -6,6 +6,7 @@
 #include "../Component/RigidbodyComponent.h"
 #include "../Serializer/Serializer.h"
 #include "../Component/CollisionComponent.h"
+#include "../Component/BombComponent.h"
 void Level::TestLevel::Init()
 {
 	//Serializer::Instance()->LoadLevel("test.json");
@@ -29,9 +30,11 @@ void Level::TestLevel::Init()
 	testObj->ObjectTag = GameObject::Tag::Player;
 	testObj->AddComponent<SpriteComp>();
 	testObj->AddComponent<TransformComp>();
+
 	testObj->AddComponent<PlayerComp>();
 	testObj->AddComponent<RigidbodyComp>();
 	testObj->AddComponent<CollisionComp>();
+
 	TransformComp* testTrans = testObj->GetComponent<TransformComp>();
 	testTrans->SetPos(600,0,-0);
 	testTrans->SetScale(500, 500);

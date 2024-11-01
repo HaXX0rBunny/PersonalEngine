@@ -5,6 +5,7 @@
 #include "../RTTI/Registry.h"
 GameObject::GameObject()
 {
+	isPicking = false;
 	name = "Object_" + std::to_string(GameObjectManager::Instance()->AllObj().size());
 
 	GameObjectManager::Instance()->AddObj(name,this);
@@ -13,6 +14,8 @@ GameObject::GameObject()
 
 GameObject::GameObject(std::string id)
 {
+
+	isPicking = false;
 	name = id;
 	GameObjectManager::Instance()->AddObj(id,this);
 	ObjectTag = Tag::Default;

@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteComponent.h"
+#include "BombComponent.h"
 #include "LogicComponent.h"
 #include "TransformComponent.h"
 #include "../GameObject/GameObject.h"
@@ -8,6 +9,7 @@
 #include "../Utility/EngineState.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Camera/Camera.h"
+#include "CollisionComponent.h"
 #include "../Utility/Profiler.h"
 class PlayerComp : public LogicComponent
 {
@@ -19,6 +21,7 @@ class PlayerComp : public LogicComponent
 public:
 	PlayerComp(GameObject* owner);
 	~PlayerComp();
+	void PlaceBomb();
 	void Update() override;
 	void SetCollisionState(bool state);
 	void SetMode(const bool& cb_in);
