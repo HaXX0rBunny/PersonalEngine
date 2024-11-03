@@ -1,7 +1,7 @@
 // AddComponent without parameters - Adds new component of type T to the GameObject
 
 template<typename T>
-inline void GameObject::AddComponent()
+inline T* GameObject::AddComponent()
 {
     if (!GetComponent<T>())
     {
@@ -9,7 +9,9 @@ inline void GameObject::AddComponent()
 
       //  std::cout << "GameObject.inl 9: Created " <<typeid(T).name << " at "<< temp << std::endl;
         Component.insert({ temp->GetType(), temp });
+        return temp;
     }
+    return nullptr;
 }
 
 // AddComponent with BaseComponent pointer - Adds an existing component

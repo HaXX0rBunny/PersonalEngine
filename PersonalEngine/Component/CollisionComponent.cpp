@@ -263,6 +263,7 @@ bool CollisionComp::CheckCollision(const CollisionComp* other) const {
 	}
 	return true; // 충돌 발생
 }
+
 void CollisionComp::ProjectOntoAxis(const glm::vec3& pos, const glm::vec3& scale, float rot, const glm::vec3& axis, float& min, float& max) const {
 	std::vector<glm::vec3> vertices;
 	if (rot != 0.0f) {

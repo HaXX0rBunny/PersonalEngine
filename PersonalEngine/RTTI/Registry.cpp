@@ -12,7 +12,7 @@ Registry::Registry()
     //Register All the functions
 
 
-    rttiMap.insert({ "BombComp", &BombComp::CreateBomnComp });
+    rttiMap.insert({ "BombComp", &BombComp::CreateBombComp });
     rttiMap.insert({ "CollisionComp", &CollisionComp::CreateCollisionComp });
     rttiMap.insert({ "RigidbodyComp", &RigidbodyComp::CreateRigidbodyComp });
     rttiMap.insert({ "PlayerComp", &PlayerComp::CreatePlayerComp });

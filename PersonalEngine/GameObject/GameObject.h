@@ -15,7 +15,7 @@ public:
 	~GameObject();
 	std::map<std::string, BaseComponent*>& AllComp();
 	template <typename T>
-	void AddComponent();
+	T* AddComponent();
 	template <typename T>
 	void AddComponent(BaseComponent* component);
 	template <typename T>

@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
-    <ClCompile Include="CManager\BombManager.cpp" />
     <ClCompile Include="CollsionManager\CollisionEvent.cpp" />
     <ClCompile Include="CollsionManager\CollisionManager.cpp" />
     <ClCompile Include="Component\BombComponent.cpp" />
@@ -178,7 +177,6 @@
     <ClCompile Include="Utility\Profiler.cpp" />
     <ClCompile Include="Utility\Time.cpp" />
     <ClInclude Include="Camera\Camera.h" />
-    <ClInclude Include="CManager\BombManager.h" />
     <ClInclude Include="CollsionManager\CollisionEvent.h" />
     <ClInclude Include="CollsionManager\CollisionManager.h" />
     <ClInclude Include="Component\BombComponent.h" />

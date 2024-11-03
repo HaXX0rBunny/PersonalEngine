@@ -174,9 +174,6 @@
     <ClCompile Include="Component\BombComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CManager\BombManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GSM\GameStateManager.h">
@@ -366,9 +363,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Component\BombComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CManager\BombManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
