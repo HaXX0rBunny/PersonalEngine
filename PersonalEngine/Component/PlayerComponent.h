@@ -11,20 +11,41 @@
 #include "../Camera/Camera.h"
 #include "CollisionComponent.h"
 #include "../Utility/Profiler.h"
+enum PlayerNumber {
+	Player1,
+	Player2,
+	Player3,
+	Player4
+};
+
+struct PlayerStat {
+	int moveSpeed;
+	int BombPower;
+	int BombCount;
+	bool isGrab;
+	bool isKick;
+	bool isImune;
+
+};
 class PlayerComp : public LogicComponent
 {
-	float moveSpeed;
+	PlayerStat state;
 	float spin;
 	float worldLimit;
 	bool playMode;
 	bool isColliding = false;
+	PlayerNumber Player;
 public:
+	
 	PlayerComp(GameObject* owner);
 	~PlayerComp();
 	void PlaceBomb();
 	void Update() override;
 	void SetCollisionState(bool state);
 	void SetMode(const bool& cb_in);
+	void SetPlayer(const PlayerNumber&);
+	void Player_1_Keymap();
+	void Player_2_Keymap();
 	bool GetMode();
 
 	static std::string GetType()

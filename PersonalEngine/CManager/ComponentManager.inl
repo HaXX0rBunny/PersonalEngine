@@ -53,11 +53,7 @@ inline void ComponentManager<T>::AddComponent(T* component)
 template<typename T>
 inline void ComponentManager<T>::RemoveComp(T* component)
 {
-    // 즉시 Component 벡터에서 제거
-    auto it = std::find(Component.begin(), Component.end(), component);
-    if (it != Component.end()) {
-        Component.erase(it);
-    }
+    PendingRemove.push_back(component);
 
 }
 
@@ -65,11 +61,23 @@ inline void ComponentManager<T>::RemoveComp(T* component)
 template<typename T>
 inline void ComponentManager<T>::Update()
 {
-    // Pending 추가만 처리
-    for (auto comp : PendingComp) {
-        Component.push_back(comp);
+
+    for (const auto& comp : PendingRemove) {
+        Component.erase(
+            std::remove(Component.begin(), Component.end(), comp),
+            Component.end()
+        );
     }
+    PendingRemove.clear();
+
+
+    Component.insert(
+        Component.end(),
+        PendingComp.begin(),
+        PendingComp.end()
+    );
     PendingComp.clear();
+
 
 
     for (auto it = Component.begin(); it != Component.end(); )

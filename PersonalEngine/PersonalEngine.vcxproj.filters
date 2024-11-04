@@ -370,10 +370,10 @@
     <None Include="GameObject\GameObject.inl">
       <Filter>헤더 파일</Filter>
     </None>
-    <None Include="CManager\ComponentManager.inl">
+    <None Include="ResourceManager\ResourceManager.inl">
       <Filter>헤더 파일</Filter>
     </None>
-    <None Include="ResourceManager\ResourceManager.inl">
+    <None Include="CManager\ComponentManager.inl">
       <Filter>헤더 파일</Filter>
     </None>
   </ItemGroup>
@@ -388,6 +388,9 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="Assets\container.jpg">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Assets\awesomeface2.png">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

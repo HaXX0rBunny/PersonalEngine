@@ -4,7 +4,16 @@
 #include <map>
 
 class BaseComponent;
-
+enum ItemList {
+	SpeedUp,
+	PowerUp,
+	GrabUp,
+	BombUp,
+	Imune,
+	RemoteUp,
+	Curse,
+	NotItem
+};
 class GameObject {
 	
 public:
@@ -39,10 +48,13 @@ public:
 		Enemy,
 		Tile,
 		Wall,
+		Block,
 		Bomb,
+		Item,
 		None
 	};
 	Tag ObjectTag;
+	ItemList ItemType;
 private:
 	std::map<std::string, BaseComponent*> Component;
 	std::string name;

@@ -8,8 +8,12 @@ GLboolean Keystate::keystateSpace = GL_FALSE;
 GLboolean Keystate::keystateLBtn = GL_FALSE;
 GLboolean Keystate::keystateRBtn = GL_FALSE;
 GLboolean Keystate::keystateQ = GL_FALSE;
-
 GLboolean Keystate::keystateE = GL_FALSE;
+GLboolean Keystate::keystateUp = GL_FALSE;
+GLboolean Keystate::keystateLeft = GL_FALSE;
+GLboolean Keystate::keystateDown = GL_FALSE;
+GLboolean Keystate::keystateRight = GL_FALSE;
+GLboolean Keystate::keystateRShift = GL_FALSE;
 /*  _________________________________________________________________________*/
 /*! key_callback
 
@@ -50,8 +54,12 @@ void Keystate::key_callback(GLFWwindow* window, int key, int scancode, int actio
     updateKeyState(key, action, GLFW_KEY_A, keystateA);
     updateKeyState(key, action, GLFW_KEY_D, keystateD);
     updateKeyState(key, action, GLFW_KEY_Q, keystateQ);
-
     updateKeyState(key, action, GLFW_KEY_E, keystateE);
+    updateKeyState(key, action, GLFW_KEY_UP, keystateUp);
+    updateKeyState(key, action, GLFW_KEY_LEFT, keystateLeft);
+    updateKeyState(key, action, GLFW_KEY_DOWN, keystateDown);
+    updateKeyState(key, action, GLFW_KEY_RIGHT, keystateRight);
+    updateKeyState(key, action, GLFW_KEY_RIGHT_SHIFT, keystateRShift);
 }
 
 

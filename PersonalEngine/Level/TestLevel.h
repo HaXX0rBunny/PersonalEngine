@@ -7,7 +7,7 @@ namespace Level
 	{
 		GameObject* testObj = nullptr;
 		GameObject* testObj2 = nullptr;
-		
+		GameObject* testObj3 = nullptr;
 	public:
 	
 		void Init() override;

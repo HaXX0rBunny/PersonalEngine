@@ -1,23 +1,23 @@
 #include "BombComponent.h"
 #include "../GameObject/GameObject.h"
 #include "../CManager/ComponentManager.h"
-int BombComp::BombCount = 0;
+int BombComp::EffectCount = 0;
 BombComp::BombComp(GameObject* owner) : LogicComponent(owner) {
     startTime = glfwGetTime();
     LifeTime = 3.0f;
     isExploded = false;
-    BombPower = 1;
+    BombPower = 0;
     Bombtype = Default;
-    BombCount++;
+
 }
 
 BombComp::~BombComp() {
-    BombCount--;
+
 }
 
 void BombComp::Update() {
     if (!isExploded) {
-        LifeTime -= Time::delta_time;
+        LifeTime -= float(Time::delta_time);
         if (LifeTime <= 0) {
             Explode();
         }
@@ -69,12 +69,12 @@ void BombComp::ProcessExplosion() {
 }
 void BombComp::CreateExplosionEffect(const glm::vec2& position) {
     // 폭발 이펙트용 게임 오브젝트 생성
-
-    GameObject* effect = new GameObject("ExplosionEffect_" + std::to_string(BombCount));
-
+    EffectCount++;
+    GameObject* effect = new GameObject("ExplosionEffect_" + std::to_string(EffectCount));
+    //std::cout << BombCount << std::endl;
     // Transform 컴포넌트 설정
     auto transform = effect->AddComponent<TransformComp>();
-    transform->SetPos({ position ,5});
+    transform->SetPos({ position ,-5});
     transform->SetScale( 32.0f, 32.0f); // 폭발 이펙트 크기 설정
 
     // 스프라이트 컴포넌트 추가
@@ -125,14 +125,28 @@ std::vector<GameObject*> BombComp::CheckCollisionAtPosition(const glm::vec2& pos
     return colliders;
 }
 
+void BombComp::SetPower(const int& ci_in)
+{
+    BombPower = ci_in;
+}
+
+void BombComp::reduceEffect()
+{
+    EffectCount--;
+}
+
 bool BombComp::HandleCollisions(const std::vector<GameObject*>& colliders) {
     bool hitWall = false;
 
     for (auto* obj : colliders) {
         auto tag = obj->ObjectTag;
 
-        if (tag == GameObject::Tag::Wall) {
+        if (tag == GameObject::Tag::Block) {
             GameObjectManager::Instance()->RemoveObj(obj->GetName());
+            hitWall = true;
+        }
+        else if (tag == GameObject::Tag::Wall)
+        {
             hitWall = true;
         }
         else if (tag == GameObject::Tag::Bomb) {
@@ -146,9 +160,23 @@ bool BombComp::HandleCollisions(const std::vector<GameObject*>& colliders) {
             std::cout << "Player Dead" << std::endl;
             //GameObjectManager::Instance()->RemoveObj(obj->GetName());
         }
+        else if (tag == GameObject::Tag::Item) {
+            GameObjectManager::Instance()->RemoveObj(obj->GetName());
+        }
+        else
+            return false;
     }
 
     return hitWall;
+}
+
+ExplosionEffectComponent::ExplosionEffectComponent(GameObject* owner) : LogicComponent(owner), duration(0.5f), currentTime(0.0f) {
+
+}
+
+ExplosionEffectComponent::~ExplosionEffectComponent()
+{
+    //own->GetComponent<BombComp>()->reduceEffect();
 }
 
 void ExplosionEffectComponent::LoadFromJson(const json& data)

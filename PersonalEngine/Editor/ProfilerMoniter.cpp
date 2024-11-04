@@ -54,7 +54,7 @@ void ProfilerMoniter::Update()
         double xmin = frameCount - MAX_SAMPLES;
         double xmax = frameCount;
 
-        ImPlot::SetupAxes("Frames", "Time (µs)",
+        ImPlot::SetupAxes("Frames", "Time (1000/s)",
             ImPlotAxisFlags_AutoFit,  // X축 자동 맞춤
             ImPlotAxisFlags_AutoFit); // Y축 자동 맞춤
 

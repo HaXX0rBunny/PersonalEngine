@@ -12,7 +12,7 @@ class GameObjectManager
 	GameObjectManager(const GameObjectManager& other) = delete;
 	const GameObjectManager& operator=(const GameObjectManager& other) = delete;
 	std::map<std::string,GameObject*> allObj;
-
+	std::list<std::string>PendingMemory;
 	static GameObjectManager* Instance_;
 public:
 	static GameObjectManager* Instance()
@@ -26,6 +26,7 @@ public:
 	}
 	std::map<std::string, GameObject*>  AllObj();
 
+	void UpdateObj();
 	void RenameKey(const std::string& , const std::string& );
 	void AddObj(const std::string& id,GameObject* obj);
 	void RemoveObj(const std::string& id);

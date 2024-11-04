@@ -11,6 +11,7 @@ std::map<std::string, GameObject*> GameObjectManager::AllObj()
 }
 
 
+
 void GameObjectManager::RenameKey(const std::string& oldKey, const std::string& newKey)
 {
 	auto it = allObj.find(oldKey);
@@ -29,15 +30,24 @@ void GameObjectManager::AddObj(const std::string& id,GameObject* obj)
 		allObj.insert({ id, obj });
 	
 }
+void GameObjectManager::UpdateObj()
+{
+	for (const auto& Pending_iD : PendingMemory)
+	{
+		auto it = allObj.find(Pending_iD);
+		if (it != allObj.end()) {
+			delete it->second;  // 메모리 해제
+			allObj.erase(it);  // 맵에서 제거
+		}
+	}
+	PendingMemory.clear();
+}
 
 
 void GameObjectManager::RemoveObj(const std::string& id)
 {
-	auto it = allObj.find(id);
-	if (it != allObj.end()) {
-		delete it->second;  // 메모리 해제
-		allObj.erase(it);  // 맵에서 제거
-	}
+	PendingMemory.push_back(id);
+
 }
 
 void GameObjectManager::DestroyThis()

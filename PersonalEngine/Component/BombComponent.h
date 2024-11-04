@@ -20,12 +20,12 @@ private:
 	float currentTime;
 
 public:
-	ExplosionEffectComponent(GameObject* owner) : LogicComponent(owner), duration(0.5f), currentTime(0.0f) {}
-
+	ExplosionEffectComponent(GameObject* owner);
+	~ExplosionEffectComponent();
 	void SetDuration(float time) { duration = time; }
 
 	void Update() override {
-		currentTime += Time::delta_time;
+		currentTime += float(Time::delta_time);
 		if (currentTime >= duration) {
 			GameObjectManager::Instance()->RemoveObj(GetOwner()->GetName());
 		}
@@ -41,10 +41,11 @@ public:
 class BombComp : public LogicComponent
 {
 	double startTime;  // 생성 시점 저장
-	static int BombCount;
+	static int EffectCount;
 	float LifeTime;
 	bool isExploded;
 	int BombPower;
+
 	BombType Bombtype;
 
 public:
@@ -54,7 +55,8 @@ public:
 	void Explode();
 	bool HandleCollisions(const std::vector<GameObject*>& colliders);
 	std::vector<GameObject*> CheckCollisionAtPosition(const glm::vec2& pos);
-
+	void SetPower(const int&);
+	void reduceEffect();
 	// 불필요한 빈 함수들 제거
 	void LoadFromJson(const json& data) override;
 	json SaveToJson() override;

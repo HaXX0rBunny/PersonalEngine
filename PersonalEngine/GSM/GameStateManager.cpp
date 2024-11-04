@@ -7,7 +7,7 @@
 #include "../Camera/Camera.h"
 #include "../CollsionManager/CollisionManager.h"
 #include "../Event/EventManager.h"
-#include "../CManager/BombManager.h"
+
 #include "../CollsionManager/CollisionManager.h"
 GSM::GameStateManager* GSM::GameStateManager::Instance = nullptr;
 GSM::GameStateManager::GameStateManager() :previousLevel(nullptr), currentLevel(nullptr)
@@ -44,15 +44,12 @@ void GSM::GameStateManager::Update()
 {
 
 
-
-
 	if (currentLevel)
 	{
 		currentLevel->Update();
 	}
 	if (EngineState::engineState_ == Play)
 	{
-		//BombManager::GetInstance()->Update();
 		ComponentManager<LogicComponent>::Instance()->Update();
 		DEBUG_PROFILER_START("Collision");
 		CollisionManager::GetInstance()->Update();
@@ -64,10 +61,11 @@ void GSM::GameStateManager::Update()
 	DEBUG_PROFILER_START("Camera");
 	Camera::GetInstance()->Update();
 	DEBUG_PROFILER_END;
-	ComponentManager<EngineComponent>::Instance()->Update();
+ 	ComponentManager<EngineComponent>::Instance()->Update();
 	DEBUG_PROFILER_START("Grapics");
 	ComponentManager<GraphicsComponent>::Instance()->Update();
 	DEBUG_PROFILER_END;
+	GameObjectManager::Instance()->UpdateObj();
 }
 
 void GSM::GameStateManager::Exit()

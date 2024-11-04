@@ -43,28 +43,30 @@ void CollisionComp::OnEvent(Event* event) {
 		GameObject* otherObject = other->GetOwner();
 		PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
-		if (playerComp && thisObject->ObjectTag == GameObject::Player && otherObject->ObjectTag != GameObject::Player) {
+		if (playerComp && thisObject->ObjectTag == GameObject::Player ) {
 			// 충돌 축 계산 및 적용
-			const glm::mat4& playerMatrix = thisObject->GetComponent<TransformComp>()->GetMatrix();
-			const glm::mat4& otherMatrix = otherObject->GetComponent<TransformComp>()->GetMatrix();
-			std::vector<glm::vec3> axes = CalculateAxes(playerMatrix, otherMatrix);
 
-			// 충돌 감지 및 처리
-			glm::vec3 smallestAxis;
-			float minOverlap;
-			bool collisionDetected = DetectCollision(playerMatrix, otherMatrix, axes, smallestAxis, minOverlap);
+				const glm::mat4& playerMatrix = thisObject->GetComponent<TransformComp>()->GetMatrix();
+				const glm::mat4& otherMatrix = otherObject->GetComponent<TransformComp>()->GetMatrix();
+				std::vector<glm::vec3> axes = CalculateAxes(playerMatrix, otherMatrix);
 
-			if (collisionDetected) {
-				glm::vec3 playerPos = thisObject->GetComponent<TransformComp>()->GetPos();
-				glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
-				playerPos += (glm::dot(playerPos - otherObject->GetComponent<TransformComp>()->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
+				// 충돌 감지 및 처리
+				glm::vec3 smallestAxis;
+				float minOverlap;
+				bool collisionDetected = DetectCollision(playerMatrix, otherMatrix, axes, smallestAxis, minOverlap);
 
-				thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
-				playerComp->SetCollisionState(true);
-			}
-			else {
-				playerComp->SetCollisionState(false);
-			}
+				if (collisionDetected) {
+					glm::vec3 playerPos = thisObject->GetComponent<TransformComp>()->GetPos();
+					glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
+					playerPos += (glm::dot(playerPos - otherObject->GetComponent<TransformComp>()->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
+					if (otherObject->ObjectTag == GameObject::Wall || otherObject->ObjectTag == GameObject::Block) 
+					thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
+					playerComp->SetCollisionState(true);
+				}
+				else {
+					playerComp->SetCollisionState(false);
+				}
+			
 		}
 	}
 }
