@@ -118,6 +118,7 @@
     "object": "test2",
     "Tag": 5,
     "Components": [
+      null,
       {
         "Type": "CollisionComp",
         "CompData": {

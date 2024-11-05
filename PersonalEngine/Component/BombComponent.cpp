@@ -3,6 +3,7 @@
 #include "../CManager/ComponentManager.h"
 int BombComp::EffectCount = 0;
 BombComp::BombComp(GameObject* owner) : LogicComponent(owner) {
+    own->ObjectTag = GameObject::Tag::Bomb;
     startTime = glfwGetTime();
     LifeTime = 3.0f;
     isExploded = false;
@@ -142,7 +143,7 @@ bool BombComp::HandleCollisions(const std::vector<GameObject*>& colliders) {
         auto tag = obj->ObjectTag;
 
         if (tag == GameObject::Tag::Block) {
-            GameObjectManager::Instance()->RemoveObj(obj->GetName());
+            GameObjectManager::Instance()->GetObj(obj->GetName())->GetComponent<BlockComp>()->DestoryBlock();
             hitWall = true;
         }
         else if (tag == GameObject::Tag::Wall)
@@ -160,9 +161,9 @@ bool BombComp::HandleCollisions(const std::vector<GameObject*>& colliders) {
             std::cout << "Player Dead" << std::endl;
             //GameObjectManager::Instance()->RemoveObj(obj->GetName());
         }
-        else if (tag == GameObject::Tag::Item) {
-            GameObjectManager::Instance()->RemoveObj(obj->GetName());
-        }
+        //else if (tag == GameObject::Tag::Item) {
+        //    GameObjectManager::Instance()->RemoveObj(obj->GetName());
+        //}
         else
             return false;
     }

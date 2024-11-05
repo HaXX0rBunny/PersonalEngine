@@ -144,6 +144,7 @@
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="CollsionManager\CollisionEvent.cpp" />
     <ClCompile Include="CollsionManager\CollisionManager.cpp" />
+    <ClCompile Include="Component\BlockComponent.cpp" />
     <ClCompile Include="Component\BombComponent.cpp" />
     <ClCompile Include="Component\CollisionComponent.cpp" />
     <ClCompile Include="Component\EngineComponent.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="CollsionManager\CollisionEvent.h" />
     <ClInclude Include="CollsionManager\CollisionManager.h" />
+    <ClInclude Include="Component\BlockComponent.h" />
     <ClInclude Include="Component\BombComponent.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
     <ClInclude Include="Component\PlayerComponent.h" />

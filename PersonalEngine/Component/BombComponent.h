@@ -5,6 +5,7 @@
 #include "LogicComponent.h"
 #include "RigidbodyComponent.h"
 #include "TransformComponent.h"
+#include "BlockComponent.h"
 #include "../Utility/Time.h"
 
 enum BombType {

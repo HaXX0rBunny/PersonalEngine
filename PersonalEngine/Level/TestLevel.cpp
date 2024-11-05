@@ -26,11 +26,12 @@ void Level::TestLevel::Init()
 
 
 	testObj3 = new GameObject("test2");
-	testObj3->ObjectTag = GameObject::Tag::Block;
+
 	testObj3->AddComponent<SpriteComp>();
 	testObj3->AddComponent<TransformComp>();
 	testObj3->AddComponent<RigidbodyComp>();
 	testObj3->AddComponent<CollisionComp>();
+	testObj3->AddComponent<BlockComp>();
 	TransformComp* test3Trans = testObj3->GetComponent<TransformComp>();
 	test3Trans->SetPos(33, 33, 2);
 	test3Trans->SetScale(32, 32);

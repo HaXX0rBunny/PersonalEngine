@@ -22,13 +22,17 @@ struct PlayerStat {
 	int moveSpeed;
 	int BombPower;
 	int BombCount;
+	bool isRemote;
 	bool isGrab;
 	bool isKick;
 	bool isImune;
+	bool isCurse;
 
 };
 class PlayerComp : public LogicComponent
 {
+	bool isInRange;
+	bool hasLeftRange;
 	PlayerStat state;
 	float spin;
 	float worldLimit;
@@ -46,8 +50,12 @@ public:
 	void SetPlayer(const PlayerNumber&);
 	void Player_1_Keymap();
 	void Player_2_Keymap();
+	const bool& IsInRange();
+	const bool& HasLeftRange();
+	void SetisbombRange(const bool&);
+	void SetisHasLeftBomb(const bool&);
 	bool GetMode();
-
+	void SetState(const ItemList&);
 	static std::string GetType()
 	{
 		return "PlayerComp";

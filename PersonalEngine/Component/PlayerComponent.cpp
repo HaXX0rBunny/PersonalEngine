@@ -2,7 +2,9 @@
 
 PlayerComp::PlayerComp(GameObject* owner) : LogicComponent(owner), spin(1), worldLimit(2000), playMode(false), Player(Player1)
 {
-	state.BombPower=5;
+	isInRange = false;    // 초기값 false로 설정
+	hasLeftRange= false;
+	state.BombPower=1;
 	state.moveSpeed = 10;
 	state.BombCount = 1;
 	state.isGrab = false;
@@ -125,11 +127,62 @@ void PlayerComp::Player_2_Keymap()
 		Keystate::keystateRShift = GL_FALSE;
 	}
 }
+const bool& PlayerComp::IsInRange()
+{
+	return isInRange;
+}
+const bool& PlayerComp::HasLeftRange()
+{
+	return hasLeftRange;
+}
 void PlayerComp::SetCollisionState(bool state) { isColliding = state; }
 void PlayerComp::SetMode(const bool& cb_in) { playMode = cb_in; }
 void PlayerComp::SetPlayer(const PlayerNumber& ce_in){	Player = ce_in;}
 
+void PlayerComp::SetisbombRange(const bool& cb_in)
+{
+	isInRange = cb_in;
+}
+
+void PlayerComp::SetisHasLeftBomb(const bool& cb_in)
+{
+	hasLeftRange = cb_in;
+}
+
 bool PlayerComp::GetMode() { return playMode; }
+
+void PlayerComp::SetState(const ItemList& ce_in)
+{
+	switch (ce_in)
+	{
+	case SpeedUp:
+		state.moveSpeed += 2;
+		break;
+	case PowerUp:
+		state.BombPower++;
+		break;
+	case GrabUp:
+		state.isGrab = true;
+		break;
+	case BombUp:
+		state.BombCount++;
+		break;
+	case Imune:
+		state.isImune = true;
+		break;
+	case RemoteUp:
+		state.isRemote = true;
+		break;
+	case Curse:
+		state.isCurse = true;
+		break;
+	case KickUp:
+		state.isKick = true;
+		break;
+	default:
+		break;
+	}
+}
 
 
 

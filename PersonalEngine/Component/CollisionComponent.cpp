@@ -7,9 +7,9 @@
 #include <limits>
 
 CollisionComp::CollisionComp(GameObject* owner)
-    : EngineComponent(owner), isCollider(false), isVisible(false), vao(0), vbo(0), ebo(0)
+	: EngineComponent(owner), isCollider(false), isVisible(false), vao(0), vbo(0), ebo(0)
 {
-    CollisionManager::GetInstance()->RegisterCollisionComponent(this);
+	CollisionManager::GetInstance()->RegisterCollisionComponent(this);
 	mShader = ResourceManager::GetInstance()->GetResource<Shader>("../Extern/Shader/shader.vert");
 
 	SetCollisionBox();
@@ -17,16 +17,16 @@ CollisionComp::CollisionComp(GameObject* owner)
 
 CollisionComp::~CollisionComp()
 {
-    CollisionManager::GetInstance()->UnregisterCollisionComponent(this);
-    if (vao) glDeleteVertexArrays(1, &vao);
-    if (vbo) glDeleteBuffers(1, &vbo);
-    if (ebo) glDeleteBuffers(1, &ebo);
+	CollisionManager::GetInstance()->UnregisterCollisionComponent(this);
+	if (vao) glDeleteVertexArrays(1, &vao);
+	if (vbo) glDeleteBuffers(1, &vbo);
+	if (ebo) glDeleteBuffers(1, &ebo);
 }
 
 void CollisionComp::Update()
 {
 	//UpdateTransformMatrix();
-    Render();
+	Render();
 }
 
 void CollisionComp::OnEvent(Event* event) {
@@ -43,30 +43,55 @@ void CollisionComp::OnEvent(Event* event) {
 		GameObject* otherObject = other->GetOwner();
 		PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
-		if (playerComp && thisObject->ObjectTag == GameObject::Player ) {
+		if (playerComp && thisObject->ObjectTag == GameObject::Player) {
 			// 충돌 축 계산 및 적용
 
-				const glm::mat4& playerMatrix = thisObject->GetComponent<TransformComp>()->GetMatrix();
-				const glm::mat4& otherMatrix = otherObject->GetComponent<TransformComp>()->GetMatrix();
-				std::vector<glm::vec3> axes = CalculateAxes(playerMatrix, otherMatrix);
+			const glm::mat4& playerMatrix = thisObject->GetComponent<TransformComp>()->GetMatrix();
+			const glm::mat4& otherMatrix = otherObject->GetComponent<TransformComp>()->GetMatrix();
+			std::vector<glm::vec3> axes = CalculateAxes(playerMatrix, otherMatrix);
 
-				// 충돌 감지 및 처리
-				glm::vec3 smallestAxis;
-				float minOverlap;
-				bool collisionDetected = DetectCollision(playerMatrix, otherMatrix, axes, smallestAxis, minOverlap);
+			// 충돌 감지 및 처리
+			glm::vec3 smallestAxis;
+			float minOverlap;
+			bool collisionDetected = DetectCollision(playerMatrix, otherMatrix, axes, smallestAxis, minOverlap);
 
-				if (collisionDetected) {
-					glm::vec3 playerPos = thisObject->GetComponent<TransformComp>()->GetPos();
-					glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
-					playerPos += (glm::dot(playerPos - otherObject->GetComponent<TransformComp>()->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
-					if (otherObject->ObjectTag == GameObject::Wall || otherObject->ObjectTag == GameObject::Block) 
+			if (collisionDetected) {
+				glm::vec3 playerPos = thisObject->GetComponent<TransformComp>()->GetPos();
+				glm::vec3 moveDirection = glm::normalize(smallestAxis) * minOverlap;
+				playerPos += (glm::dot(playerPos - otherObject->GetComponent<TransformComp>()->GetPos(), smallestAxis) > 0 ? 1.0f : -1.0f) * moveDirection;
+				if (otherObject->ObjectTag == GameObject::Wall || otherObject->ObjectTag == GameObject::Block)
 					thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
+				else if (otherObject->ObjectTag == GameObject::Item)
+				{
+					playerComp->SetState(otherObject->ItemType);
+					std::cout << "powerUp" << std::endl;
+					GameObjectManager::Instance()->RemoveObj(otherObject->GetName());
+				}
+				else if (otherObject->ObjectTag == GameObject::Enemy)
 					playerComp->SetCollisionState(true);
+				else if (otherObject->ObjectTag == GameObject::Bomb) {
+					std::cout << "IsInRange: " << playerComp->IsInRange()
+						<< ", HasLeftRange: " << playerComp->HasLeftRange() << std::endl;
+
+					if (!playerComp->IsInRange() && playerComp->HasLeftRange()) {
+						// 폭탄 범위에 새로 진입하고, 이전에 범위를 벗어난 적이 있는 경우
+						thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
+						playerComp->SetCollisionState(true);
+						playerComp->SetisbombRange(true);
+					}
+					else if (!playerComp->IsInRange() && !playerComp->HasLeftRange()) {
+						// 처음 폭탄을 설치한 경우
+						playerComp->SetisbombRange(true);
+					}
+
 				}
-				else {
-					playerComp->SetCollisionState(false);
-				}
-			
+			}
+			else {
+				// 폭탄 범위를 벗어난 경우
+				playerComp->SetisbombRange(false);  // 여기서 false로 설정
+				playerComp->SetisHasLeftBomb(true);
+				playerComp->SetCollisionState(false);
+			}
 		}
 	}
 }
@@ -122,15 +147,15 @@ void CollisionComp::ProjectOntoAxis(const glm::mat4& transform, const glm::vec3&
 
 glm::mat4 CollisionComp::CreateTransformMatrix(const TransformComp* transform) const
 {
-    if (!transform) return glm::mat4(1.0f);
+	if (!transform) return glm::mat4(1.0f);
 
-    glm::vec3 position = transform->GetPos();
-    glm::vec3 scale = transform->GetScale();
-    float rotation = glm::radians(transform->GetRot());
+	glm::vec3 position = transform->GetPos();
+	glm::vec3 scale = transform->GetScale();
+	float rotation = glm::radians(transform->GetRot());
 
-    return glm::translate(glm::mat4(1.0f), position) *
-        (rotation != 0.0f ? glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1)) : glm::mat4(1.0f)) *
-        glm::scale(glm::mat4(1.0f), scale);
+	return glm::translate(glm::mat4(1.0f), position) *
+		(rotation != 0.0f ? glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1)) : glm::mat4(1.0f)) *
+		glm::scale(glm::mat4(1.0f), scale);
 }
 
 void CollisionComp::Render()
@@ -168,7 +193,7 @@ void CollisionComp::Render()
 
 void CollisionComp::SetVisible(const bool& cb_in)
 {
-    isVisible = cb_in;
+	isVisible = cb_in;
 	SetCollisionBox();
 }
 
@@ -298,7 +323,7 @@ void CollisionComp::LoadFromJson(const json& data) {
 
 	if (compData != data.end()) {
 		// Load position
-		
+
 
 		// Load collider and visibility state
 		auto collider = compData->find("isCollider");
@@ -317,7 +342,7 @@ json CollisionComp::SaveToJson() {
 	json data;
 	data["Type"] = GetType();  // Save the component type
 	json compData;
-	
+
 	compData["isCollider"] = isCollider;
 	compData["isVisible"] = isVisible;
 	data["CompData"] = compData;  // Save component-specific data

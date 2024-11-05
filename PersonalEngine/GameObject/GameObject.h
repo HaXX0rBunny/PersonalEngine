@@ -6,6 +6,7 @@
 class BaseComponent;
 enum ItemList {
 	SpeedUp,
+	KickUp,
 	PowerUp,
 	GrabUp,
 	BombUp,
