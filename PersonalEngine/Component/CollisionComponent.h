@@ -9,12 +9,8 @@
 #include "../Event/Entity.h"
 #include "../Shader.h"
 #define  fwidth_Line 100.f // 1.f~ 10.f   this is Limit width 
-
-
-
 class CollisionComp : public EngineComponent , public Entity
 {
-
 	bool isCollider;
 	bool isVisible;
 	GLuint vao, vbo, ebo;
@@ -33,6 +29,7 @@ public:
 
 	void Update() override;
 	void OnEvent(Event* event) override;
+
 	std::vector<glm::vec3> CalculateAxes(const glm::mat4& playerMatrix, const glm::mat4& otherMatrix) const;
 	void Render();
 

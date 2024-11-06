@@ -118,7 +118,13 @@
     "object": "test2",
     "Tag": 5,
     "Components": [
-      null,
+      {
+        "Type": "BlockComp",
+        "CompData": {
+          "moveAble": false,
+          "fiber": 1
+        }
+      },
       {
         "Type": "CollisionComp",
         "CompData": {

@@ -26,6 +26,4 @@ public:
 	//For the RTTI
 	static BaseRTTI* CreateBlockComp();
 
-
-
 };

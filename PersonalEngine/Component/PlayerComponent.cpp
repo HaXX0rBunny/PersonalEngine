@@ -2,14 +2,14 @@
 
 PlayerComp::PlayerComp(GameObject* owner) : LogicComponent(owner), spin(1), worldLimit(2000), playMode(false), Player(Player1)
 {
-	isInRange = false;    // 초기값 false로 설정
-	hasLeftRange= false;
+
 	state.BombPower=1;
 	state.moveSpeed = 10;
 	state.BombCount = 1;
 	state.isGrab = false;
 	state.isImune = false;
 	state.isKick = false;
+	flagDirection = 1;
 }
 
 PlayerComp::~PlayerComp()
@@ -36,6 +36,8 @@ void PlayerComp::PlaceBomb()
 		bombTransform->SetPos(t->GetPos().x, t->GetPos().y, 5);  // 플레이어와 동일한 위치에 폭탄 생성
 		bombTransform->SetScale(32, 32);
 	}
+
+
 	auto setBomb= bomb->GetComponent<BombComp>();
 	setBomb->SetPower(state.BombPower);
 	bomb->AddComponent<SpriteComp>();
@@ -52,8 +54,10 @@ void PlayerComp::Update()
 		return;
 	//if (isColliding)
 	//	return;
-	Player_1_Keymap();
-	Player_2_Keymap();
+	if(Player==Player1)
+		Player_1_Keymap();
+	else if (Player == Player2)
+		Player_2_Keymap();
 	
 	DEBUG_PROFILER_END;
 }
@@ -68,18 +72,22 @@ void PlayerComp::Player_1_Keymap()
 		if (Keystate::keystateW == GL_TRUE) {
 			t->SetPos(t->GetPos().x, t->GetPos().y + state.moveSpeed);
 			Camera::GetInstance()->MoveCamera(glm::vec3(0, 1, 0));
+			flagDirection = 3;
 		}
 		if (Keystate::keystateS == GL_TRUE) {
 			t->SetPos(t->GetPos().x, t->GetPos().y - state.moveSpeed);
 			Camera::GetInstance()->MoveCamera(glm::vec3(0, -1, 0));
+			flagDirection = 1;
 		}
 		if (Keystate::keystateA == GL_TRUE) {
 			t->SetPos(t->GetPos().x - state.moveSpeed, t->GetPos().y);
 			Camera::GetInstance()->MoveCamera(glm::vec3(-1, 0, 0));
+			flagDirection = 2;
 		}
 		if (Keystate::keystateD == GL_TRUE) {
 			t->SetPos(t->GetPos().x + state.moveSpeed, t->GetPos().y);
 			Camera::GetInstance()->MoveCamera(glm::vec3(1, 0, 0));
+			flagDirection = 4;
 		}
 
 		if (t->GetPos().y >= worldLimit)
@@ -103,18 +111,22 @@ void PlayerComp::Player_2_Keymap()
 		if (Keystate::keystateUp == GL_TRUE) {
 			t->SetPos(t->GetPos().x, t->GetPos().y + state.moveSpeed);
 			Camera::GetInstance()->MoveCamera(glm::vec3(0, 1, 0));
+			flagDirection = 3;
 		}
 		if (Keystate::keystateDown == GL_TRUE) {
 			t->SetPos(t->GetPos().x, t->GetPos().y - state.moveSpeed);
 			Camera::GetInstance()->MoveCamera(glm::vec3(0, -1, 0));
+			flagDirection = 1;
 		}
 		if (Keystate::keystateLeft == GL_TRUE) {
 			t->SetPos(t->GetPos().x - state.moveSpeed, t->GetPos().y);
 			Camera::GetInstance()->MoveCamera(glm::vec3(-1, 0, 0));
+			flagDirection = 2;
 		}
 		if (Keystate::keystateRight == GL_TRUE) {
 			t->SetPos(t->GetPos().x + state.moveSpeed, t->GetPos().y);
 			Camera::GetInstance()->MoveCamera(glm::vec3(1, 0, 0));
+			flagDirection = 4;
 		}
 
 		if (t->GetPos().y >= worldLimit)
@@ -127,27 +139,16 @@ void PlayerComp::Player_2_Keymap()
 		Keystate::keystateRShift = GL_FALSE;
 	}
 }
-const bool& PlayerComp::IsInRange()
+
+const int& PlayerComp::GetDirection()
 {
-	return isInRange;
+	return flagDirection;
 }
-const bool& PlayerComp::HasLeftRange()
-{
-	return hasLeftRange;
-}
+
 void PlayerComp::SetCollisionState(bool state) { isColliding = state; }
 void PlayerComp::SetMode(const bool& cb_in) { playMode = cb_in; }
 void PlayerComp::SetPlayer(const PlayerNumber& ce_in){	Player = ce_in;}
 
-void PlayerComp::SetisbombRange(const bool& cb_in)
-{
-	isInRange = cb_in;
-}
-
-void PlayerComp::SetisHasLeftBomb(const bool& cb_in)
-{
-	hasLeftRange = cb_in;
-}
 
 bool PlayerComp::GetMode() { return playMode; }
 

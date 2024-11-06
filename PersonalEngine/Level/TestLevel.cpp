@@ -58,11 +58,7 @@ void Level::TestLevel::Init()
 	testComp->SetTexture();
 
 
-
-
-
-
-	//Serializer::Instance()->SaveLevel("Data.json");
+	Serializer::Instance()->SaveLevel("Data.json");
 }
 
 void Level::TestLevel::Update()

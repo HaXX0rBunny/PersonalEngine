@@ -20,6 +20,8 @@ struct Keystate {
 	static GLboolean keystateDown;
 	static GLboolean keystateRight;
 	static GLboolean keystateRShift;
+	static GLboolean keystateF9;
+	static GLboolean keystateF1;
 	static void updateKeyState(const int& key, const int& action,const int& targetKey, GLboolean& keyState);
 	static void updateMouseKeyState(const int& key, const int& action, const int& targetKey, GLboolean& keyState);
 	static void key_callback(GLFWwindow* window,int key,int scancode,int action, int mods);

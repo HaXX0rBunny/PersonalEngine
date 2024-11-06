@@ -97,9 +97,9 @@ void SetWindow::draw(Shader& shader)
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-
-    gsm->Update();
     gem->Update();
+    gsm->Update();
+
 
 
     ImGui::Render();

@@ -48,14 +48,39 @@ void BlockComp::DestoryBlock()
 
 void BlockComp::LoadFromJson(const json& data)
 {
+	auto compData = data.find("CompData");
+
+	if (compData != data.end())
+	{
+		auto ma = compData->find("moveAble");
+		moveAble = ma->begin().value();
+
+		auto fi = compData->find("fiber");
+		fiber = fi->begin().value();
+	}
 }
 
 json BlockComp::SaveToJson()
 {
-	return json();
+	json data;
+	data["Type"] = GetType();
+	json compData;
+	compData["moveAble"] = moveAble;
+	compData["fiber"] = fiber;
+
+	data["CompData"] = compData;
+	return data;
 }
 
 BaseRTTI* BlockComp::CreateBlockComp()
 {
-	return nullptr;
+	GameObject* lastObj = GameObjectManager::Instance()->GetLastObj();
+	if (lastObj == nullptr) {
+
+		return nullptr;  // 혹은 적절한 예외 처리
+	}
+
+	BaseRTTI* out = new BlockComp(lastObj);
+
+	return out;
 }

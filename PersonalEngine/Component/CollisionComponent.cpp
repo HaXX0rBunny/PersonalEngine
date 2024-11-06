@@ -70,32 +70,15 @@ void CollisionComp::OnEvent(Event* event) {
 				else if (otherObject->ObjectTag == GameObject::Enemy)
 					playerComp->SetCollisionState(true);
 				else if (otherObject->ObjectTag == GameObject::Bomb) {
-					std::cout << "IsInRange: " << playerComp->IsInRange()
-						<< ", HasLeftRange: " << playerComp->HasLeftRange() << std::endl;
-
-					if (!playerComp->IsInRange() && playerComp->HasLeftRange()) {
-						// 폭탄 범위에 새로 진입하고, 이전에 범위를 벗어난 적이 있는 경우
-						thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
-						playerComp->SetCollisionState(true);
-						playerComp->SetisbombRange(true);
-					}
-					else if (!playerComp->IsInRange() && !playerComp->HasLeftRange()) {
-						// 처음 폭탄을 설치한 경우
-						playerComp->SetisbombRange(true);
-					}
-
+					thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
 				}
-			}
-			else {
-				// 폭탄 범위를 벗어난 경우
-				playerComp->SetisbombRange(false);  // 여기서 false로 설정
-				playerComp->SetisHasLeftBomb(true);
-				playerComp->SetCollisionState(false);
+				else {
+					playerComp->SetCollisionState(false);
+				}
 			}
 		}
 	}
 }
-
 std::vector<glm::vec3> CollisionComp::CalculateAxes(const glm::mat4& playerMatrix, const glm::mat4& otherMatrix) const {
 	return {
 		glm::normalize(glm::vec3(playerMatrix[0])),

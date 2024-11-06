@@ -31,11 +31,12 @@ struct PlayerStat {
 };
 class PlayerComp : public LogicComponent
 {
-	bool isInRange;
-	bool hasLeftRange;
+	bool isPlayerInside = true;  // 플레이어가 폭탄 범위 안에 있는지 체크
+	bool canCollide = false;     // 충돌 가능 상태인지 체크
 	PlayerStat state;
 	float spin;
 	float worldLimit;
+	int flagDirection;
 	bool playMode;
 	bool isColliding = false;
 	PlayerNumber Player;
@@ -50,10 +51,8 @@ public:
 	void SetPlayer(const PlayerNumber&);
 	void Player_1_Keymap();
 	void Player_2_Keymap();
-	const bool& IsInRange();
-	const bool& HasLeftRange();
-	void SetisbombRange(const bool&);
-	void SetisHasLeftBomb(const bool&);
+	const int& GetDirection();
+
 	bool GetMode();
 	void SetState(const ItemList&);
 	static std::string GetType()

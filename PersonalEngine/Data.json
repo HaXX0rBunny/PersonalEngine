@@ -4,11 +4,18 @@
     "Tag": 1,
     "Components": [
       {
+        "Type": "CollisionComp",
+        "CompData": {
+          "isCollider": false,
+          "isVisible": false
+        }
+      },
+      {
         "Type": "PlayerComp",
         "CompData": {
-          "moveSpeed": 10.0,
+          "moveSpeed": 10,
           "spin": 1.0,
-          "worldLimit": 375.0,
+          "worldLimit": 2000.0,
           "playMode": false
         }
       },
@@ -42,12 +49,125 @@
         "Type": "TransformComp",
         "CompData": {
           "Pos": [
+            600.0,
+            0.0
+          ],
+          "Sca": [
+            32.0,
+            32.0
+          ],
+          "Rot": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "object": "test1",
+    "Tag": 4,
+    "Components": [
+      {
+        "Type": "CollisionComp",
+        "CompData": {
+          "isCollider": false,
+          "isVisible": false
+        }
+      },
+      {
+        "Type": "RigidbodyComp",
+        "CompData": {
+          "drag": 0.5,
+          "Velocity": [
+            0.0,
+            0.0
+          ],
+          "MaxVelocity": [
+            100.0,
+            100.0
+          ]
+        }
+      },
+      {
+        "Type": "SpriteComp",
+        "CompData": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Alpha": 1.0,
+          "TextureName": "Assets/awesomeface.png"
+        }
+      },
+      {
+        "Type": "TransformComp",
+        "CompData": {
+          "Pos": [
             0.0,
             0.0
           ],
           "Sca": [
+            32.0,
+            32.0
+          ],
+          "Rot": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "object": "test2",
+    "Tag": 5,
+    "Components": [
+      {
+        "Type": "BlockComp",
+        "CompData": {
+          "moveAble": false,
+          "fiber": 1
+        }
+      },
+      {
+        "Type": "CollisionComp",
+        "CompData": {
+          "isCollider": false,
+          "isVisible": false
+        }
+      },
+      {
+        "Type": "RigidbodyComp",
+        "CompData": {
+          "drag": 0.5,
+          "Velocity": [
+            0.0,
+            0.0
+          ],
+          "MaxVelocity": [
+            100.0,
+            100.0
+          ]
+        }
+      },
+      {
+        "Type": "SpriteComp",
+        "CompData": {
+          "Color": [
+            150.0,
             1.0,
             1.0
+          ],
+          "Alpha": 1.0,
+          "TextureName": "Assets/awesomeface2.png"
+        }
+      },
+      {
+        "Type": "TransformComp",
+        "CompData": {
+          "Pos": [
+            33.0,
+            33.0
+          ],
+          "Sca": [
+            32.0,
+            32.0
           ],
           "Rot": 0.0
         }

@@ -3,7 +3,9 @@
 EditorInteractManager EditorInteractManager::Instance;
 
 EditorInteractManager::EditorInteractManager() : selectedObject(nullptr), lastMousePos({0,0})
-, isDragging(false), currentMode(EditMode::Position) {}
+, isDragging(false), currentMode(EditMode::Position), SavedMode(EditMode::Position){
+
+}
 glm::vec2 EditorInteractManager::ScreenToWorldPosition(const glm::vec2& screenPos)
 {
     GLint viewport[4];
@@ -12,14 +14,17 @@ glm::vec2 EditorInteractManager::ScreenToWorldPosition(const glm::vec2& screenPo
     glm::mat4 viewProj = Camera::GetInstance()->GetViewMatrix();
     glm::mat4 projection = Camera::GetInstance()->GetProjectionMatrix();
     glm::mat4 viewProjMatrix = projection * viewProj;
+
+    // 화면 좌표를 NDC 좌표로 변환
     glm::vec4 screenPosNDC(
         (2.0f * screenPos.x) / viewport[2] - 1.0f,
-        1.0f - (2.0f * screenPos.y) / viewport[3],
-        -1.0f,
+        -(2.0f * screenPos.y) / viewport[3] + 1.0f,  // Y 좌표 변환 수정
+        0.0f,  // near plane
         1.0f
     );
 
- glm::vec4 worldPos = glm::inverse(viewProjMatrix) * screenPosNDC;
+    // NDC 좌표를 월드 좌표로 변환
+    glm::vec4 worldPos = glm::inverse(viewProjMatrix) * screenPosNDC;
     return glm::vec2(worldPos.x / worldPos.w, worldPos.y / worldPos.w);
 }
 bool EditorInteractManager::IsPointInBounds(const glm::vec2& point, GameObject* object)
@@ -49,22 +54,32 @@ bool EditorInteractManager::IsPointInBounds(const glm::vec2& point, GameObject* 
 }
 void EditorInteractManager::Update()
 {
-
-    if (Keystate::keystateQ==GL_TRUE) 
-        currentMode = EditMode::Position;
-    if (Keystate::keystateW == GL_TRUE)
-        currentMode = EditMode::Rotation;
-    if (Keystate::keystateE == GL_TRUE)
-        currentMode = EditMode::Scale;
+    double mouseX, mouseY;
+    glfwGetCursorPos(glfwGetCurrentContext(), &mouseX, &mouseY);
+    glm::vec2 mouseWorldPos = ScreenToWorldPosition(glm::vec2(mouseX, mouseY));
 
     // 왼쪽 마우스 버튼 클릭 확인
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-        double MouseX, MouseY;
-        glfwGetCursorPos(glfwGetCurrentContext(), &MouseX, &MouseY);
-        //ImVec2 mousePos = ImGui::GetMousePos();
-        CheckMouseToCollision(glm::vec2(MouseX, MouseY));
-    }
+        if (ImGui::IsAnyItemHovered()) {
+            return; // UI 요소 위에서는 처리하지 않음
+        }
 
+        bool objectFound = false;
+        // 오브젝트 선택 검사
+        for (auto& obj : GameObjectManager::Instance()->AllObj()) {
+            TransformComp* transform = obj.second->GetComponent<TransformComp>();
+            if (transform && IsPointInBounds(mouseWorldPos, obj.second)) {
+                selectedObject = obj.second;
+                objectFound = true;
+                break;
+            }
+        }
+
+        // 오브젝트를 찾지 못했다면 선택 해제
+        if (!objectFound) {
+            selectedObject = nullptr;
+        }
+    }
     // 드래그 처리
     if (selectedObject && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
         ImVec2 mousePos = ImGui::GetMousePos();
@@ -123,6 +138,8 @@ void EditorInteractManager::Update()
     if (selectedObject) {
         ShowObjectProperties();
     }
+    SwitchMod();
+
 }
 
 // 속성 창 표시를 위한 별도의 함수
@@ -163,6 +180,41 @@ void EditorInteractManager::ShowObjectProperties()
     }
 
     ImGui::End();
+}
+void EditorInteractManager::SwitchMod()
+{
+    if (currentMode != EditMode::Map) {
+        if (Keystate::keystateQ == GL_TRUE)
+        {
+            SetEditMode(EditMode::Position);
+            Keystate::keystateQ = GL_FALSE;
+        }
+        if (Keystate::keystateW == GL_TRUE) {
+            SetEditMode(EditMode::Rotation);
+            Keystate::keystateW = GL_FALSE;
+        }
+        if (Keystate::keystateE == GL_TRUE)
+        {
+            SetEditMode(EditMode::Scale);
+            Keystate::keystateE = GL_FALSE;
+        }
+        if (Keystate::keystateF9 == GL_TRUE)
+        {
+            SavedMode = currentMode;
+            SetEditMode(EditMode::Map);
+
+            Keystate::keystateF9 = GL_FALSE;
+        }
+
+    }
+    else
+    {
+        if (Keystate::keystateF9 == GL_TRUE)
+        {
+            SetEditMode(SavedMode);
+            Keystate::keystateF9 = GL_FALSE;
+        }
+    }
 }
 void EditorInteractManager::CheckMouseToCollision(const glm::vec2& CVmousePos_in) {
     if (ImGui::IsAnyItemHovered()) {

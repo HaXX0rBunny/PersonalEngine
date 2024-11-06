@@ -184,6 +184,7 @@
     <ClInclude Include="Component\BombComponent.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
     <ClInclude Include="Component\PlayerComponent.h" />
+    <ClInclude Include="Data\DataStruct.h" />
     <ClInclude Include="Dependencies\include\imgui\implot.h" />
     <ClInclude Include="Dependencies\include\imgui\implot_internal.h" />
     <ClInclude Include="Editor\MainMenu.h" />

@@ -5,14 +5,15 @@
 #include "../Component/RigidbodyComponent.h"
 #include "../Component/CollisionComponent.h"
 #include "../Component/BombComponent.h"
+#include "../Component/BlockComponent.h"
 Registry* Registry::Instance_ = nullptr;  
 
 Registry::Registry()
 {
     //Register All the functions
 
-
-    rttiMap.insert({ "BombComp", &BombComp::CreateBombComp });
+    rttiMap.insert({ "BlockComp", &BlockComp::CreateBlockComp });
+   // rttiMap.insert({ "BombComp", &BombComp::CreateBombComp });
     rttiMap.insert({ "CollisionComp", &CollisionComp::CreateCollisionComp });
     rttiMap.insert({ "RigidbodyComp", &RigidbodyComp::CreateRigidbodyComp });
     rttiMap.insert({ "PlayerComp", &PlayerComp::CreatePlayerComp });

@@ -11,6 +11,13 @@
 #include "../Camera/Camera.h"
 #include <glm.hpp>
 #include "../Utility/InputProcess.h"
+enum TileType {
+    Ground,
+    Wall,
+    Block,
+    Enemy,
+    Player
+};
 
 
 class EditorInteractManager {
@@ -18,7 +25,8 @@ private:
     enum class EditMode {
         Position,
         Rotation,
-        Scale
+        Scale,
+        Map
     };
 
     static EditorInteractManager Instance;
@@ -26,9 +34,7 @@ private:
     glm::vec2 lastMousePos;
     bool isDragging;
     EditMode currentMode;  // 현재 편집 모드
-
-
-
+    EditMode SavedMode;
     EditorInteractManager();
     EditorInteractManager(const EditorInteractManager&) = delete;
     EditorInteractManager& operator=(const EditorInteractManager&) = delete;
@@ -43,7 +49,7 @@ public:
     void Update();
 
     void ShowObjectProperties();
-
+    void SwitchMod();
     void CheckMouseToCollision(const glm::vec2& CVmousePos_in);
 
     // 피킹 관련 함수들

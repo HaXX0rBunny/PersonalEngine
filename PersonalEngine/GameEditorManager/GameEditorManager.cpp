@@ -27,14 +27,18 @@ void GEM::GameEditorManager::Init()
 
 void GEM::GameEditorManager::Update()
 {
+	DEBUG_PROFILER_START("Editor");
 	ProfilerMoniter::GetInstance()->Update();
+	DEBUG_PROFILER_END;
 	if (Keystate::keystateF5 == GL_TRUE)
 		EditorInteractManager::GetInstance()->selectedObject = nullptr;
 	mainMenu->UpdateEditorState();
 	if (EngineState::engineState_ == EngineMode::Editor)
 	{
+
 		mainMenu->Update();
 		EditorInteractManager::GetInstance()->Update();
+
 	}
 
 }

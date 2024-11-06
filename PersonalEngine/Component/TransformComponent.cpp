@@ -93,6 +93,7 @@ void TransformComp::SetScale(const float& x, const float& y, const float& z)
 
 void TransformComp::SetPos(const glm::vec3& otherPos)
 {
+	prePos = otherPos;
 	pos = otherPos;
 	CalculateMatrix();
 

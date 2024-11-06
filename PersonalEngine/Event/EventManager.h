@@ -13,10 +13,10 @@ class EventManager {
     // 이벤트 레지스트리: 이벤트와 관련된 엔티티들 관리
     std::map<Event*, std::list<Entity*>> mpp_eventRegistry;
 
-    EventManager();  // 생성자
-    EventManager(const EventManager& other) = delete;  // 복사 생성자 금지
-    const EventManager& operator=(const EventManager& other) = delete;  // 대입 연산자 금지
-    ~EventManager();  // 소멸자
+    EventManager(); 
+    EventManager(const EventManager& other) = delete;  
+    const EventManager& operator=(const EventManager& other) = delete;  
+    ~EventManager();  
 
 public:
     static EventManager* GetInstance() {
