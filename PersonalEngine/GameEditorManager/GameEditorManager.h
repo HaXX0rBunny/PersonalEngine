@@ -3,6 +3,7 @@
 #include "../GameEditorManager/EditorInteractManager.h"
 #include "../Utility/EngineState.h"
 #include "../Editor/ProfilerMoniter.h"
+#include "../Editor/TileEditor.h"
 namespace GEM
 {
 	class BaseEditor;
@@ -10,7 +11,7 @@ namespace GEM
 	{
 		static GameEditorManager* Instance;
 		MainMenu* mainMenu =nullptr;
-	
+		TileEditor* tileEdit = nullptr;
 		GameEditorManager();
 		GameEditorManager(const GameEditorManager& other) = delete;
 		const GameEditorManager& operator=(const GameEditorManager& other) = delete;

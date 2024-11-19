@@ -11,6 +11,8 @@ GEM::GameEditorManager::~GameEditorManager()
 void GEM::GameEditorManager::DeleteGEM()
 {
 	delete mainMenu;
+
+	delete tileEdit;
 	if (Instance)
 	{
 		delete Instance;
@@ -22,7 +24,7 @@ void GEM::GameEditorManager::DeleteGEM()
 void GEM::GameEditorManager::Init()
 {
 	mainMenu = new MainMenu();
-
+	tileEdit = new TileEditor();
 }
 
 void GEM::GameEditorManager::Update()
@@ -35,7 +37,9 @@ void GEM::GameEditorManager::Update()
 	mainMenu->UpdateEditorState();
 	if (EngineState::engineState_ == EngineMode::Editor)
 	{
+		tileEdit->Update();
 		mainMenu->Update();
+
 		EditorInteractManager::GetInstance()->Update();
 
 	}

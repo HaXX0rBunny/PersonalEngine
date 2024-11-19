@@ -1,25 +1,42 @@
 #include "TileEditor.h"
 #include "../Utility/InputProcess.h"
-TileEditor::~TileEditor()
-{
-}
-
 void TileEditor::Update()
 {
-    // F1 키로 토글
-    if (Keystate::keystateF1 == GL_TRUE) {
+    // F2 키로 토글
+    if (Keystate::keystateF2 == GL_TRUE) {
         isEnabled = !isEnabled;
-        if (!isEnabled) {
-            Clear();
-        }
-        Keystate::keystateF1 = GL_FALSE;
+        Keystate::keystateF2 = GL_FALSE;
     }
 
-    if (!isEnabled) return;
-
-    /*그리드 격자 */
+    if (isEnabled) {
+        DrawGrid();
+    }
 }
 
-void TileEditor::Clear()
+void TileEditor::DrawGrid()
 {
+    ImGuiIO& io = ImGui::GetIO();
+    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+
+    // 화면 크기
+    float windowWidth = 1600.0f;   // Window_width
+    float windowHeight = 800.0f;   // Window_height
+
+    // 세로선 그리기
+    for (float x = 0; x <= windowWidth; x += TILE_SIZE) {
+        drawList->AddLine(
+            ImVec2(x, 0),
+            ImVec2(x, windowHeight),
+            ImGui::ColorConvertFloat4ToU32(GRID_COLOR)
+        );
+    }
+
+    // 가로선 그리기
+    for (float y = 0; y <= windowHeight; y += TILE_SIZE) {
+        drawList->AddLine(
+            ImVec2(0, y),
+            ImVec2(windowWidth, y),
+            ImGui::ColorConvertFloat4ToU32(GRID_COLOR)
+        );
+    }
 }

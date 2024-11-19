@@ -16,6 +16,7 @@ GLboolean Keystate::keystateRight = GL_FALSE;
 GLboolean Keystate::keystateRShift = GL_FALSE;
 GLboolean Keystate::keystateF9 = GL_FALSE;
 GLboolean Keystate::keystateF1 = GL_FALSE;
+GLboolean Keystate::keystateF2 = GL_FALSE;
 /*  _________________________________________________________________________*/
 /*! key_callback
 
@@ -64,6 +65,7 @@ void Keystate::key_callback(GLFWwindow* window, int key, int scancode, int actio
     updateKeyState(key, action, GLFW_KEY_RIGHT_SHIFT, keystateRShift);
     updateKeyState(key, action, GLFW_KEY_F9, keystateF9);
     updateKeyState(key, action, GLFW_KEY_F1, keystateF1);
+    updateKeyState(key, action, GLFW_KEY_F2, keystateF2);
 }
 
 
