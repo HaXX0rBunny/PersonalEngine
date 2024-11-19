@@ -10,7 +10,7 @@ GameObject::GameObject()
 
 	GameObjectManager::Instance()->AddObj(name,this);
 	ObjectTag = Tag::Default;
-	ItemType = ItemList::NotItem;
+
 }
 
 GameObject::GameObject(std::string id)

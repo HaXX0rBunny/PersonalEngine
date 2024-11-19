@@ -2,7 +2,7 @@
 #include "../Component/SpriteComponent.h"
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
-
+#include "ItemComponent.h"
 #include "../Component/TransformComponent.h"
 #include "EngineComponent.h"
 #include "../GameObjectManager/GameObjectManager.h"

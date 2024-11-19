@@ -34,11 +34,13 @@ void PlayerComp::PlaceBomb()
 	{
 		TransformComp* bombTransform = bomb->GetComponent<TransformComp>();
 		bombTransform->SetPos(t->GetPos().x, t->GetPos().y, 5);  // 플레이어와 동일한 위치에 폭탄 생성
-		bombTransform->SetScale(32, 32);
+		bombTransform->SetScale(40, 40);
 	}
 
 
-	auto setBomb= bomb->GetComponent<BombComp>();
+	BombComp* setBomb= bomb->GetComponent<BombComp>();
+	setBomb->SetWhiteList();
+	//setBomb->AddWhiteList(own->GetName());
 	setBomb->SetPower(state.BombPower);
 	bomb->AddComponent<SpriteComp>();
 	SpriteComp* bombSprite = bomb->GetComponent<SpriteComp>();
@@ -52,8 +54,8 @@ void PlayerComp::Update()
 	DEBUG_PROFILER_START("player");
 	if (EngineState::engineState_ == Editor)
 		return;
-	//if (isColliding)
-	//	return;
+	if (isColliding)
+		return;
 	if(Player==Player1)
 		Player_1_Keymap();
 	else if (Player == Player2)

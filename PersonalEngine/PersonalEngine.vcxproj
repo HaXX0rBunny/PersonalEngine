@@ -149,6 +149,7 @@
     <ClCompile Include="Component\CollisionComponent.cpp" />
     <ClCompile Include="Component\EngineComponent.cpp" />
     <ClCompile Include="Component\GraphicsComponent.cpp" />
+    <ClCompile Include="Component\ItemComponent.cpp" />
     <ClCompile Include="Component\LogicComponent.cpp" />
     <ClCompile Include="Component\PlayerComponent.cpp" />
     <ClCompile Include="Component\RigidbodyComponent.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Dependencies\include\imgui\implot_items.cpp" />
     <ClCompile Include="Editor\MainMenu.cpp" />
     <ClCompile Include="Editor\ProfilerMoniter.cpp" />
+    <ClCompile Include="Editor\TileEditor.cpp" />
     <ClCompile Include="GameEditorManager\EditorInteractManager.cpp" />
     <ClCompile Include="GameEditorManager\GameEditorManager.cpp" />
     <ClCompile Include="Event\Event.cpp" />
@@ -183,12 +185,14 @@
     <ClInclude Include="Component\BlockComponent.h" />
     <ClInclude Include="Component\BombComponent.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
+    <ClInclude Include="Component\ItemComponent.h" />
     <ClInclude Include="Component\PlayerComponent.h" />
     <ClInclude Include="Data\DataStruct.h" />
     <ClInclude Include="Dependencies\include\imgui\implot.h" />
     <ClInclude Include="Dependencies\include\imgui\implot_internal.h" />
     <ClInclude Include="Editor\MainMenu.h" />
     <ClInclude Include="Editor\ProfilerMoniter.h" />
+    <ClInclude Include="Editor\TileEditor.h" />
     <ClInclude Include="GameEditorManager\BaseEditor.h" />
     <ClInclude Include="GameEditorManager\GameEditorManager.h" />
     <ClInclude Include="GameEditorManager\EditorInteractManager.h" />

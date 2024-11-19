@@ -8,6 +8,7 @@
 #include "../Utility/InputProcess.h"
 #include "../Utility/EngineState.h"
 #include "../GameObjectManager/GameObjectManager.h"
+#include "ItemComponent.h"
 #include "../Camera/Camera.h"
 #include "CollisionComponent.h"
 #include "../Utility/Profiler.h"

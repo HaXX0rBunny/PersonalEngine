@@ -1,5 +1,5 @@
 #include "BlockComponent.h"
-
+#include <random>
 BlockComp::BlockComp(GameObject* owner):LogicComponent(owner)
 {
 	own->ObjectTag = GameObject::Tag::Block;
@@ -28,9 +28,37 @@ void BlockComp::Update()
 
 void BlockComp::SpawnItem()
 {
-	GameObject* Item = new GameObject("Item");
+
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dis(0.0f, 100.0f);
+
+	// 아이템 드롭 확률 계산
+	float randomValue = dis(gen);
+	float accumulatedChance = 0.0f;
+
+	// 아이템 드롭 여부 결정 (전체 50% 확률)
+	if (randomValue > 50.0f) {
+		return; // 아이템을 드롭하지 않음
+	}
+	randomValue = dis(gen);	
+	const ItemDropInfo* selectedItem = nullptr;
+
+	for (const auto& item : itemDropTable)
+	{
+		accumulatedChance += item.dropChance;
+		if (randomValue <= accumulatedChance)
+		{
+			selectedItem = &item;
+			break;
+		}
+	}
+
+	static int ItemCounter = 0;
+	std::string ItemName = "Item_" + std::to_string(ItemCounter++);
+	GameObject* Item = new GameObject(ItemName);
 	Item->ObjectTag = GameObject::Tag::Item;
-	Item->ItemType = ItemList::PowerUp;
+
 	SpriteComp * ItemSprite=Item->AddComponent<SpriteComp>();
 	TransformComp* ItemTrans = Item->AddComponent<TransformComp>();
 	ItemSprite->SetTexture();
@@ -38,6 +66,9 @@ void BlockComp::SpawnItem()
 	ItemTrans->SetPos(wonTrans->GetPos());
 	ItemTrans->SetScale(wonTrans->GetScale());
 	CollisionComp* ItemCollision = Item->AddComponent<CollisionComp>();
+	ItemComp* itemComp = Item->AddComponent<ItemComp>();
+	itemComp->setItem(*selectedItem);
+
 }
 
 void BlockComp::DestoryBlock()

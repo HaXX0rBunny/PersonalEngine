@@ -35,7 +35,6 @@ void GEM::GameEditorManager::Update()
 	mainMenu->UpdateEditorState();
 	if (EngineState::engineState_ == EngineMode::Editor)
 	{
-
 		mainMenu->Update();
 		EditorInteractManager::GetInstance()->Update();
 

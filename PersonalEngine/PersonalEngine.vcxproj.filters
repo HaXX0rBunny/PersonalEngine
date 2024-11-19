@@ -177,6 +177,12 @@
     <ClCompile Include="Component\BlockComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Component\ItemComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\TileEditor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GSM\GameStateManager.h">
@@ -372,6 +378,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Data\DataStruct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ItemComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\TileEditor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

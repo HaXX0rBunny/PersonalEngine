@@ -32,9 +32,54 @@ void BombComp::Explode() {
     GameObjectManager::Instance()->RemoveObj(own->GetName());
 }
 
+bool BombComp::IsPlayerWhitelisted(const std::string& playerName) const
+{
+    return std::find(WhiteList.begin(), WhiteList.end(), playerName) != WhiteList.end();
+}
+
+void BombComp::oustWhiteList(const std::string& cr_instr)
+{
+    auto it = std::find(WhiteList.begin(), WhiteList.end(), cr_instr);
+    if (it != WhiteList.end())
+        WhiteList.erase(it);
+}
+
+void BombComp::SetWhiteList()
+{
+  
+    auto objects = GameObjectManager::Instance()->AllObj();
+    TransformComp* bombTransform = own->GetComponent<TransformComp>();
+
+
+    for (const auto& obj : objects) {
+        if (obj.second->ObjectTag == GameObject::Tag::Player) {
+            TransformComp* playerTransform = obj.second->GetComponent<TransformComp>();
+            glm::vec3 playerPos = playerTransform->GetPos();
+            glm::vec3 bombPos = bombTransform->GetPos();
+            // 폭탄과 플레이어 사이의 거리 계산
+            float distance = glm::distance(
+                glm::vec2(bombPos.x, bombPos.y),
+                glm::vec2(playerPos.x, playerPos.y)
+            );
+
+            // 일정 거리 내에 있는 플레이어를 WhiteList에 추가
+            if (distance < 40.0f) {  // 적절한 거리값으로 조정
+                WhiteList.push_back(obj.second->GetName());
+            }
+
+        }
+    }
+
+}
+
+const std::list<std::string>& BombComp::GetWhiteList()
+{
+    return WhiteList;
+}
 void BombComp::LoadFromJson(const json& data)
 {
 }
+
 
 json BombComp::SaveToJson()
 {
@@ -76,7 +121,7 @@ void BombComp::CreateExplosionEffect(const glm::vec2& position) {
     // Transform 컴포넌트 설정
     auto transform = effect->AddComponent<TransformComp>();
     transform->SetPos({ position ,-5});
-    transform->SetScale( 32.0f, 32.0f); // 폭발 이펙트 크기 설정
+    transform->SetScale( 40.0f, 40.0f); // 폭발 이펙트 크기 설정
 
     // 스프라이트 컴포넌트 추가
     auto sprite = effect->AddComponent<SpriteComp>();
@@ -138,7 +183,7 @@ void BombComp::reduceEffect()
 
 bool BombComp::HandleCollisions(const std::vector<GameObject*>& colliders) {
     bool hitWall = false;
-
+    //BombFlameEffect collision evenet
     for (auto* obj : colliders) {
         auto tag = obj->ObjectTag;
 

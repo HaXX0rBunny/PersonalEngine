@@ -17,8 +17,6 @@ class ProfilerMoniter
     ProfilerMoniter(const ProfilerMoniter& other) = delete;
     const ProfilerMoniter& operator=(const ProfilerMoniter& other) = delete;
     ~ProfilerMoniter();
-
-public:
     ProfilerMoniter() : frameCount(0), show_lines(true), show_fills(true), isEnabled(false) {
         // ∫§≈Õ πÃ∏Æ «“¥Á
         xData.reserve(MAX_SAMPLES);
@@ -26,6 +24,8 @@ public:
             timeData[i].reserve(MAX_SAMPLES);
         }
     }
+public:
+
     static ProfilerMoniter* GetInstance() {
         static ProfilerMoniter Instance;  // ΩÃ±€≈Ê ∆–≈œ ªÁøÎ
         return &Instance;

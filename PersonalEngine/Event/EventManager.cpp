@@ -51,7 +51,7 @@ void EventManager::DispatchEvent() {
         qp_entities.pop();
 
         // 이벤트가 등록된 엔티티들에게 디스패치
-        std::cout << "Dispatching event: " << typeid(*event).name() << std::endl;
+        //std::cout << "Dispatching event: " << typeid(*event).name() << std::endl;
 
         // 이벤트를 각 엔티티에 전달
         if(event->src)

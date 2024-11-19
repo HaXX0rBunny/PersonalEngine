@@ -43,6 +43,10 @@ void CollisionComp::OnEvent(Event* event) {
 		GameObject* otherObject = other->GetOwner();
 		PlayerComp* playerComp = thisObject->GetComponent<PlayerComp>();
 
+		if (thisObject->ObjectTag != GameObject::Player)
+		{
+			return;
+		}
 		if (playerComp && thisObject->ObjectTag == GameObject::Player) {
 			// 충돌 축 계산 및 적용
 
@@ -63,14 +67,37 @@ void CollisionComp::OnEvent(Event* event) {
 					thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
 				else if (otherObject->ObjectTag == GameObject::Item)
 				{
-					playerComp->SetState(otherObject->ItemType);
-					std::cout << "powerUp" << std::endl;
+					playerComp->SetState(otherObject->GetComponent<ItemComp>()->GetItemType().type);
+					std::cout << otherObject->GetComponent<ItemComp>()->GetItemType().type << std::endl;
 					GameObjectManager::Instance()->RemoveObj(otherObject->GetName());
 				}
 				else if (otherObject->ObjectTag == GameObject::Enemy)
 					playerComp->SetCollisionState(true);
-				else if (otherObject->ObjectTag == GameObject::Bomb) {
-					thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
+				else if (otherObject->ObjectTag == GameObject::Tag::Bomb) {
+					auto curPlayerPos = thisObject->GetComponent<TransformComp>()->GetPos();
+					BombComp* bombComp = otherObject->GetComponent<BombComp>();
+					if (bombComp) {
+						if (bombComp->IsPlayerWhitelisted(thisObject->GetName())) {
+							// 플레이어와 폭탄의 위치
+							glm::vec2 playerPos2D(curPlayerPos.x, curPlayerPos.y);
+							glm::vec2 bombPos2D(otherObject->GetComponent<TransformComp>()->GetPos().x,
+								otherObject->GetComponent<TransformComp>()->GetPos().y);
+
+							// x축과 y축 각각의 거리 차이 계산
+							float xDistance = std::abs(playerPos2D.x - bombPos2D.x);
+							float yDistance = std::abs(playerPos2D.y - bombPos2D.y);
+							//std::cout << xDistance << "," << yDistance << std::endl;
+							// x축이나 y축 중 하나라도 일정 거리를 벗어나면 WhiteList에서 제거
+							if (xDistance >= 40.0f || yDistance >= 40.0f) {
+								bombComp->oustWhiteList(thisObject->GetName());
+							}
+						}
+
+						// WhiteList에 없는 경우에만 충돌 처리
+						if (!bombComp->IsPlayerWhitelisted(thisObject->GetName())) {
+							thisObject->GetComponent<TransformComp>()->SetPos(playerPos);
+						}
+					}
 				}
 				else {
 					playerComp->SetCollisionState(false);

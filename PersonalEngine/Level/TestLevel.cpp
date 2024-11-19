@@ -20,7 +20,7 @@ void Level::TestLevel::Init()
 	testObj2->AddComponent<CollisionComp>();
 	TransformComp* test2Trans = testObj2->GetComponent<TransformComp>();
 	test2Trans->SetPos(0, 0, 2);
-	test2Trans->SetScale(32,32);
+	test2Trans->SetScale(40,40);
 	SpriteComp* test2Comp = testObj2->GetComponent<SpriteComp>();
 	test2Comp->SetTexture("Assets/awesomeface.png");
 
@@ -33,8 +33,8 @@ void Level::TestLevel::Init()
 	testObj3->AddComponent<CollisionComp>();
 	testObj3->AddComponent<BlockComp>();
 	TransformComp* test3Trans = testObj3->GetComponent<TransformComp>();
-	test3Trans->SetPos(33, 33, 2);
-	test3Trans->SetScale(32, 32);
+	test3Trans->SetPos(40, 40, 2);
+	test3Trans->SetScale(40, 40);
 	SpriteComp* test3Comp = testObj3->GetComponent<SpriteComp>();
 	test3Comp->SetTexture("Assets/awesomeface2.png");
 	test3Comp->SetColor(150, 1, 1);
@@ -52,7 +52,7 @@ void Level::TestLevel::Init()
 
 	TransformComp* testTrans = testObj->GetComponent<TransformComp>();
 	testTrans->SetPos(600,0,-0);
-	testTrans->SetScale(32, 32);
+	testTrans->SetScale(40, 40);
 
 	SpriteComp* testComp = testObj->GetComponent<SpriteComp>();
 	testComp->SetTexture();

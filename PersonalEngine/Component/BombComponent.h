@@ -48,7 +48,7 @@ class BombComp : public LogicComponent
 	int BombPower;
 
 	BombType Bombtype;
-
+	std::list<std::string>WhiteList;
 public:
 	BombComp(GameObject* owner);
 	~BombComp();
@@ -58,8 +58,12 @@ public:
 	std::vector<GameObject*> CheckCollisionAtPosition(const glm::vec2& pos);
 	void SetPower(const int&);
 	void reduceEffect();
-	// 불필요한 빈 함수들 제거
+
 	void LoadFromJson(const json& data) override;
+	bool IsPlayerWhitelisted(const std::string& playerName) const;
+	void oustWhiteList(const std::string&);
+	void SetWhiteList();
+	const std::list<std::string>& GetWhiteList();
 	json SaveToJson() override;
 	static BaseRTTI* CreateBombComp();
 	static std::string GetType()
