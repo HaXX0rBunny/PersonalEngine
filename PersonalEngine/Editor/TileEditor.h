@@ -29,7 +29,7 @@ class TileEditor
 
 public:
 	
-
+	const bool& GetState() { return isEnabled; };
 	void Update();
 	void DrawGrid();
 	void CreateTileObject(const glm::vec2& position);

@@ -39,9 +39,8 @@ void GEM::GameEditorManager::Update()
 	{
 		tileEdit->Update();
 		mainMenu->Update();
-
-		EditorInteractManager::GetInstance()->Update();
-
+		if(!tileEdit->GetState())
+			EditorInteractManager::GetInstance()->Update();
 	}
 
 }
