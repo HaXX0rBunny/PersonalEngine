@@ -1,5 +1,5 @@
 #pragma once
-#include "LogicComponent.h"
+#include "EngineComponent.h"
 #include "SpriteComponent.h"
 #include "TransformComponent.h"
 #include "CollisionComponent.h"

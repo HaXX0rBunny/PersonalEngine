@@ -64,10 +64,11 @@ void BlockComp::SpawnItem()
 	ItemSprite->SetTexture();
 	TransformComp* wonTrans = own->GetComponent<TransformComp>();
 	ItemTrans->SetPos(wonTrans->GetPos());
-	ItemTrans->SetScale(wonTrans->GetScale());
+	ItemTrans->SetScale(wonTrans->GetScale()-1.f);
 	CollisionComp* ItemCollision = Item->AddComponent<CollisionComp>();
 	ItemComp* itemComp = Item->AddComponent<ItemComp>();
-	itemComp->setItem(*selectedItem);
+	if(selectedItem)
+		itemComp->setItem(*selectedItem);
 
 }
 

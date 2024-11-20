@@ -38,7 +38,7 @@ private:
     EditorInteractManager();
     EditorInteractManager(const EditorInteractManager&) = delete;
     EditorInteractManager& operator=(const EditorInteractManager&) = delete;
-    glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPos);
+
     bool IsPointInBounds(const glm::vec2& point, GameObject* object);
 public:
     GameObject* selectedObject;
@@ -51,7 +51,7 @@ public:
     void ShowObjectProperties();
     void SwitchMod();
     void CheckMouseToCollision(const glm::vec2& CVmousePos_in);
-
+    glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPos);
     // 피킹 관련 함수들
     GameObject* GetSelectedObject() const { return selectedObject; }
     void ClearSelection() { selectedObject = nullptr; }

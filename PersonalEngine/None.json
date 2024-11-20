@@ -1,5 +1,44 @@
 [
   {
+    "object": "Tile_0",
+    "Tag": 4,
+    "Components": [
+      {
+        "Type": "CollisionComp",
+        "CompData": {
+          "isCollider": false,
+          "isVisible": false
+        }
+      },
+      {
+        "Type": "SpriteComp",
+        "CompData": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Alpha": 1.0,
+          "TextureName": "Assets/wall.png"
+        }
+      },
+      {
+        "Type": "TransformComp",
+        "CompData": {
+          "Pos": [
+            377.5,
+            -35.01441955566406
+          ],
+          "Sca": [
+            40.0,
+            40.0
+          ],
+          "Rot": 0.0
+        }
+      }
+    ]
+  },
+  {
     "object": "player",
     "Tag": 1,
     "Components": [

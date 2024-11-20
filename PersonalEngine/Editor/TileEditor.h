@@ -15,12 +15,25 @@ class TileEditor
 	bool isEnabled = false;
 
 	const float TILE_SIZE = 40.0f; // 타일 한 칸의 크기
-	const ImVec4 GRID_COLOR = ImVec4(0.5f, 0.5f, 0.5f, 0.3f);
+	const ImVec4 GRID_COLOR = ImVec4(190.5f, 0.5f, 0.5f, 0.3f);
+	enum class TileType {
+		None,
+		Wall,
+		Block,
+		Player
+	};
+	TileType currentTileType = TileType::None;
+	bool isDragging = false;
+	glm::vec2 dragStart;
+	glm::vec2 lastTilePos = glm::vec2(-1);
 
 public:
 	
 
 	void Update();
 	void DrawGrid();
+	void CreateTileObject(const glm::vec2& position);
+	glm::vec2 SnapToGrid(const glm::vec2& position);
+	void ShowTileMenu();
 
 };

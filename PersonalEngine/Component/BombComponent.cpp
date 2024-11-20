@@ -140,7 +140,7 @@ void BombComp::CreateExplosionEffect(const glm::vec2& position) {
 
 glm::vec2 BombComp::CalculateExplosionPosition(const glm::vec2& direction, int distance) {
     glm::vec2 currentPos = own->GetComponent<TransformComp>()->GetPos();
-    return currentPos + direction * (float)(distance * 32);
+    return currentPos + direction * (float)(distance * 40);
 }
 
 std::vector<GameObject*> BombComp::CheckCollisionAtPosition(const glm::vec2& pos) {
@@ -206,9 +206,9 @@ bool BombComp::HandleCollisions(const std::vector<GameObject*>& colliders) {
             std::cout << "Player Dead" << std::endl;
             //GameObjectManager::Instance()->RemoveObj(obj->GetName());
         }
-        //else if (tag == GameObject::Tag::Item) {
-        //    GameObjectManager::Instance()->RemoveObj(obj->GetName());
-        //}
+        else if (tag == GameObject::Tag::Item) {
+            GameObjectManager::Instance()->RemoveObj(obj->GetName());
+        }
         else
             return false;
     }

@@ -19,6 +19,8 @@ PlayerComp::~PlayerComp()
 
 void PlayerComp::PlaceBomb()
 {
+	const float TILE_SIZE = 40.0f;
+
 	static int bombCounter = 0;
 	std::string bombName = "Bomb_" + std::to_string(bombCounter++);
 	GameObject* bomb = new GameObject(bombName);
@@ -32,8 +34,12 @@ void PlayerComp::PlaceBomb()
 	TransformComp* t = own->GetComponent<TransformComp>();
 	if (t)
 	{
+		float tileX = std::round(t->GetPos().x / TILE_SIZE) * TILE_SIZE;
+		float tileY = std::round(t->GetPos().y / TILE_SIZE) * TILE_SIZE;
+
+
 		TransformComp* bombTransform = bomb->GetComponent<TransformComp>();
-		bombTransform->SetPos(t->GetPos().x, t->GetPos().y, 5);  // 플레이어와 동일한 위치에 폭탄 생성
+		bombTransform->SetPos(tileX, tileY, 5);
 		bombTransform->SetScale(40, 40);
 	}
 
